@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, Main!</string>
-    <string name="app_name"></string>
+    <string name="app_name">TH</string>
+<string name="username">Username</string>
+<string name="password">Password</string>
+<string name="rememberPassword">Remember Password</string>
+<string name="login">Login</string>
 </resources>
