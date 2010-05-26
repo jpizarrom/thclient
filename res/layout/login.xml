@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/username"></TextView>
+<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/username"></EditText>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password"></TextView>
+<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/password" android:password="true"></EditText>
+<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rememberPassword" android:text="@string/rememberPassword"></CheckBox>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/login" android:id="@+id/login"></Button>
+</TableLayout>
