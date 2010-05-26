@@ -7,6 +7,7 @@ import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.Team;
+import com.jpizarro.th.entity.Test;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -47,25 +48,8 @@ public class Loader extends ListActivity {
 		}
 	}
 	
-	private void test(){
-		Hint hint = new Hint("Hint1","Hint esta en casa pe");
-		
-		Goal goal = new Goal("Goal1","Goal esta en casa pe");
-		
-		Competitor c = new Competitor("name1","desc1");
-		c.setUserName("username1");
-		c.setPassword("pass1");
-		
-		Team t = new Team("Team1");
-		t.getCompetitors().add(c);
-		
-		Game g = new Game();
-			
-		Toast.makeText(this, hint +"\n" +
-				goal +"\n" +
-				c +"\n" +
-				t +"\n"
-				, Toast.LENGTH_LONG).show();
+	private void test(){			
+		Toast.makeText(this, Test.test(), Toast.LENGTH_LONG).show();
 	}
 
 }
