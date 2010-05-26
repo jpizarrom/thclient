@@ -1,10 +1,22 @@
 package com.jpizarro.th.entity;
 
 public class Ubication {
-	  private double lat;
-	  private double lon;
-	  private String name;
-	  private String description;
+	private double lat;
+	private double lon;
+
+	private String name;
+	private String description;
+
+	public Ubication() {
+		super();
+	}
+
+	public Ubication(String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+	}
+
 	public double getLat() {
 		return lat;
 	}
@@ -29,5 +41,5 @@ public class Ubication {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	  
+
 }
