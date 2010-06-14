@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainMenuActivity extends Activity {
     private static final int CHANGE_PASSWORD_ID = Menu.FIRST;
@@ -138,6 +139,14 @@ public class MainMenuActivity extends Activity {
 			finish();
 			return;
 		}
+		switch (requestCode) {
+			case FIND_GAMES_REQUEST_CODE:
+				switch (resultCode) {
+				case CustomResultCodes.FG_NO_CITIES_RESULT_CODE:
+					showToast(R.string.fg_no_cities, Toast.LENGTH_SHORT);
+					break;
+				}
+		}
 	}
 	private void doLogout() {
 		CommonActions.launchLogoutThread(user.getUserName(), this);		
@@ -159,5 +168,15 @@ public class MainMenuActivity extends Activity {
     	startActivityForResult(i, FIND_GAMES_REQUEST_CODE);
 		
 	}
+	private void showToast(int messageId, int length) {
+		Toast.makeText(this, messageId,
+                length).show();
+	}
+
+	private void showToast(String message, int length) {
+		Toast.makeText(this, message,
+                length).show();
+	}
+
 
 }

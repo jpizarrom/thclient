@@ -20,4 +20,5 @@
 <string name="sqlite_error">sqlite_error</string>
 <string name="pi_mo_logout">pi_mo_logout</string>
 <string name="pi_b_find_games">pi_b_find_games</string>
+<string name="fg_no_cities">fg_no_cities</string>
 </resources>

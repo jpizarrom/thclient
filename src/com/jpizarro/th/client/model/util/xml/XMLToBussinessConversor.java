@@ -89,6 +89,9 @@ public class XMLToBussinessConversor {
 				cityList.add(cities.item(i).getChildNodes().item(0).getNodeValue());
 			}
 		}
+		else{
+			throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" toCityList empty");
+		}
 		return cityList;
 	}
 	public static boolean toBooleanOrExceptionRegister(HttpEntity entity) 
