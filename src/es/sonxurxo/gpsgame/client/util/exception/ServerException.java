@@ -36,6 +36,7 @@ public class ServerException extends Exception {
 	public static final int TIME_OUT_CODE = 5;
 	public static final int EXCEPTION_CODE = 6;
 	public static final int SERVER_OFFLINE_CODE = 7;
+	public static final int NOT_IMPL = 8;
 
 	private int code;
 	private String message;

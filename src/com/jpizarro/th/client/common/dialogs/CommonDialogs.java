@@ -19,7 +19,7 @@
  * along with Android Runner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jpizarro.th.client.dialogs;
+package com.jpizarro.th.client.common.dialogs;
 
 import com.jpizarro.th.R;
 

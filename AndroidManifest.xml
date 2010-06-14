@@ -24,6 +24,7 @@
 <activity android:name=".activity.GameList">
 </activity>
 
+<activity android:name=".activity.MainMenuActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4" />
 

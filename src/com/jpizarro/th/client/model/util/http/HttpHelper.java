@@ -18,6 +18,7 @@ import com.jpizarro.th.entity.User;
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class HttpHelper {
+	private String TAG = this.getClass().getName();
 	
 	private final String SERVER_HOST_IP = "10.42.43.1";
 	private final String SERVER_PORT = "8070";
@@ -28,6 +29,8 @@ public class HttpHelper {
 	private final String LOGIN_URL = "ws/login";
 	private final String LOGIN_PARAMETER = "login";
 	private final String CLEAR_PASSWORD_PARAMETER = "password";
+	
+	private final String LOGOUT_URL = "ws/logout";
 	
 	private static HttpClient client = new DefaultHttpClient();
 	private HttpUriRequest request;
@@ -49,7 +52,7 @@ public class HttpHelper {
         		LOGIN_URL + "?" + 
         		LOGIN_PARAMETER + "=" + encodedLogin + "&" + 
         		CLEAR_PASSWORD_PARAMETER + "=" + encodedPassword);
-        Log.d("TESTSSSSS", request.getURI().toString());
+        Log.d(TAG, request.getURI().toString());
 
         try {        	
         	response = client.execute(request);
@@ -65,6 +68,23 @@ public class HttpHelper {
         	throw e;
         }
 		
+	}
+	
+	public void logout(String login) 
+	throws Exception {
+		String encodedLogin = URLEncoder.encode(login.replace("%2B", "+"), "UTF-8");
+        request = new HttpGet(FULL_ADDRESS + 
+        		LOGOUT_URL + "?" + 
+        		LOGIN_PARAMETER + "=" + encodedLogin);
+        Log.d(TAG, request.getURI().toString());
+        try {
+        	response = client.execute(request);
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
 	}
 
 }

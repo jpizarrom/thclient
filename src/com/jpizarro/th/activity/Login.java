@@ -1,7 +1,7 @@
 package com.jpizarro.th.activity;
 
 import com.jpizarro.th.R;
-import com.jpizarro.th.client.dialogs.CommonDialogs;
+import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
 import com.jpizarro.th.entity.User;
 
