@@ -25,6 +25,7 @@
 </activity>
 
 <activity android:name=".activity.MainMenuActivity"></activity>
+<activity android:name=".activity.FindGamesActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4" />
 

@@ -2,6 +2,7 @@ package com.jpizarro.th.client.model.util.http;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,13 +13,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
 
+import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.xml.XMLToBussinessConversor;
+import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class HttpHelper {
-	private String TAG = this.getClass().getName();
+	private String TAG = "HttpHelper";
 	
 	private final String SERVER_HOST_IP = "10.42.43.1";
 	private final String SERVER_PORT = "8070";
@@ -29,6 +32,8 @@ public class HttpHelper {
 	private final String LOGIN_URL = "ws/login";
 	private final String LOGIN_PARAMETER = "login";
 	private final String CLEAR_PASSWORD_PARAMETER = "password";
+	
+	private final String FIND_CITIES_WITH_GAMES_URL = "ws/findCitiesWithGames";
 	
 	private final String LOGOUT_URL = "ws/logout";
 	
@@ -86,5 +91,58 @@ public class HttpHelper {
         	throw e;
         }
 	}
+	
+	public boolean registerUser() 
+	throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+	}
+	public boolean updateUser() 
+	throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateUser");
+	}
+	
+	public boolean changePassword(String oldPassword, String newPassword) 
+	throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" changePassword");
+	}
+
+	public List<String> findCitiesWithGames() throws Exception {
+		request = new HttpGet(FULL_ADDRESS + 
+				FIND_CITIES_WITH_GAMES_URL);
+		 Log.d(TAG, request.getURI().toString());
+		
+		try {
+			response = client.execute(request);
+			HttpEntity entity = response.getEntity();
+			
+			return XMLToBussinessConversor.toCityList(entity);
+		} catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
+		
+	}
+	
+	public Game findGame(String gameId)  throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" findGame");
+	}
+	public boolean joinGame(long gameId) 
+	throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" joinGame");
+	}
+	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
+	throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
+	}
+	
+	public boolean sendMessage(String receiverLogin, String body) 
+	throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
+	}
+	
 
 }

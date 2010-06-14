@@ -8,7 +8,9 @@ import com.jpizarro.th.entity.User;
 import es.sonxurxo.gpsgame.client.cv.util.constants.CustomResultCodes;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,10 +23,17 @@ public class MainMenuActivity extends Activity {
     private static final int VIEW_HISTORY_ID = Menu.FIRST + 2;
     private static final int FIND_GAMES_ID = Menu.FIRST + 3;
     private static final int LOGOUT_ID = Menu.FIRST + 4;
+    
+    private static final int FIND_GAMES_REQUEST_CODE = 0;
+    
+    private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
 	private TextView usernameView;
 	
 	 private User user = new User();
+	 
+	 
+	 private String city = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +55,53 @@ public class MainMenuActivity extends Activity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		// TODO Auto-generated method stub
-		return CommonDialogs.createDialog(id, this);
+		Dialog d = CommonDialogs.createDialog(id, this);
+		if (d != null)
+			return d;
+		
+		switch(id) {
+        case FIND_GAMES_DIALOG_ID:
+        	CharSequence [] items;
+        	if (city != null)
+        		items = new CharSequence[]{"By city", "By distance", "Here, in " + city};
+        	else 
+        		items = new CharSequence[]{"By city"};
+
+            return new AlertDialog.Builder(this)
+//            .setTitle(R.string.pi_find_games_choose)
+            .setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                	int method = FindGamesActivity.SEARCH_METHOD_CITY;
+                	if (which == 0)
+                		method = FindGamesActivity.SEARCH_METHOD_CITY;
+                	else if (which == 1)
+                		method = FindGamesActivity.SEARCH_METHOD_LOCATION;
+                	else if (which == 2)
+                		method = FindGamesActivity.SEARCH_METHOD_THIS_CITY;
+                    doFindGames(method);
+                }
+            })
+            .create();
+		}
+		
+		return null;
 	}
+	
 	private void fillPersonalInfo() {
 		usernameView.setText(user.getUserName());
 	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu);
+		
 		menu.add(0, LOGOUT_ID,0, R.string.pi_mo_logout)
 //    	.setIcon(R.drawable.logout)
+    	;
+		menu.add(0, FIND_GAMES_ID,0, R.string.pi_b_find_games)
+//    	.setIcon(R.drawable.find)
     	;
 		return true;
 	}
@@ -76,9 +120,9 @@ public class MainMenuActivity extends Activity {
 //        case VIEW_HISTORY_ID:
 //	    	doViewHistory();
 //	    	break;
-//	    case FIND_GAMES_ID:
-//	    	doFindGames();
-//	    	break;
+	    case FIND_GAMES_ID:
+	    	doFindGames();
+	    	break;
 	    }
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -97,6 +141,23 @@ public class MainMenuActivity extends Activity {
 	}
 	private void doLogout() {
 		CommonActions.launchLogoutThread(user.getUserName(), this);		
+	}
+	
+	public void doFindGames() {
+		showDialog(FIND_GAMES_DIALOG_ID);
+	}
+	private void doFindGames(int method) {
+		Intent i = new Intent(this, FindGamesActivity.class);;
+    	i.putExtra("user", user);
+    	
+    	switch (method) {
+    	case FindGamesActivity.SEARCH_METHOD_CITY:
+			i.putExtra("method", FindGamesActivity.SEARCH_METHOD_CITY);
+			break;
+    	}
+    	
+    	startActivityForResult(i, FIND_GAMES_REQUEST_CODE);
+		
 	}
 
 }
