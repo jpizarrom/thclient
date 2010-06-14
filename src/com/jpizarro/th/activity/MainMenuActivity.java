@@ -5,6 +5,8 @@ import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.entity.User;
 
+import es.sonxurxo.gpsgame.client.cv.util.constants.CustomResultCodes;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -86,6 +88,12 @@ public class MainMenuActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode == CustomResultCodes.LOGOUT_RESULT_CODE) {
+			setResult(CustomResultCodes.LOGOUT_RESULT_CODE);
+			finish();
+			return;
+		}
 	}
 	private void doLogout() {
 		CommonActions.launchLogoutThread(user.getUserName(), this);		
