@@ -1,6 +1,12 @@
 package com.jpizarro.th.entity;
 
-public class Ubication {
+import java.io.Serializable;
+
+public class Ubication implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7491962873324125012L;
 	private double lat;
 	private double lon;
 

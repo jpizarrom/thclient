@@ -9,4 +9,6 @@
 <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/password" android:password="true"></EditText>
 <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rememberPassword" android:text="@string/rememberPassword"></CheckBox>
 <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/login" android:id="@+id/loginButton"></Button>
+<TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/username_msg"></TextView>
+<TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/password_msg"></TextView>
 </TableLayout>

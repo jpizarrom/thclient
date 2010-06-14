@@ -2,11 +2,19 @@ package com.jpizarro.th.entity;
 
 public class User extends Ubication{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7534948413604544467L;
 	private int id;
 	private String userName;
 	private String Password;
 	private PersonalInformation personalInformation;
 	
+	public User() {
+		super();
+	}
+
 	public User(String name, String description) {
 		super(name, description);
 		// TODO Auto-generated constructor stub
