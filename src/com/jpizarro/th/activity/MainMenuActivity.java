@@ -50,10 +50,14 @@ public class MainMenuActivity extends Activity {
 		super.onResume();
 		user = (User)getIntent().getExtras().getSerializable("user");
 		fillPersonalInfo();
-		
+//		fillGameInfo();
 		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 	}
 	
+	private void fillGameInfo() {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog d = CommonDialogs.createDialog(id, this);

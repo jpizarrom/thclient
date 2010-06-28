@@ -15,9 +15,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
+import com.jpizarro.th.util.DateOperations;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -77,7 +79,25 @@ public class XMLToBussinessConversor {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" toGame");
 	}
 	private static Game toGame(Element gameDocument) throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" toGame");
+		Game game = new Game();
+		Element gameIdElement = (Element)gameDocument.getElementsByTagName(
+		"gameId").item(0);
+		long gameId = Long.parseLong(gameIdElement.getChildNodes().item(0).getNodeValue());
+		game.setGameId(gameId);
+		
+		Element startDateElement = (Element)gameDocument.getElementsByTagName("startDate").item(0);
+		String startDate = startDateElement.getChildNodes().item(0).getNodeValue();
+		game.setStartDate(DateOperations.formatString(startDate));
+		
+		Element finishDateElement = (Element)gameDocument.getElementsByTagName("finishDate").item(0);
+		String finishDate = finishDateElement.getChildNodes().item(0).getNodeValue();
+		game.setFinishDate(DateOperations.formatString(finishDate));
+		
+		Element cityElement = (Element)gameDocument.getElementsByTagName("city").item(0);
+		String city = cityElement.getChildNodes().item(0).getNodeValue();
+		game.setCity(city);
+		
+		return game;
 	}
 	public static List<String> toCityList(HttpEntity entity) throws Exception {
 		Document citiesDocument = parseHttpEntity(entity);
@@ -222,6 +242,36 @@ public class XMLToBussinessConversor {
 			
 			throw new ServerException(code, message);
 		}
+	}
+
+	public static GameCTO toGameList(HttpEntity entity) throws Exception{
+		// TODO Auto-generated method stub
+		List<Game> gameList = new ArrayList<Game>();
+		Document gamesDocument = parseHttpEntity(entity);
+		
+		boolean hasMore = false;
+		if (gamesDocument.getElementsByTagName("gameList").getLength() == 1) {
+			if (gamesDocument.getElementsByTagName("hasMore").getLength() == 1)
+				hasMore = true;
+			NodeList games = gamesDocument.getElementsByTagName("game");
+			for (int i=0;i<games.getLength();i++) {
+				Game game = toGame((Element)games.item(i));
+				gameList.add(game);
+			}
+		}
+		else {
+			Element codeElement = (Element)gamesDocument.getElementsByTagName(
+					"code").item(0);
+			int code = Integer.parseInt(codeElement.getChildNodes().item(0).
+					getNodeValue());
+			Element messageElement = (Element)gamesDocument.getElementsByTagName(
+					"message").item(0);
+			String message = messageElement.getChildNodes().item(0).getNodeValue();
+			
+			throw new ServerException(code, message);
+		}
+		GameCTO gameCTO = new GameCTO(gameList, hasMore);
+		return gameCTO;
 	}	
 }
 

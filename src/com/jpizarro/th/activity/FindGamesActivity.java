@@ -3,6 +3,7 @@ package com.jpizarro.th.activity;
 import java.util.List;
 
 import com.jpizarro.th.R;
+import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.entity.User;
@@ -12,11 +13,13 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -59,6 +62,48 @@ public class FindGamesActivity extends Activity {
 		return CommonDialogs.createDialog(id, this);
     }
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu);
+		menu.add(0, LOGOUT_ID,0, R.string.logout);
+        menu.add(0, FIND_GAMES_ID,0, R.string.find_games);
+        return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+        switch(item.getItemId()) {
+        case LOGOUT_ID:
+        	doLogout();
+        	break;
+        case FIND_GAMES_ID:
+        	doFindGames();
+        	break;
+        }
+		return super.onMenuItemSelected(featureId, item);
+	}
+
+	private void doLogout() {
+		// TODO Auto-generated method stub
+		CommonActions.launchLogoutThread(user.getUserName(), this);
+	}
+
+	private void doFindGames() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, ViewGamesActivity.class);
+		if (method == SEARCH_METHOD_CITY) {
+			int position = spinner.getSelectedItemPosition();
+			String city = cities[position];
+			i.putExtra("city", city);
+		}
+		
+		i.putExtra("user", user);
+		startActivityForResult(i, CustomResultCodes.VIEW_GAMES_REQUEST_CODE);
+		
+	}
+
 	private void launchFindCitiesThread() {
 		findCitiesTask = new FindCitiesTask();
 		Thread thread = new Thread(null, findCitiesTask, "Login");

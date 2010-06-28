@@ -2,6 +2,7 @@ package com.jpizarro.th.client.model.service.game;
 
 import java.util.List;
 
+import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.http.HttpHelper;
 import com.jpizarro.th.entity.Game;
@@ -35,6 +36,14 @@ public class HttpGameServiceImpl implements GameService{
 	public GenericGameResponseTO updateLocation(int latitude, int longitude)
 			throws Exception {
 		return HttpHelper.getInstance().updateLocation(latitude, longitude);
+	}
+
+	@Override
+	public GameCTO findGamesByCity(String city, int startIndex, int count)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return HttpHelper.getInstance().findGamesByCity(city, 
+				startIndex, count);
 	}
 
 }

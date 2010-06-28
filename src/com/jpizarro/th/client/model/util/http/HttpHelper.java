@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
 
+import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.xml.XMLToBussinessConversor;
 import com.jpizarro.th.entity.Game;
@@ -34,6 +35,10 @@ public class HttpHelper {
 	private final String CLEAR_PASSWORD_PARAMETER = "password";
 	
 	private final String FIND_CITIES_WITH_GAMES_URL = "ws/findCitiesWithGames";
+	private final String FIND_GAMES_BY_CITY_URL = "ws/findGamesByCity";
+	private final String CITY_PARAMETER = "city";
+	private final String START_INDEX_PARAMETER = "startIndex";
+	private final String COUNT_PARAMETER = "count";
 	
 	private final String LOGOUT_URL = "ws/logout";
 	
@@ -144,5 +149,30 @@ public class HttpHelper {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
 	}
 	
+	public GameCTO findGamesByCity(String city, int startIndex, int count) 
+	throws Exception {
+		String encodedCity = URLEncoder.encode(city.replace("%2B", "+"), "UTF-8");
+		request = new HttpGet(FULL_ADDRESS + 
+				FIND_GAMES_BY_CITY_URL + "?" + 
+        		CITY_PARAMETER +  "=" + encodedCity + "&" + 
+        		START_INDEX_PARAMETER +  "=" + startIndex + "&" + 
+        		COUNT_PARAMETER +  "=" + count);
+		Log.d("TESTSSSSS", request.getURI().toString());
+
+        try {        	
+        	response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+
+        	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
+        	return gameCTO;
+        } catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
+	}
 
 }
