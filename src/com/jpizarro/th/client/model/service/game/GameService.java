@@ -9,7 +9,7 @@ import com.jpizarro.th.entity.Game;
 public interface GameService {
 	public List<String> findCitiesWithGames() throws Exception;
 	
-	public Game findGame(String gameId) 
+	public Game findGame(long gameId) 
 	throws Exception;
 	
 	public boolean joinGame(long gameId) 

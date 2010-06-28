@@ -10,6 +10,7 @@ public class User extends Ubication{
 	private String userName;
 	private String Password;
 	private PersonalInformation personalInformation;
+	private long gameId;
 	
 	public User() {
 		super();
@@ -45,6 +46,14 @@ public class User extends Ubication{
 
 	public void setPersonalInformation(PersonalInformation personalInformation) {
 		this.personalInformation = personalInformation;
+	}
+
+	public void setGameId(long gameId) {
+		this.gameId = gameId;
+	}
+
+	public long getGameId() {
+		return gameId;
 	}
 	
 

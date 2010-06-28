@@ -3,6 +3,7 @@ package com.jpizarro.th.activity;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
 
 import es.sonxurxo.gpsgame.client.cv.util.constants.CustomResultCodes;
@@ -29,9 +30,10 @@ public class MainMenuActivity extends Activity {
     
     private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
-	private TextView usernameView;
+	private TextView usernameView, gamenameView;
 	
-	 private User user = new User();
+	private User user;
+	private Game game;
 	 
 	 
 	 private String city = null;
@@ -43,20 +45,24 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.user_info_page);
 		
 		usernameView = (TextView)findViewById(R.id.username);
+		gamenameView = (TextView)findViewById(R.id.gamename);
 	}
 	@Override
 	protected void onResume() {
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		super.onResume();
 		user = (User)getIntent().getExtras().getSerializable("user");
+		if ( user.getGameId() > 0 )
+			game = (Game)getIntent().getExtras().getSerializable("game");
 		fillPersonalInfo();
-//		fillGameInfo();
+		if (game != null)
+			fillGameInfo();
 		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 	}
 	
 	private void fillGameInfo() {
 		// TODO Auto-generated method stub
-		
+		gamenameView.setText(game.getName());
 	}
 	@Override
 	protected Dialog onCreateDialog(int id) {

@@ -76,14 +76,39 @@ public class XMLToBussinessConversor {
 		return user;
 	}
 	public static Game toGame(HttpEntity entity) throws Exception{
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" toGame");
+		Document gameDocument = parseHttpEntity(entity);
+		if (gameDocument.getElementsByTagName("game").getLength() == 1) {
+			
+			return toGame((Element)gameDocument.getElementsByTagName("game").item(0));
+
+		}
+		else {
+			Element codeElement = (Element)gameDocument.getElementsByTagName(
+			"code").item(0);
+			int code = Integer.parseInt(codeElement.getChildNodes().item(0).
+					getNodeValue());
+			Element messageElement = (Element)gameDocument.getElementsByTagName(
+					"message").item(0);
+			String message = messageElement.getChildNodes().item(0).getNodeValue();
+	
+			throw new ServerException(code, message);
+		}
 	}
 	private static Game toGame(Element gameDocument) throws Exception {
 		Game game = new Game();
+		
 		Element gameIdElement = (Element)gameDocument.getElementsByTagName(
 		"gameId").item(0);
 		long gameId = Long.parseLong(gameIdElement.getChildNodes().item(0).getNodeValue());
 		game.setGameId(gameId);
+		
+		Element element = (Element)gameDocument.getElementsByTagName("name").item(0);
+		String st = element.getChildNodes().item(0).getNodeValue();
+		game.setName(st);
+		
+		element = (Element)gameDocument.getElementsByTagName("description").item(0);
+		st = element.getChildNodes().item(0).getNodeValue();
+		game.setDescription(st);
 		
 		Element startDateElement = (Element)gameDocument.getElementsByTagName("startDate").item(0);
 		String startDate = startDateElement.getChildNodes().item(0).getNodeValue();

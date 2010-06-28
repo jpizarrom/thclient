@@ -2,7 +2,9 @@ package com.jpizarro.th.activity;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
+import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -41,6 +43,7 @@ public class Login extends Activity {
 	
 	private LoginTask loginTask;
 	private User user = new User();
+	private Game game = new Game();
 	
 	private TextView loginErrorView, passwordErrorView;
 	
@@ -106,26 +109,36 @@ public class Login extends Activity {
 		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		Intent i = new Intent(Login.this, MainMenuActivity.class);
     	i.putExtra("user", user);
+    	i.putExtra("game", game);
         startActivityForResult(i, PLAYER_INFO_REQUEST_CODE);
 	}
 	
 	private class LoginTask implements Runnable {
 		String userName, password;
 		HttpUserServiceImpl userService;
+		HttpGameServiceImpl gameService;
 		
 		LoginTask(String userName, String password) {
 			this.userName = userName;
 			this.password = password;
 			userService = new HttpUserServiceImpl();
+			gameService = new HttpGameServiceImpl();
 		}
 		@Override
 		public void run() {
 			LoginHandler handler = new LoginHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();
 			Message msg = new Message();
+			Game game;
 			
 			try {
 				User user = userService.login(userName, password);
+				user.setGameId(1);
+				data.putSerializable("user", user);
+				if ( user.getGameId() != 0 ){
+					game = gameService.findGame(user.getGameId());
+					data.putSerializable("game", game);
+				}
 				data.putSerializable("user", user);
 				msg.setData(data);
 				handler.sendMessage(msg);
@@ -181,6 +194,7 @@ public class Login extends Activity {
 		        	return;
 	        	}
 			user = (User)msg.getData().getSerializable("user");
+			game = (Game)msg.getData().getSerializable("game");
 			doLogin();
 		}
 		

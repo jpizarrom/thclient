@@ -23,7 +23,7 @@ public class HttpGameServiceImpl implements GameService{
 	}
 
 	@Override
-	public Game findGame(String gameId) throws Exception {
+	public Game findGame(long gameId) throws Exception {
 		return HttpHelper.getInstance().findGame(gameId);
 	}
 

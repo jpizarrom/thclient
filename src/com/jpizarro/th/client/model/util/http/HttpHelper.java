@@ -36,9 +36,12 @@ public class HttpHelper {
 	
 	private final String FIND_CITIES_WITH_GAMES_URL = "ws/findCitiesWithGames";
 	private final String FIND_GAMES_BY_CITY_URL = "ws/findGamesByCity";
+	private final String FIND_GAME_BY_ID_URL = "ws/findGameById";
+	
 	private final String CITY_PARAMETER = "city";
 	private final String START_INDEX_PARAMETER = "startIndex";
 	private final String COUNT_PARAMETER = "count";
+	private final String GAME_ID_PARAMETER = "gameId";
 	
 	private final String LOGOUT_URL = "ws/logout";
 	
@@ -132,8 +135,25 @@ public class HttpHelper {
 		
 	}
 	
-	public Game findGame(String gameId)  throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" findGame");
+	public Game findGame(long gameId)  throws Exception {
+		request = new HttpGet(FULL_ADDRESS + 
+				FIND_GAME_BY_ID_URL + "?" + 
+				GAME_ID_PARAMETER + "=" + gameId);
+
+        try {        	
+        	response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+
+        	return XMLToBussinessConversor.toGame(entity);
+
+        } catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
 	}
 	public boolean joinGame(long gameId) 
 	throws Exception {

@@ -11,6 +11,8 @@ public class Game implements Serializable{
 	private static final long serialVersionUID = 9042114067071410684L;
 	
 	private long gameId;
+	private String name;
+	private String description;
 	private Calendar startDate;
 	private Calendar finishDate;
 	private String city;
@@ -135,6 +137,22 @@ public class Game implements Serializable{
 	}
 	public void setLongitude(int longitude) {
 		this.longitude = longitude;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 }
