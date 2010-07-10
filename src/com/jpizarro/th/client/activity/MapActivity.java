@@ -26,6 +26,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;
 	private static final int MENU_SAMPLES = MENU_MAP_MODE + 1;
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
+	private static final int MENU_ABANDON = MENU_ABOUT + 1;
 	
 	// ===========================================================
 	// Fields
@@ -92,6 +93,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_MY_LOCATION, Menu.NONE, "my_location");
+		menu.add(0, MENU_ABANDON, Menu.NONE, "Abandon Game");
 		return true;
 	}
 

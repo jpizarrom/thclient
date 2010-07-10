@@ -17,7 +17,7 @@ public interface OpenStreetMapConstants {
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 	
-	public static final String PREFS_NAME = "org.andnav.osm.prefs";
+	public static final String PREFS_NAME = "com.jpizarro.th.client.prefs";
 	public static final String PREFS_RENDERER = "renderer";
 	public static final String PREFS_SCROLL_X = "scrollX";
 	public static final String PREFS_SCROLL_Y = "scrollY";
