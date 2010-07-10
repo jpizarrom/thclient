@@ -27,6 +27,7 @@
 <activity android:name=".activity.MainMenuActivity"></activity>
 <activity android:name=".activity.FindGamesActivity"></activity>
 <activity android:name=".activity.ViewGamesActivity"></activity>
+<activity android:name=".activity.MapActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4" />
 

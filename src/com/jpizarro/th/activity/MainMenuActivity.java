@@ -21,12 +21,15 @@ import android.widget.Toast;
 
 public class MainMenuActivity extends Activity {
     private static final int CHANGE_PASSWORD_ID = Menu.FIRST;
-    private static final int UPDATE_ID = Menu.FIRST + 1;
-    private static final int VIEW_HISTORY_ID = Menu.FIRST + 2;
-    private static final int FIND_GAMES_ID = Menu.FIRST + 3;
-    private static final int LOGOUT_ID = Menu.FIRST + 4;
+    private static final int UPDATE_ID = CHANGE_PASSWORD_ID + 1;
+    private static final int VIEW_HISTORY_ID = UPDATE_ID + 1;
+    private static final int FIND_GAMES_ID = VIEW_HISTORY_ID + 1;
+    private static final int LOGOUT_ID = FIND_GAMES_ID + 1;
+    private static final int PLAY_ID = LOGOUT_ID + 1;
+    
     
     private static final int FIND_GAMES_REQUEST_CODE = 0;
+    private static final int PLAY_REQUEST_CODE = FIND_GAMES_REQUEST_CODE + 1;
     
     private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
@@ -108,10 +111,13 @@ public class MainMenuActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, LOGOUT_ID,0, R.string.pi_mo_logout)
+		menu.add(0, LOGOUT_ID, 0, R.string.pi_mo_logout)
 //    	.setIcon(R.drawable.logout)
     	;
-		menu.add(0, FIND_GAMES_ID,0, R.string.pi_b_find_games)
+		menu.add(0, FIND_GAMES_ID, 0, R.string.pi_b_find_games)
+//    	.setIcon(R.drawable.find)
+    	;
+		menu.add(0, PLAY_ID, 0, "Play Game")
 //    	.setIcon(R.drawable.find)
     	;
 		return true;
@@ -134,7 +140,10 @@ public class MainMenuActivity extends Activity {
 	    case FIND_GAMES_ID:
 	    	doFindGames();
 	    	break;
-	    }
+		case PLAY_ID:
+			doPlayGame();
+	    	break;
+        }
 		return super.onMenuItemSelected(featureId, item);
 	}
 	
@@ -176,6 +185,13 @@ public class MainMenuActivity extends Activity {
     	}
     	
     	startActivityForResult(i, FIND_GAMES_REQUEST_CODE);
+		
+	}
+	private void doPlayGame() {
+		Intent i = new Intent(this, MapActivity.class);
+  	   	i.putExtra("user", user);
+	    i.putExtra("game", game);
+	   	startActivityForResult(i, PLAY_REQUEST_CODE);
 		
 	}
 	private void showToast(int messageId, int length) {
