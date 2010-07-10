@@ -1,16 +1,19 @@
-package com.jpizarro.th.activity;
+package com.jpizarro.th.client.activity;
 
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.constants.OpenStreetMapConstants;
+import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -85,6 +88,26 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     		this.mLocationOverlay.enableMyLocation();
     	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
     }
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_MY_LOCATION, Menu.NONE, "my_location");
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()) {
+		case MENU_MY_LOCATION:
+			this.mLocationOverlay.followLocation(true);
+    		this.mLocationOverlay.enableMyLocation();
+    		Location lastFix = this.mLocationOverlay.getLastFix();
+    		if (lastFix != null)
+    			this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
+			return true;
+		}
+		return false;
+	}
  
 
 

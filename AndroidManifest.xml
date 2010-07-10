@@ -11,23 +11,23 @@
         
 </activity>
 
-    <activity android:label="@string/app_name" android:name=".activity.Loader">
+    <activity android:label="@string/app_name" android:name=".client.activity.Loader">
 	    <intent-filter>
 	    	<action android:name="android.intent.action.MAIN"></action>
 			<category android:name="android.intent.category.LAUNCHER"></category>
 		</intent-filter>
 	</activity>
 
-<activity android:name=".activity.Login">
+<activity android:name=".client.activity.Login">
 </activity>
 
-<activity android:name=".activity.GameList">
+<activity android:name=".client.activity.GameList">
 </activity>
 
-<activity android:name=".activity.MainMenuActivity"></activity>
-<activity android:name=".activity.FindGamesActivity"></activity>
-<activity android:name=".activity.ViewGamesActivity"></activity>
-<activity android:name=".activity.MapActivity"></activity>
+<activity android:name=".client.activity.MainMenuActivity"></activity>
+<activity android:name=".client.activity.FindGamesActivity"></activity>
+<activity android:name=".client.activity.ViewGamesActivity"></activity>
+<activity android:name=".client.activity.MapActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4" />
 

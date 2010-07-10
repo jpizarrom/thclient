@@ -1,4 +1,4 @@
-package com.jpizarro.th.activity;
+package com.jpizarro.th.client.activity;
 
 import java.util.ArrayList;
 
