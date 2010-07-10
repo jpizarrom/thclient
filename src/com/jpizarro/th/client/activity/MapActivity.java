@@ -8,6 +8,13 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
+import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
+import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.entity.User;
+
+import es.sonxurxo.gpsgame.client.util.exception.ServerException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +22,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
@@ -44,6 +53,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private SampleLocationListener mLocationListener;
 	private LocationManager mLocationManager;
 
+	private GenericGameResponseTO genericGameResponseTO;
+	
+	private UpdateLocationTask updateLocationTask = new UpdateLocationTask();
+	
+	User user;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -70,6 +85,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     
     	mOsmv.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
     	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
+    	
+    	
     	
     	// register location listener
 		initLocation();
@@ -98,6 +115,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
     		this.mLocationOverlay.enableMyLocation();
     	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
+    	
+    	user = (User)getIntent().getExtras().getSerializable("user");
     }
 
 	@Override
@@ -132,11 +151,29 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		getLocationManager().requestLocationUpdates(PROVIDER_NAME, 2000, 20, this.mLocationListener);
 	}
 	
+	private void doUpdateLocation() {
+		update();
+	}
+	
+	private void launchUpdateLocationThread(int latitude, int longitude) {
+		updateLocationTask.setLatitude(latitude);
+		updateLocationTask.setLongitude(longitude);
+		Thread updateLocationThread = new Thread(null, updateLocationTask, "UpdateLocationGame");
+		updateLocationThread.start();
+	}
+	
+	private void update() {
+
+	}
+	
 	private class SampleLocationListener implements LocationListener {
 
 		@Override
-		public void onLocationChanged(Location arg0) {
-			// TODO Auto-generated method stub
+		public void onLocationChanged(Location loc) {
+			user.setLatitude((new GeoPoint(loc)).getLatitudeE6() );
+			user.setLongitude((new GeoPoint(loc)).getLongitudeE6() );
+			launchUpdateLocationThread(user.getLatitude(),
+					user.getLongitude());
 			
 		}
 
@@ -158,5 +195,90 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			
 		}
 		
+	}
+	
+	private class UpdateLocationHandler extends Handler {
+
+		public UpdateLocationHandler(Looper looper) {
+			super(looper);
+		}
+		
+		@Override
+		public void handleMessage(android.os.Message msg) {
+			ServerException sE = 
+				(ServerException)msg.getData().getSerializable("ServerException");
+			if (sE	!= null) {
+				CommonDialogs.errorMessage = sE.getMessage();
+	        	if (sE.getCode() == ServerException.INSTANCE_NOT_FOUND_CODE)
+					showDialog(CommonDialogs.CONNECTION_LOST_DIALOG_ID);
+				else
+					showDialog(CommonDialogs.SERVER_ERROR_DIALOG_ID);
+	        	return;
+	        }
+        	Exception e = 
+	        	(Exception)msg.getData().getSerializable("Exception");
+	        	if (e != null) {
+	        		CommonDialogs.errorMessage = e.getLocalizedMessage();
+		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+		        	return;
+	        	}
+	        GenericGameResponseTO gGRTO2 = 
+				(GenericGameResponseTO)msg.getData().getSerializable("gGRTO");
+			if (gGRTO2 != null) {
+				genericGameResponseTO = gGRTO2;
+				doUpdateLocation();
+			}
+		}
+	}
+	
+	private class UpdateLocationTask implements Runnable {
+
+		int latitude, longitude;
+		HttpGameServiceImpl gameService;
+		
+		public int getLatitude() {
+			return latitude;
+		}
+
+		public void setLatitude(int latitude) {
+			this.latitude = latitude;
+		}
+
+		public int getLongitude() {
+			return longitude;
+		}
+
+		public void setLongitude(int longitude) {
+			this.longitude = longitude;
+		}
+
+		UpdateLocationTask() {
+			gameService = new HttpGameServiceImpl();
+		}
+
+		public void run() {
+
+			UpdateLocationHandler handler = 
+				new UpdateLocationHandler(Looper.getMainLooper());
+			Bundle data = new Bundle();
+			android.os.Message msg = new android.os.Message();
+			try {
+				GenericGameResponseTO gGRTO = 
+					gameService.updateLocation(
+							latitude, longitude);
+				data.putSerializable("gGRTO", gGRTO);
+				msg.setData(data);
+				handler.sendMessage(msg);
+				
+			} catch (ServerException e) {
+	        	data.putSerializable("ServerException", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        } catch (Exception e) {
+	        	data.putSerializable("Exception", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        }
+		}
 	}
 }
