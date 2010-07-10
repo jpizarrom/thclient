@@ -9,8 +9,11 @@ import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +24,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	protected static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
 
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
 	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;
@@ -36,6 +41,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private OpenStreetMapView mOsmv;
 	private MyLocationOverlay mLocationOverlay;
 	private ResourceProxy mResourceProxy;
+	private SampleLocationListener mLocationListener;
+	private LocationManager mLocationManager;
 
 	// ===========================================================
 	// Constructors
@@ -63,6 +70,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     
     	mOsmv.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
     	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
+    	
+    	// register location listener
+		initLocation();
     }
         
     @Override
@@ -110,7 +120,43 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		return false;
 	}
- 
+	
+	private LocationManager getLocationManager() {
+		if(this.mLocationManager == null)
+			this.mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		return this.mLocationManager; 
+	}
 
+	private void initLocation() {
+		this.mLocationListener = new SampleLocationListener();
+		getLocationManager().requestLocationUpdates(PROVIDER_NAME, 2000, 20, this.mLocationListener);
+	}
+	
+	private class SampleLocationListener implements LocationListener {
 
+		@Override
+		public void onLocationChanged(Location arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }
