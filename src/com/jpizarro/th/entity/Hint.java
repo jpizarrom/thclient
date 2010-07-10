@@ -9,15 +9,6 @@ public class Hint extends Ubication{
 		// TODO Auto-generated constructor stub
 	}
 
-
-	@Override
-	public String toString() {
-		return "Hint [id=" + id + ", getName()=" + getName()
-				+ ", getDescription()=" + getDescription() + ", getLat()="
-				+ getLat() + ", getLon()=" + getLon() + "]";
-	}
-
-
 	public int getId() {
 		return id;
 	}

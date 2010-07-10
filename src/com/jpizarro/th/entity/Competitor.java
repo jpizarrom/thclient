@@ -7,14 +7,4 @@ public class Competitor extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "Competitor [getId()=" + getId() + ", getUserName()="
-				+ getUserName() + ", getPassword()=" + getPassword()
-				+ ", getName()=" + getName() + ", getDescription()="
-				+ getDescription() + ", getLat()=" + getLat() + ", getLon()="
-				+ getLon() + "]";
-	}
-
-
 }

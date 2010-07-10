@@ -9,17 +9,6 @@ public class Goal extends Ubication {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	
-	@Override
-	public String toString() {
-		return "Goal [id=" + id + ", getName()=" + getName()
-				+ ", getDescription()=" + getDescription() + ", getLat()="
-				+ getLat() + ", getLon()=" + getLon() + "]";
-	}
-
-
-
 	public int getId() {
 		return id;
 	}
