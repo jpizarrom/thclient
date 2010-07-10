@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
 import com.jpizarro.th.util.DateOperations;
@@ -297,6 +298,60 @@ public class XMLToBussinessConversor {
 		}
 		GameCTO gameCTO = new GameCTO(gameList, hasMore);
 		return gameCTO;
+	}
+
+	public static GenericGameResponseTO toGenericGameResponseTO(
+			HttpEntity entity) throws Exception{
+		Document gameDocument = parseHttpEntity(entity);
+		
+		NodeList n = gameDocument.getElementsByTagName("genericGameResponse");
+		
+		if (n.getLength() == 1) {
+			return toGenericGameResponseTO(
+					(Element)gameDocument.getElementsByTagName("genericGameResponse").item(0));
+		}
+		else {
+			Element codeElement = (Element)gameDocument.getElementsByTagName(
+					"code").item(0);
+			int code = Integer.parseInt(codeElement.getChildNodes().item(0).
+					getNodeValue());
+			Element messageElement = (Element)gameDocument.getElementsByTagName(
+					"message").item(0);
+			String message = messageElement.getChildNodes().item(0).getNodeValue();
+			
+			throw new ServerException(code, message);
+		}
+	}
+
+	private static GenericGameResponseTO toGenericGameResponseTO(Element gameDocument) throws Exception{
+		GenericGameResponseTO genericGameResponseTO = new GenericGameResponseTO();
+
+		if (gameDocument.getElementsByTagName("users").getLength() == 1) {
+			
+			NodeList inGamePlayerInfos = 
+				gameDocument.getElementsByTagName("user");
+			for (int i=0;i<inGamePlayerInfos.getLength();i++) {
+				InGameUserInfoTO pl = toInGameUserInfoTO((Element)inGamePlayerInfos.item(i));
+				genericGameResponseTO.getInGameUserInfoTOs().add(pl);
+			}
+		}
+		
+		return genericGameResponseTO;
+	}
+
+	private static InGameUserInfoTO toInGameUserInfoTO(Element gameDocument) throws Exception {
+		Element nameElement = (Element)gameDocument.getElementsByTagName("username").item(0);
+		String name = nameElement.getChildNodes().item(0).getNodeValue();
+		
+		Element latitudeElement = (Element)gameDocument.getElementsByTagName("latitude").item(0);
+		int latitude = Integer.parseInt(
+				latitudeElement.getChildNodes().item(0).getNodeValue());
+
+		Element longitudeElement = (Element)gameDocument.getElementsByTagName("longitude").item(0);
+		int longitude = Integer.parseInt(
+		longitudeElement.getChildNodes().item(0).getNodeValue());
+		
+		return new InGameUserInfoTO(name, latitude, longitude);
 	}	
 }
 

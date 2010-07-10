@@ -133,7 +133,7 @@ public class Login extends Activity {
 			
 			try {
 				User user = userService.login(userName, password);
-				user.setGameId(1);
+//				user.setGameId(1);
 				data.putSerializable("user", user);
 				if ( user.getGameId() != 0 ){
 					game = gameService.findGame(user.getGameId());

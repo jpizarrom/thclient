@@ -8,6 +8,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -44,6 +45,10 @@ public class HttpHelper {
 	private final String GAME_ID_PARAMETER = "gameId";
 	
 	private final String LOGOUT_URL = "ws/logout";
+	
+	private final String UPDATE_LOCATION_URL = "ws/updateLocation";
+	private final String LATITUDE_PARAMETER = "latitude";
+	private final String LONGITUDE_PARAMETER = "longitude";
 	
 	private static HttpClient client = new DefaultHttpClient();
 	private HttpUriRequest request;
@@ -161,7 +166,24 @@ public class HttpHelper {
 	}
 	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
+		request = new HttpPost(FULL_ADDRESS + 
+				UPDATE_LOCATION_URL + "?" + 
+        		LATITUDE_PARAMETER + "=" + String.valueOf(latitude) + "&" +  
+        		LONGITUDE_PARAMETER + "=" + String.valueOf(longitude));
+		try{
+			response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+        	
+        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
+        	
+	 } catch (ServerException e) {
+     	throw e;
+     } catch(IOException e) {
+     	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+     } catch (Exception e) {
+     	throw e;
+     }
 	}
 	
 	public boolean sendMessage(String receiverLogin, String body) 
