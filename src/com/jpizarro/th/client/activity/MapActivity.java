@@ -78,12 +78,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	
 	private String tappedUser;
 	
-	// Overlays
-	private ArrayList<OpenStreetMapViewOverlayItem> users;
-	private ArrayList<OpenStreetMapViewOverlayItem> hints;
+	// Overlays	
 	private MyLocationOverlay mLocationOverlay;
+	
+	private ArrayList<OpenStreetMapViewOverlayItem> users;
 	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mUsersOverlay;
-	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mHintsOverlay;
+	
+	private List<HintOverlayItem> hints;
+	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHintsOverlay;
 
 	
 	private ResourceProxy mResourceProxy;
@@ -198,17 +200,17 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
         {
         	if( this.hints == null )
-        		hints = new ArrayList<OpenStreetMapViewOverlayItem>();
+        		hints = new ArrayList<HintOverlayItem>();
         	
         	if( this.mHintsOverlay == null ){
 		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mHintsOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, hints,
+		        this.mHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, hints,
 		        	null,
 		        	null,
-		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
+		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
 						@Override
-						public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-							Toast.makeText(MapActivity.this, "Place '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+						public boolean onItemTap(int index, HintOverlayItem item) {
+							Toast.makeText(MapActivity.this, item.toString(), Toast.LENGTH_LONG).show();
 							return true; // We 'handled' this event.
 						}
 		        	}, 
@@ -307,12 +309,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		if (genericGameResponseTO.getHints().size() != 0) {
 			for( Hint in : genericGameResponseTO.getHints() ){
-				 hints.add(new OpenStreetMapViewOverlayItem( in.getName(), "SampleDescription", 
+				 hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
 		
 //		checkIncomingMessages();
+		
+		this.mOsmv.invalidate();
 
 	}
 	private void fillTappedTable() {
@@ -387,6 +391,28 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 			// TODO Auto-generated method stub
 			
+		}
+		
+	}
+	
+	private class HintOverlayItem extends OpenStreetMapViewOverlayItem{
+		private long id;
+		public HintOverlayItem(long id, String aTitle, String aDescription,
+				GeoPoint aGeoPoint) {
+			super(aTitle, aDescription, aGeoPoint);
+			this.id = id;
+		}	
+
+		public HintOverlayItem(String aTitle, String aDescription,
+				GeoPoint aGeoPoint) {
+			super(aTitle, aDescription, aGeoPoint);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public String toString() {
+			return "HintOverlayItem [id=" + id + "," + " mTitle=" + mTitle +
+					", mDescription=" + mDescription  + "]";
 		}
 		
 	}
