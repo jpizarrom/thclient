@@ -15,6 +15,7 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay.OnItemTapListener;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
+import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
@@ -27,6 +28,7 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -36,9 +38,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -48,6 +56,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	// ===========================================================
 	
 	protected static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
+	
+	public static final int SEND_MESSAGE_REQUEST_CODE = 0;
 
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
 	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;
@@ -55,12 +65,19 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
 	private static final int MENU_ABANDON = MENU_ABOUT + 1;
 	
+	private static final int USER_TAPPED_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
+	
+	private TableLayout userTappedTable;
+	
+	private String tappedUser;
+	
 	// Overlays
 	private ArrayList<OpenStreetMapViewOverlayItem> users;
 	private ArrayList<OpenStreetMapViewOverlayItem> hints;
@@ -157,29 +174,45 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         	
         	if( this.mUsersOverlay == null ){
 		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mUsersOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, users, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
-					@Override
-					public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-						Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
-						return true; // We 'handled' this event.
-					}
-		        }, mResourceProxy);
+		        this.mUsersOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, users, 
+		        	this.getResources().getDrawable(R.drawable.person_red),
+		        	null,
+		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
+						@Override
+						public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
+//							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+							try {
+								tappedUser = item.mTitle;
+								showDialog(USER_TAPPED_DIALOG_ID);
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
+							return true;
+						}
+			        }, 
+			        mResourceProxy);
 		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
 	        }
         }
+        
         {
         	if( this.hints == null )
         		hints = new ArrayList<OpenStreetMapViewOverlayItem>();
         	
         	if( this.mHintsOverlay == null ){
 		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mHintsOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, hints, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
-					@Override
-					public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-						Toast.makeText(MapActivity.this, "Place '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
-						return true; // We 'handled' this event.
-					}
-		        }, mResourceProxy);
+		        this.mHintsOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, hints,
+		        	null,
+		        	null,
+		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
+						@Override
+						public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
+							Toast.makeText(MapActivity.this, "Place '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+							return true; // We 'handled' this event.
+						}
+		        	}, 
+		        	mResourceProxy);
 		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
 	        }
         }
@@ -213,10 +246,34 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		return false;
 	}
+
+
 	
 	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch(id) {
+		case USER_TAPPED_DIALOG_ID:
+			userTappedTable = new TableLayout(this);
+        	fillTappedTable();
+        	dialog.setContentView(userTappedTable);
+        	return;
+		}
+	}
+
+	@Override
 	protected Dialog onCreateDialog(int id) {
-		return CommonDialogs.createDialog(id, this);
+		Dialog d = CommonDialogs.createDialog(id, this);
+		if (d != null)
+			return d;
+		
+		switch(id) {
+			case USER_TAPPED_DIALOG_ID:
+	        	d = new Dialog(this);
+	        	d.setTitle("User Info");
+	        	d.setCanceledOnTouchOutside(true);
+	        	return d;
+		}
+		return null;
 	}
 
 	private LocationManager getLocationManager() {
@@ -254,7 +311,53 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
+		
+//		checkIncomingMessages();
 
+	}
+	private void fillTappedTable() {
+		userTappedTable.removeAllViews();
+		TableRow tr;
+		
+		TextView tvName;
+		
+//		Toast.makeText(MapActivity.this, "User '" + tappedInfoTitle+" got tapped", Toast.LENGTH_LONG).show();
+
+		InGameUserInfoTO p = genericGameResponseTO.getInGamePlayerInfoTO(
+				tappedUser);
+		
+		tvName = new TextView(this);
+		tvName.setText("Username :\t" + tappedUser );
+		tvName.setWidth(260);
+        tr = new TableRow(this);
+        tr.addView(tvName);
+        tr.setGravity(Gravity.CENTER);
+        userTappedTable.addView(tr);
+        
+        Button bSendMessage;
+        bSendMessage = new Button(this);
+        bSendMessage.setText("Send Message");
+        bSendMessage.setOnClickListener(new android.view.View.OnClickListener() {
+
+			public void onClick(View v) {
+//				Intent i = new Intent(MapActivity.this, SendMessageActivity.class);
+//	        	i.putExtra("receiverLogin", tappedUser);
+//	        	startActivityForResult(i, SEND_MESSAGE_REQUEST_CODE);
+	        	try {
+	        		dismissDialog(USER_TAPPED_DIALOG_ID);
+	        	} catch (Exception e) {
+	        		
+	        	}
+			}
+		});
+        tr = new TableRow(this);
+        bSendMessage.setWidth(LayoutParams.FILL_PARENT);
+        tr.addView(bSendMessage);
+        tr.setGravity(Gravity.CENTER);
+        userTappedTable.addView(tr);
+
+		
+		
 	}
 	
 	private class SampleLocationListener implements LocationListener {

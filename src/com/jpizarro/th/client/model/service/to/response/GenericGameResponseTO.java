@@ -30,6 +30,14 @@ public class GenericGameResponseTO implements Serializable {
 	public void setInGameUserInfoTOs(List<InGameUserInfoTO> inGameUserInfoTOs) {
 		this.inGameUserInfoTOs = inGameUserInfoTOs;
 	}
+	
+	public InGameUserInfoTO getInGamePlayerInfoTO(String login) {
+		for (InGameUserInfoTO igpiTO:inGameUserInfoTOs) {
+			if (igpiTO.getUsername().equals(login))
+				return igpiTO;
+		}
+		return null;
+	}
 
 	public List<Hint> getHints() {
 		return hints;
