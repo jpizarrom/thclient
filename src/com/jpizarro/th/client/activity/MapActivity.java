@@ -1,16 +1,24 @@
 package com.jpizarro.th.client.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
+import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay.OnItemTapListener;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.entity.User;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -18,6 +26,8 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,6 +37,7 @@ import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class MapActivity extends Activity  implements OpenStreetMapConstants{
@@ -48,7 +59,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
+	// Overlays
 	private MyLocationOverlay mLocationOverlay;
+	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mMyLocationOverlay;
+	
 	private ResourceProxy mResourceProxy;
 	private SampleLocationListener mLocationListener;
 	private LocationManager mLocationManager;
@@ -57,8 +71,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	
 	private UpdateLocationTask updateLocationTask = new UpdateLocationTask();
 	
-	User user;
-
+	private User user;
+	
+	private ArrayList<OpenStreetMapViewOverlayItem> users;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -75,11 +91,32 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
         this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
         this.mOsmv.setResourceProxy(mResourceProxy);
-        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy);
         this.mOsmv.setBuiltInZoomControls(true);
         this.mOsmv.setMultiTouchControls(true);
-        this.mOsmv.getOverlays().add(this.mLocationOverlay);
+        
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        
+        /* MyLocationOverlay */
+        {
+	        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy);
+	        this.mOsmv.getOverlays().add(this.mLocationOverlay);
+        }
+        
+        /* Itemized Overlay */
+        {
+        	  /* Create a static ItemizedOverlay showing a some Markers on some cities. */
+        	users = new ArrayList<OpenStreetMapViewOverlayItem>();
+
+	        /* OnTapListener for the Markers, shows a simple Toast. */
+	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, users, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
+				@Override
+				public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
+					Toast.makeText(MapActivity.this, "Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+					return true; // We 'handled' this event.
+				}
+	        }, mResourceProxy);
+	        this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
+        }
         
         this.setContentView(rl);
     
@@ -163,6 +200,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	}
 	
 	private void update() {
+		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
+			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
+				 users.add(new OpenStreetMapViewOverlayItem( in.getUsername(), "SampleDescription", 
+						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+			}
+		}
 
 	}
 	
