@@ -15,6 +15,7 @@ public class GenericGameResponseTO implements Serializable {
 	
 	private List<InGameUserInfoTO> inGameUserInfoTOs = new ArrayList<InGameUserInfoTO>();
 	private List<Hint> hints = new ArrayList<Hint>();
+	private List<Hint> hideHints = new ArrayList<Hint>();
 //	private List<Message> messages = new ArrayList<Message>();
 //	private boolean hasFinished = false;	
 
@@ -45,6 +46,14 @@ public class GenericGameResponseTO implements Serializable {
 
 	public void setHints(List<Hint> hints) {
 		this.hints = hints;
+	}
+
+	public List<Hint> getHideHints() {
+		return hideHints;
+	}
+
+	public void setHideHints(List<Hint> hideHints) {
+		this.hideHints = hideHints;
 	}
 	
 	

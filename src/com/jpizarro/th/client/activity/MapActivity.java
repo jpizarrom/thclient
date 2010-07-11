@@ -85,7 +85,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mUsersOverlay;
 	
 	private List<HintOverlayItem> hints;
+	private List<HintOverlayItem> hideHints;
 	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHintsOverlay;
+	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHideHintsOverlay;
 
 	
 	private ResourceProxy mResourceProxy;
@@ -219,6 +221,27 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        }
         }
         
+        {
+        	if( this.hideHints == null )
+        		hideHints = new ArrayList<HintOverlayItem>();
+        	
+        	if( this.mHideHintsOverlay == null ){
+		        /* OnTapListener for the Markers, shows a simple Toast. */
+		        this.mHideHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, hideHints,
+		        	null,
+		        	null,
+		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
+						@Override
+						public boolean onItemTap(int index, HintOverlayItem item) {
+							Toast.makeText(MapActivity.this, "Hide "+item.toString(), Toast.LENGTH_LONG).show();
+							return true; // We 'handled' this event.
+						}
+		        	}, 
+		        	mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mHideHintsOverlay);
+	        }
+        }
+        
         update();    	
     }
 	private void launchStartGameThread() {
@@ -310,6 +333,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		if (genericGameResponseTO.getHints().size() != 0) {
 			for( Hint in : genericGameResponseTO.getHints() ){
 				 hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+			}
+		}
+		if (genericGameResponseTO.getHideHints().size() != 0) {
+			for( Hint in : genericGameResponseTO.getHideHints() ){
+				 hideHints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}

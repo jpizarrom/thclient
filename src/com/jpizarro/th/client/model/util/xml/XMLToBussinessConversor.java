@@ -356,9 +356,9 @@ public class XMLToBussinessConversor {
 		GenericGameResponseTO genericGameResponseTO = new GenericGameResponseTO();
 
 		if (gameDocument.getElementsByTagName("users").getLength() == 1) {
-			
+			Element hE = (Element)gameDocument.getElementsByTagName("users").item(0);
 			NodeList inGamePlayerInfos = 
-				gameDocument.getElementsByTagName("user");
+				hE.getElementsByTagName("user");
 			for (int i=0;i<inGamePlayerInfos.getLength();i++) {
 				InGameUserInfoTO pl = toInGameUserInfoTO((Element)inGamePlayerInfos.item(i));
 				genericGameResponseTO.getInGameUserInfoTOs().add(pl);
@@ -366,11 +366,19 @@ public class XMLToBussinessConversor {
 		}
 		
 		if (gameDocument.getElementsByTagName("hints").getLength() == 1) {
-			
-			NodeList hints = gameDocument.getElementsByTagName("hint");
+			Element hE = (Element)gameDocument.getElementsByTagName("hints").item(0);
+			NodeList hints = hE.getElementsByTagName("hint");
 			for (int i=0;i<hints.getLength();i++) {
 				Hint pl = toHint((Element)hints.item(i));
 				genericGameResponseTO.getHints().add(pl);
+			}
+		}
+		if (gameDocument.getElementsByTagName("hideHints").getLength() == 1) {
+			Element hE = (Element)gameDocument.getElementsByTagName("hideHints").item(0);
+			NodeList hints = hE.getElementsByTagName("hint");
+			for (int i=0;i<hints.getLength();i++) {
+				Hint pl = toHint((Element)hints.item(i));
+				genericGameResponseTO.getHideHints().add(pl);
 			}
 		}
 		
