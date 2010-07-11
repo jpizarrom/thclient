@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.ResourceProxyImpl;
-import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
-import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay.OnItemTapListener;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import com.jpizarro.th.R;
@@ -20,6 +16,8 @@ import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
+import com.jpizarro.th.client.osm.OpenStreetMapConstants;
+import com.jpizarro.th.client.osm.ResourceProxyImpl;
 import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.User;
 
@@ -30,8 +28,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -64,6 +60,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int MENU_SAMPLES = MENU_MAP_MODE + 1;
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
 	private static final int MENU_ABANDON = MENU_ABOUT + 1;
+	private static final int MENU_UPDATE = MENU_ABANDON + 1;
 	
 	private static final int USER_TAPPED_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
@@ -228,7 +225,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         	if( this.mHideHintsOverlay == null ){
 		        /* OnTapListener for the Markers, shows a simple Toast. */
 		        this.mHideHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, hideHints,
-		        	null,
+		        		this.getResources().getDrawable(R.drawable.marker_red),
 		        	null,
 		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
 						@Override
@@ -255,6 +252,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_MY_LOCATION, Menu.NONE, "my_location");
 		menu.add(0, MENU_ABANDON, Menu.NONE, "Abandon Game");
+		menu.add(0, MENU_UPDATE, Menu.NONE, "Update");
 		return true;
 	}
 
@@ -267,6 +265,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     		Location lastFix = this.mLocationOverlay.getLastFix();
     		if (lastFix != null)
     			this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
+			return true;
+		case MENU_UPDATE:
+			this.launchStartGameThread();
 			return true;
 		}
 		return false;
@@ -346,12 +347,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			}
 		}
 		if (genericGameResponseTO.getHints().size() != 0) {
+			hints.clear();
 			for( Hint in : genericGameResponseTO.getHints() ){
 				 hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
 		if (genericGameResponseTO.getHideHints().size() != 0) {
+			hideHints.clear();
 			for( Hint in : genericGameResponseTO.getHideHints() ){
 				 hideHints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));

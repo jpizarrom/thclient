@@ -1,4 +1,8 @@
-package org.andnav.osm;
+package com.jpizarro.th.client.osm;
+
+import org.andnav.osm.DefaultResourceProxyImpl;
+import org.andnav.osm.ResourceProxy.bitmap;
+import org.andnav.osm.ResourceProxy.string;
 
 import android.content.Context;
 import android.graphics.Bitmap;
