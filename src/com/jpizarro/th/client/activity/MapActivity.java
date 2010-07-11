@@ -301,6 +301,21 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		return null;
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		switch(requestCode) {
+		case SEND_MESSAGE_REQUEST_CODE:
+			switch(resultCode) {
+			case RESULT_OK:
+				Toast.makeText(this, "Message sent", Toast.LENGTH_LONG).show();
+				break;
+			}
+			break;
+		}
+	}
+
 	private LocationManager getLocationManager() {
 		if(this.mLocationManager == null)
 			this.mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
