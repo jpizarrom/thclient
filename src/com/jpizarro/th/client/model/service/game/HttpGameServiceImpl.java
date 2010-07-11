@@ -52,4 +52,10 @@ public class HttpGameServiceImpl implements GameService{
 		return HttpHelper.getInstance().startOrContinueGame(username);
 	}
 
+	@Override
+	public boolean sendMessage(String receiverUser, String body)
+			throws Exception {
+		return HttpHelper.getInstance().sendMessage(receiverUser, body);
+	}
+
 }

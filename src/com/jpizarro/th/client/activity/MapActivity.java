@@ -373,9 +373,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         bSendMessage.setOnClickListener(new android.view.View.OnClickListener() {
 
 			public void onClick(View v) {
-//				Intent i = new Intent(MapActivity.this, SendMessageActivity.class);
-//	        	i.putExtra("receiverLogin", tappedUser);
-//	        	startActivityForResult(i, SEND_MESSAGE_REQUEST_CODE);
+				Intent i = new Intent(MapActivity.this, SendMessageActivity.class);
+	        	i.putExtra("receiverUser", tappedUser);
+	        	startActivityForResult(i, SEND_MESSAGE_REQUEST_CODE);
 	        	try {
 	        		dismissDialog(USER_TAPPED_DIALOG_ID);
 	        	} catch (Exception e) {

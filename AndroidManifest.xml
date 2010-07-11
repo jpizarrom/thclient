@@ -28,6 +28,7 @@
 <activity android:name=".client.activity.FindGamesActivity"></activity>
 <activity android:name=".client.activity.ViewGamesActivity"></activity>
 <activity android:name=".client.activity.MapActivity"></activity>
+<activity android:name=".client.activity.SendMessageActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4" />
 

@@ -52,6 +52,10 @@ public class HttpHelper {
 	private final String LATITUDE_PARAMETER = "latitude";
 	private final String LONGITUDE_PARAMETER = "longitude";
 	
+	private final String SEND_MESSAGE_URL = "ws/sendMessage";
+	private final String RECEIVER_USER_PARAMETER = "receiverUser";
+	private final String BODY_PARAMETER = "body";
+	
 	private static HttpClient client = new DefaultHttpClient();
 	private HttpUriRequest request;
 	private HttpResponse response;
@@ -190,7 +194,37 @@ public class HttpHelper {
 	
 	public boolean sendMessage(String receiverLogin, String body) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
+		String encodedBody = 
+			URLEncoder.encode(body.replace("%2B", "+"), "UTF-8");
+		
+		if (receiverLogin != null) {
+			String encodedReceiverLogin = 
+				URLEncoder.encode(receiverLogin.replace("%2B", "+"), "UTF-8");	
+
+			request = new HttpPost(FULL_ADDRESS + 
+	        		SEND_MESSAGE_URL + "?" + 
+	        		RECEIVER_USER_PARAMETER + "=" + encodedReceiverLogin + "&" +  
+	        		BODY_PARAMETER + "=" + encodedBody);
+		}
+		else {
+			request = new HttpGet(FULL_ADDRESS + 
+	        		SEND_MESSAGE_URL + "?" + 
+	        		BODY_PARAMETER + "=" + encodedBody);
+		}
+
+        try {        	
+        	response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+
+        	return XMLToBussinessConversor.toBooleanOrExceptionSend(entity);
+        } catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
 	}
 	
 	public GameCTO findGamesByCity(String city, int startIndex, int count) 

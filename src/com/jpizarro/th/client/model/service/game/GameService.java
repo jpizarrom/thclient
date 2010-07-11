@@ -26,4 +26,7 @@ public interface GameService {
 	
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception;
+	
+	public boolean sendMessage(String receiverUser, String body)
+	throws Exception;
 }
