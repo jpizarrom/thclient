@@ -23,5 +23,7 @@ public interface GameService {
 	
 	public GameCTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception ;
-
+	
+	public GenericGameResponseTO startOrContinueGame(String login) 
+	throws Exception;
 }

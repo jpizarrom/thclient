@@ -19,6 +19,7 @@ import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.User;
 import com.jpizarro.th.util.DateOperations;
 
@@ -322,7 +323,35 @@ public class XMLToBussinessConversor {
 			throw new ServerException(code, message);
 		}
 	}
+	private static Hint 
+	toHint(Element gameDocument) throws Exception {
+		Element idElement = (Element)gameDocument.getElementsByTagName(
+		"placeId").item(0);
+		long id = Long.parseLong(
+				idElement.getChildNodes().item(0).getNodeValue());
+		
+		Element latitudeElement = (Element)gameDocument.getElementsByTagName(
+		"latitude").item(0);
+		int latitude = Integer.parseInt(
+				latitudeElement.getChildNodes().item(0).getNodeValue());
 
+		Element longitudeElement = (Element)gameDocument.getElementsByTagName(
+		"longitude").item(0);
+		int longitude = Integer.parseInt(
+		longitudeElement.getChildNodes().item(0).getNodeValue());
+		
+		Element element = (Element)gameDocument.getElementsByTagName(
+		"name").item(0);
+		String name = element.getChildNodes().item(0).getNodeValue();
+		
+		element = (Element)gameDocument.getElementsByTagName(
+		"description").item(0);
+		String description = element.getChildNodes().item(0).getNodeValue();		
+		
+		return new Hint(id, latitude, longitude, name,description);
+		
+	}
+	
 	private static GenericGameResponseTO toGenericGameResponseTO(Element gameDocument) throws Exception{
 		GenericGameResponseTO genericGameResponseTO = new GenericGameResponseTO();
 
@@ -333,6 +362,15 @@ public class XMLToBussinessConversor {
 			for (int i=0;i<inGamePlayerInfos.getLength();i++) {
 				InGameUserInfoTO pl = toInGameUserInfoTO((Element)inGamePlayerInfos.item(i));
 				genericGameResponseTO.getInGameUserInfoTOs().add(pl);
+			}
+		}
+		
+		if (gameDocument.getElementsByTagName("hints").getLength() == 1) {
+			
+			NodeList hints = gameDocument.getElementsByTagName("hint");
+			for (int i=0;i<hints.getLength();i++) {
+				Hint pl = toHint((Element)hints.item(i));
+				genericGameResponseTO.getHints().add(pl);
 			}
 		}
 		

@@ -19,11 +19,13 @@ import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
+import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.User;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -60,8 +62,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
 	// Overlays
+	private ArrayList<OpenStreetMapViewOverlayItem> users;
+	private ArrayList<OpenStreetMapViewOverlayItem> hints;
 	private MyLocationOverlay mLocationOverlay;
-	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mMyLocationOverlay;
+	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mUsersOverlay;
+	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mHintsOverlay;
+
 	
 	private ResourceProxy mResourceProxy;
 	private SampleLocationListener mLocationListener;
@@ -69,12 +75,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 	private GenericGameResponseTO genericGameResponseTO;
 	
+	private StartGameTask startGameTask = new StartGameTask();
 	private UpdateLocationTask updateLocationTask = new UpdateLocationTask();
 	
 	private User user;
-	
-	private ArrayList<OpenStreetMapViewOverlayItem> users;
-	
+		
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -96,34 +101,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
-        /* MyLocationOverlay */
-        {
-	        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy);
-	        this.mOsmv.getOverlays().add(this.mLocationOverlay);
-        }
-        
-        /* Itemized Overlay */
-        {
-        	  /* Create a static ItemizedOverlay showing a some Markers on some cities. */
-        	users = new ArrayList<OpenStreetMapViewOverlayItem>();
-
-	        /* OnTapListener for the Markers, shows a simple Toast. */
-	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, users, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
-				@Override
-				public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-					Toast.makeText(MapActivity.this, "Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
-					return true; // We 'handled' this event.
-				}
-	        }, mResourceProxy);
-	        this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
-        }
-        
+                
         this.setContentView(rl);
     
     	mOsmv.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
     	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
-    	
-    	
     	
     	// register location listener
 		initLocation();
@@ -149,12 +131,67 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     protected void onResume() {
     	super.onResume();
     	mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
-    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
-    		this.mLocationOverlay.enableMyLocation();
-    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
+//    	if ( this.mLocationOverlay != null )
+//	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
+//	    		this.mLocationOverlay.enableMyLocation();
+//	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
     	
     	user = (User)getIntent().getExtras().getSerializable("user");
+    	
+    	launchStartGameThread();
     }
+    
+    private void doStartGame() {
+    	
+    	/* MyLocationOverlay */
+        {
+        	if(this.mLocationOverlay == null){
+		        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
+        	}
+        }
+        
+        {
+        	if( this.users == null )
+	        	users = new ArrayList<OpenStreetMapViewOverlayItem>();
+        	
+        	if( this.mUsersOverlay == null ){
+		        /* OnTapListener for the Markers, shows a simple Toast. */
+		        this.mUsersOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, users, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
+					@Override
+					public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
+						Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+						return true; // We 'handled' this event.
+					}
+		        }, mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
+	        }
+        }
+        {
+        	if( this.hints == null )
+        		hints = new ArrayList<OpenStreetMapViewOverlayItem>();
+        	
+        	if( this.mHintsOverlay == null ){
+		        /* OnTapListener for the Markers, shows a simple Toast. */
+		        this.mHintsOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, hints, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
+					@Override
+					public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
+						Toast.makeText(MapActivity.this, "Place '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+						return true; // We 'handled' this event.
+					}
+		        }, mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
+	        }
+        }
+        
+        update();    	
+    }
+	private void launchStartGameThread() {
+		startGameTask.setLogin(user.getUserName());
+		Thread startGameThread = new Thread(null, startGameTask, "StartGame");
+		startGameThread.start();
+		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -177,6 +214,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		return false;
 	}
 	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		return CommonDialogs.createDialog(id, this);
+	}
+
 	private LocationManager getLocationManager() {
 		if(this.mLocationManager == null)
 			this.mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -203,6 +245,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
 			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
 				 users.add(new OpenStreetMapViewOverlayItem( in.getUsername(), "SampleDescription", 
+						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+			}
+		}
+		if (genericGameResponseTO.getHints().size() != 0) {
+			for( Hint in : genericGameResponseTO.getHints() ){
+				 hints.add(new OpenStreetMapViewOverlayItem( in.getName(), "SampleDescription", 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
@@ -239,6 +287,87 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		
 	}
+	
+	private class StartGameHandler extends Handler {
+
+		public StartGameHandler(Looper looper) {
+			super(looper);
+		}
+		
+		@Override
+		public void handleMessage(android.os.Message msg) {
+			try {
+				dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+			} catch (Exception e) {
+				
+			}
+			ServerException sE = 
+				(ServerException)msg.getData().getSerializable("ServerException");
+			if (sE	!= null) {
+				CommonDialogs.errorMessage = sE.getMessage();
+				if (sE.getCode() == ServerException.INSTANCE_NOT_FOUND_CODE)
+					showDialog(CommonDialogs.CONNECTION_LOST_DIALOG_ID);
+				else
+					showDialog(CommonDialogs.SERVER_ERROR_DIALOG_ID);
+	        	return;
+	        }
+        	Exception e = 
+	        	(Exception)msg.getData().getSerializable("Exception");
+	        	if (e != null) {
+	        		CommonDialogs.errorMessage = e.getMessage();
+		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+		        	return;
+	        	}
+	        	GenericGameResponseTO sOCGRTO2 = 
+				(GenericGameResponseTO)msg.getData().getSerializable("sOCGRTO");
+			if (sOCGRTO2 != null) {
+				genericGameResponseTO = sOCGRTO2;
+				doStartGame();
+			}
+		}
+		
+	}
+	private class StartGameTask implements Runnable {
+
+		String login;
+		HttpGameServiceImpl gameService;
+		
+		public String getLogin() {
+			return login;
+		}
+
+		public void setLogin(String login) {
+			this.login = login;
+		}
+
+		StartGameTask() {
+			gameService = new HttpGameServiceImpl();
+		}
+		
+		public void run() {
+			
+			StartGameHandler handler = new StartGameHandler(Looper.getMainLooper());
+			Bundle data = new Bundle();
+			android.os.Message msg = new android.os.Message();
+			try {
+				GenericGameResponseTO sOCGRTO = 
+					gameService.startOrContinueGame(login);
+				data.putSerializable("sOCGRTO", sOCGRTO);
+				msg.setData(data);
+				handler.sendMessage(msg);
+				
+			} catch (ServerException e) {
+	        	data.putSerializable("ServerException", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        } catch (Exception e) {
+	        	data.putSerializable("Exception", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        }
+		}
+	}
+
 	
 	private class UpdateLocationHandler extends Handler {
 

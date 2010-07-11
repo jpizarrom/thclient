@@ -46,4 +46,10 @@ public class HttpGameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
+	@Override
+	public GenericGameResponseTO startOrContinueGame(String username)
+			throws Exception {
+		return HttpHelper.getInstance().startOrContinueGame(username);
+	}
+
 }

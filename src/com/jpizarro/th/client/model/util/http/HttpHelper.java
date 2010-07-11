@@ -46,6 +46,8 @@ public class HttpHelper {
 	
 	private final String LOGOUT_URL = "ws/logout";
 	
+	private final String START_OR_CONTINUEGAME_URL = "ws/GameState";
+	
 	private final String UPDATE_LOCATION_URL = "ws/updateLocation";
 	private final String LATITUDE_PARAMETER = "latitude";
 	private final String LONGITUDE_PARAMETER = "longitude";
@@ -207,6 +209,28 @@ public class HttpHelper {
 
         	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
         	return gameCTO;
+        } catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
+	}
+	
+	public GenericGameResponseTO startOrContinueGame(String login) 
+	throws Exception {
+		request = new HttpGet(FULL_ADDRESS + 
+				START_OR_CONTINUEGAME_URL );
+		
+		Log.d(this.getClass().getName(), request.getURI().toString());
+        try {        	
+        	response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+
+        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
+
         } catch (ServerException e) {
         	throw e;
         } catch(IOException e) {
