@@ -6,6 +6,7 @@ import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.http.HttpHelper;
 import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.Team;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -56,6 +57,14 @@ public class HttpGameServiceImpl implements GameService{
 	public boolean sendMessage(String receiverUser, String body)
 			throws Exception {
 		return HttpHelper.getInstance().sendMessage(receiverUser, body);
+	}
+
+	@Override
+	public List<Team> findTeamsByGame(long gameId, int startIndex, int count)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return HttpHelper.getInstance().findTeamsByGame(gameId, 
+				startIndex, count);
 	}
 
 }

@@ -18,14 +18,17 @@ import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.xml.XMLToBussinessConversor;
 import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.Team;
 import com.jpizarro.th.entity.User;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class HttpHelper {
+	
 	private String TAG = "HttpHelper";
 	
-	private final String SERVER_HOST_IP = "10.42.43.1";
+	private final String SERVER_HOST_IP = "192.168.42.20";
+//	private final String SERVER_HOST_IP = "10.42.43.1";
 	private final String SERVER_PORT = "8070";
 	private final String GAME_URL = "thserver";
 	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
@@ -55,6 +58,8 @@ public class HttpHelper {
 	private final String SEND_MESSAGE_URL = "ws/sendMessage";
 	private final String RECEIVER_USER_PARAMETER = "receiverUser";
 	private final String BODY_PARAMETER = "body";
+	
+	private final String FIND_TEAMS_BY_GAME_URL = "ws/findTeamsByGame";
 	
 	private static HttpClient client = new DefaultHttpClient();
 	private HttpUriRequest request;
@@ -265,6 +270,33 @@ public class HttpHelper {
 
         	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
 
+        } catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
+	}
+
+	public List<Team> findTeamsByGame(long gameId, int startIndex, int count) 
+	throws Exception {
+		// TODO Auto-generated method stub
+//		String encodedCity = URLEncoder.encode(city.replace("%2B", "+"), "UTF-8");
+		request = new HttpGet(FULL_ADDRESS + 
+				FIND_TEAMS_BY_GAME_URL + "?" + 
+				GAME_ID_PARAMETER +  "=" + gameId + "&" + 
+        		START_INDEX_PARAMETER +  "=" + startIndex + "&" + 
+        		COUNT_PARAMETER +  "=" + count);
+		Log.d("TESTSSSSS", request.getURI().toString());
+
+        try {        	
+        	response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+
+        	List<Team> teams = XMLToBussinessConversor.toTeamList(entity);
+        	return teams;
         } catch (ServerException e) {
         	throw e;
         } catch(IOException e) {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.Team;
 
 public interface GameService {
 	public List<String> findCitiesWithGames() throws Exception;
@@ -22,6 +23,9 @@ public interface GameService {
 	throws Exception;
 	
 	public GameCTO findGamesByCity(String city, int startIndex, int count) 
+	throws Exception ;
+	
+	public List<Team> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception ;
 	
 	public GenericGameResponseTO startOrContinueGame(String login) 

@@ -11,7 +11,7 @@ public class Test {
 		c.setPassword("pass1");
 		
 		Team t = new Team("Team1");
-		t.getCompetitors().add(c);
+//		t.getCompetitors().add(c);
 		
 		Game g = new Game();
 		

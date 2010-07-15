@@ -20,6 +20,7 @@ import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Hint;
+import com.jpizarro.th.entity.Team;
 import com.jpizarro.th.entity.User;
 import com.jpizarro.th.util.DateOperations;
 
@@ -398,6 +399,56 @@ public class XMLToBussinessConversor {
 		longitudeElement.getChildNodes().item(0).getNodeValue());
 		
 		return new InGameUserInfoTO(name, latitude, longitude);
+	}
+
+	public static List<Team> toTeamList(HttpEntity entity) throws Exception {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<Team> teamList = new ArrayList<Team>();
+		Document gamesDocument = parseHttpEntity(entity);
+		
+//		boolean hasMore = false;
+		if (gamesDocument.getElementsByTagName("teams").getLength() == 1) {
+//			if (gamesDocument.getElementsByTagName("hasMore").getLength() == 1)
+//				hasMore = true;
+			NodeList teams = gamesDocument.getElementsByTagName("team");
+			for (int i=0;i<teams.getLength();i++) {
+				Team team = toTeam((Element)teams.item(i));
+				teamList.add(team);
+			}
+		}
+		else {
+			Element codeElement = (Element)gamesDocument.getElementsByTagName(
+					"code").item(0);
+			int code = Integer.parseInt(codeElement.getChildNodes().item(0).
+					getNodeValue());
+			Element messageElement = (Element)gamesDocument.getElementsByTagName(
+					"message").item(0);
+			String message = messageElement.getChildNodes().item(0).getNodeValue();
+			
+			throw new ServerException(code, message);
+		}
+		return teamList;
+	}
+
+	private static Team toTeam(Element gameDocument) {
+		// TODO Auto-generated method stub
+		Team team = new Team();
+		
+		Element gameIdElement = (Element)gameDocument.getElementsByTagName(
+		"teamId").item(0);
+		long teamId = Long.parseLong(gameIdElement.getChildNodes().item(0).getNodeValue());
+		team.setId(teamId);
+		
+		Element element = (Element)gameDocument.getElementsByTagName("name").item(0);
+		String st = element.getChildNodes().item(0).getNodeValue();
+		team.setName(st);
+		
+		element = (Element)gameDocument.getElementsByTagName("description").item(0);
+		st = element.getChildNodes().item(0).getNodeValue();
+		team.setDescription(st);
+		
+		return team;
 	}	
 }
 

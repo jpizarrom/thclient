@@ -175,7 +175,7 @@ public class MainMenuActivity extends Activity {
 		showDialog(FIND_GAMES_DIALOG_ID);
 	}
 	private void doFindGames(int method) {
-		Intent i = new Intent(this, FindGamesActivity.class);;
+		Intent i = new Intent(this, FindGamesActivity.class);
     	i.putExtra("user", user);
     	
     	switch (method) {

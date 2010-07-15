@@ -29,6 +29,7 @@
 <activity android:name=".client.activity.ViewGamesActivity"></activity>
 <activity android:name=".client.activity.MapActivity"></activity>
 <activity android:name=".client.activity.SendMessageActivity"></activity>
+<activity android:name=".client.activity.ViewTeamsActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4" />
 

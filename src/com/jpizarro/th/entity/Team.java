@@ -1,37 +1,47 @@
 package com.jpizarro.th.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Team {
-	private int id;
+public class Team implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 731485816032540739L;
+	private long id;
 	private String name;
-	private List<Competitor> competitors;
-	private List<Hint> hints;
+	private String description;
+//	private List<Competitor> competitors;
+//	private List<Hint> hints;
 	
 	public Team(String name) {
 		super();
 		this.name = name;
-		competitors = new ArrayList<Competitor>();
+//		competitors = new ArrayList<Competitor>();
+	}
+
+	public Team() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
 		String result ="";
-		result += "Team [getId()=" + getId() + ", getName()=" + getName()
-				+ ", getCompetitors()=";
-		for (Competitor c : getCompetitors())
-			result += c; 
+//		result += "Team [getId()=" + getId() + ", getName()=" + getName()
+//				+ ", getCompetitors()=";
+//		for (Competitor c : getCompetitors())
+//			result += c; 
 		result +=		"]";
 		
 		return result;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -43,12 +53,20 @@ public class Team {
 		this.name = name;
 	}
 
-	public List<Competitor> getCompetitors() {
-		return competitors;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setCompetitors(List<Competitor> competitors) {
-		this.competitors = competitors;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+
+//	public List<Competitor> getCompetitors() {
+//		return competitors;
+//	}
+//
+//	public void setCompetitors(List<Competitor> competitors) {
+//		this.competitors = competitors;
+//	}
 
 }
