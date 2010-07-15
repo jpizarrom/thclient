@@ -1,4 +1,4 @@
-package com.jpizarro.th.client.osm;
+package org.andnav.osm;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy.bitmap;

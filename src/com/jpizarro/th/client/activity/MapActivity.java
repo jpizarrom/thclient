@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
@@ -17,7 +18,6 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
-import com.jpizarro.th.client.osm.ResourceProxyImpl;
 import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.User;
 

@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.http.HttpEntity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -63,6 +64,12 @@ public class XMLToBussinessConversor {
 			String username = element.getChildNodes().item(0).getNodeValue();
 			user.setUserName(username.replace("+", " "));
 			
+			if (document.getElementsByTagName("game").getLength() == 1) {
+				Element game = (Element) document.getElementsByTagName("game").item(0);
+				Element gameIdElement = (Element)game.getElementsByTagName("gameId").item(0);
+				long gameId = Long.parseLong(gameIdElement.getChildNodes().item(0).getNodeValue());
+				user.setGameId(gameId);
+			}
 			
 		}else {
 			Element codeElement = (Element)document.getElementsByTagName(
