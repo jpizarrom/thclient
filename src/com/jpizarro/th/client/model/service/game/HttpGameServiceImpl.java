@@ -29,8 +29,8 @@ public class HttpGameServiceImpl implements GameService{
 	}
 
 	@Override
-	public boolean joinGame(long gameId) throws Exception {
-		return HttpHelper.getInstance().joinGame(gameId);
+	public boolean joinGame(long gameId, long teamId) throws Exception {
+		return HttpHelper.getInstance().joinGame(gameId, teamId);
 	}
 
 	@Override

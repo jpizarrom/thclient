@@ -37,6 +37,7 @@ public class ViewTeamsActivity extends ListActivity {
 	private long gameId;
 	private Team[] teamArray;
 	private FindGamesTask findGamesTask;
+	private JoinGameTask joinGameTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +186,13 @@ public class ViewTeamsActivity extends ListActivity {
 		}
 		
 	}
-
+	private void launchFindGamesThread(long gameId, long teamId) {
+		joinGameTask = new JoinGameTask(gameId, teamId);
+		Thread joinGameThread = new Thread(null, joinGameTask, "Login");
+		joinGameThread.start();
+		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);	
+	}
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
@@ -193,9 +200,88 @@ public class ViewTeamsActivity extends ListActivity {
 		Team g = (Team) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
-                g.getName()+" "+g.getDescription(),
+                g.getId()+" "+g.getName()+" "+g.getDescription(),
                 Toast.LENGTH_LONG).show();
+		launchFindGamesThread(gameId, g.getId());
 	
+	}
+	
+	private class JoinGameHandler extends Handler {
+
+		public JoinGameHandler(Looper looper) {
+			super(looper);
+		}
+		
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+				dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+			} catch (IllegalArgumentException e) {
+				
+			}
+			ServerException sE = 
+				(ServerException)msg.getData().getSerializable("ServerException");
+			if (sE	!= null) {
+				CommonDialogs.errorMessage = sE.getLocalizedMessage();
+				if (sE.getCode() == ServerException.INSTANCE_NOT_FOUND_CODE)
+					showDialog(CommonDialogs.CONNECTION_LOST_DIALOG_ID);
+				else
+					showDialog(CommonDialogs.SERVER_ERROR_DIALOG_ID);
+	        	return;
+	        }
+        	Exception e = 
+	        	(Exception)msg.getData().getSerializable("Exception");
+	        	if (e != null) {
+	        		CommonDialogs.errorMessage = e.getLocalizedMessage();
+		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+		        	return;
+	        	}
+			if (msg.getData().getBoolean("result")) {
+//				long gameId = msg.getData().getLong("gameId");
+//				doJoinGame(gameId);
+				Toast.makeText(
+		                getBaseContext(),
+		                "Joined",
+		                Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+	
+	private class JoinGameTask implements Runnable {
+
+		long gameId, teamId;
+		HttpGameServiceImpl gameService;
+		
+		JoinGameTask(long gameId, long teamId) {
+			this.gameId = gameId;
+			this.teamId = teamId;
+			gameService = new HttpGameServiceImpl();
+		}
+		
+		public void run() {
+			
+			JoinGameHandler handler = new JoinGameHandler(Looper.getMainLooper());
+			Bundle data = new Bundle();
+			Message msg = new Message();
+			try {
+				boolean result = 
+					gameService.joinGame(gameId, teamId);
+				data.putBoolean("result", result);
+				data.putLong("gameId", gameId);
+				data.putLong("teamId", teamId);
+				msg.setData(data);
+				handler.sendMessage(msg);
+				
+			} catch (ServerException e) {
+	        	data.putSerializable("ServerException", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        } catch (Exception e) {
+	        	data.putSerializable("Exception", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        }
+		}
 	}
 	
 

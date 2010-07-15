@@ -13,7 +13,7 @@ public interface GameService {
 	public Game findGame(long gameId) 
 	throws Exception;
 	
-	public boolean joinGame(long gameId) 
+	public boolean joinGame(long gameId, long teamId) 
 	throws Exception;
 	
 	public boolean abandonGame(long gameId) 

@@ -46,6 +46,7 @@ public class HttpHelper {
 	private final String START_INDEX_PARAMETER = "startIndex";
 	private final String COUNT_PARAMETER = "count";
 	private final String GAME_ID_PARAMETER = "gameId";
+	private final String TEAM_ID_PARAMETER = "teamId";
 	
 	private final String LOGOUT_URL = "ws/logout";
 	
@@ -60,6 +61,8 @@ public class HttpHelper {
 	private final String BODY_PARAMETER = "body";
 	
 	private final String FIND_TEAMS_BY_GAME_URL = "ws/findTeamsByGame";
+	private final String JOIN_GAME_URL = "ws/joinGame";
+
 	
 	private static HttpClient client = new DefaultHttpClient();
 	private HttpUriRequest request;
@@ -171,10 +174,38 @@ public class HttpHelper {
         	throw e;
         }
 	}
-	public boolean joinGame(long gameId) 
-	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" joinGame");
+	public boolean joinGame(long gameId, long teamId) 
+throws Exception {
+		
+		String encodedGameId = URLEncoder.encode(
+				String.valueOf(gameId).replace("%2B", "+"), "UTF-8");
+		
+		String encodedTeamId = URLEncoder.encode(
+				String.valueOf(teamId).replace("%2B", "+"), "UTF-8");
+		
+		request = new HttpPost(FULL_ADDRESS + 
+				JOIN_GAME_URL + "?" + 
+        		GAME_ID_PARAMETER + "=" + encodedGameId +"&" +
+        		TEAM_ID_PARAMETER + "=" + encodedTeamId
+				);
+		Log.d("TESTSSSSS", request.getURI().toString());
+		
+        try {        	
+        	response = client.execute(request);
+        	HttpEntity entity = response.getEntity();
+
+        	return XMLToBussinessConversor.toBooleanOrExceptionJoin(entity);
+        } catch (ServerException e) {
+        	throw e;
+        } catch(IOException e) {
+        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+			e.getMessage());
+        } catch (Exception e) {
+        	throw e;
+        }
 	}
+	
+	
 	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
 	throws Exception {
 		request = new HttpPost(FULL_ADDRESS + 
