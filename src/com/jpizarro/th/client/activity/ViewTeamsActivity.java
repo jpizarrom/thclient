@@ -37,8 +37,8 @@ public class ViewTeamsActivity extends ListActivity {
 
 	private long gameId;
 	private Team[] teamArray;
-	private FindGamesTask findGamesTask;
-	private JoinGameTask joinGameTask;
+	private FindTeamsTask findTeamsTask;
+	private JoinTeamTask joinTeamTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class ViewTeamsActivity extends ListActivity {
 		user = (User)getIntent().getExtras().getSerializable("user");
 		gameId = getIntent().getExtras().getLong("gameId");
 //		if (city != null) {
-			launchFindGamesThread(gameId);
+			launchFindTeamsThread(gameId);
 //		}
 	}
 	@Override
@@ -57,14 +57,14 @@ public class ViewTeamsActivity extends ListActivity {
 		return CommonDialogs.createDialog(id, this);
 	}
 	
-	private void launchFindGamesThread(long gameId) {
-		findGamesTask = new FindGamesTask(gameId);
-		Thread findGamesThread = new Thread(null, findGamesTask, "Login");
-		findGamesThread.start();
+	private void launchFindTeamsThread(long gameId) {
+		findTeamsTask = new FindTeamsTask(gameId);
+		Thread findTeamsThread = new Thread(null, findTeamsTask, "Login");
+		findTeamsThread.start();
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);	
 		
 	}
-	private void doViewGames() {
+	private void doViewTeams() {
 		if (teamArray.length > 0)
 			fillGames();		
 	}
@@ -76,30 +76,30 @@ public class ViewTeamsActivity extends ListActivity {
 		
 	}
 
-	private class FindGamesTask implements Runnable {
+	private class FindTeamsTask implements Runnable {
 
 		long gameId;
 		HttpGameServiceImpl gameService;
 		
-		FindGamesTask(long gameId) {
+		FindTeamsTask(long gameId) {
 			this.gameId = gameId;
 			gameService = new HttpGameServiceImpl();
 		}
 				
 		public void run() {
 			
-			FindGamesHandler handler = new FindGamesHandler(Looper.getMainLooper());
+			FindTeamsHandler handler = new FindTeamsHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			try {
-				List<Team> gameCTO;
+				List<Team> teamCTO;
 //				if (city != null) 
-					gameCTO = gameService.findTeamsByGame(gameId, 
+					teamCTO = gameService.findTeamsByGame(gameId, 
 							0, 10);
 
 //				data.putSerializable("gameArray", gameCTO.getGameList().
 //						toArray(new Game [0]));
-				data.putSerializable("teamArray", gameCTO.toArray( new Team [0] ));
+				data.putSerializable("teamArray", teamCTO.toArray( new Team [0] ));
 //				data.putBoolean("hasMore", gameCTO.isHasMore());
 				msg.setData(data);
 				handler.sendMessage(msg);
@@ -115,9 +115,9 @@ public class ViewTeamsActivity extends ListActivity {
 	        }
 		}
 	}
-	private class FindGamesHandler extends Handler {
+	private class FindTeamsHandler extends Handler {
 
-		public FindGamesHandler(Looper looper) {
+		public FindTeamsHandler(Looper looper) {
 			super(looper);
 		}
 		
@@ -142,12 +142,12 @@ public class ViewTeamsActivity extends ListActivity {
 		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
 		        	return;
 	        	}
-			Team [] gameArray2 = 
+			Team [] tamArray2 = 
 				(Team [])msg.getData().getSerializable("teamArray");
-			if (gameArray2 != null) {
+			if (tamArray2 != null) {
 //				hasMore = msg.getData().getBoolean("hasMore");
-				teamArray = gameArray2;
-				doViewGames();
+				teamArray = tamArray2;
+				doViewTeams();
 			}
 		}
 	}
@@ -173,13 +173,13 @@ public class ViewTeamsActivity extends ListActivity {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.row_game_list, null);
             }
-            Team g = this.getItem(position);
-            if (g != null) {
+            Team team = this.getItem(position);
+            if (team != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
-            	name.setText(g.getName());
+            	name.setText(team.getName());
             	
             	TextView tt = (TextView) v.findViewById(R.id.game_city);
-            	tt.setText(g.getDescription());
+            	tt.setText(team.getDescription());
             }
             
 			return v;
@@ -187,10 +187,10 @@ public class ViewTeamsActivity extends ListActivity {
 		}
 		
 	}
-	private void launchFindGamesThread(long gameId, long teamId) {
-		joinGameTask = new JoinGameTask(gameId, teamId);
-		Thread joinGameThread = new Thread(null, joinGameTask, "Login");
-		joinGameThread.start();
+	private void launchJoinTeamThread(long gameId, long teamId) {
+		joinTeamTask = new JoinTeamTask(gameId, teamId);
+		Thread joinTeamThread = new Thread(null, joinTeamTask, "Login");
+		joinTeamThread.start();
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);	
 	}
 	
@@ -198,18 +198,18 @@ public class ViewTeamsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 //		super.onListItemClick(l, v, position, id);
-		Team g = (Team) l.getAdapter().getItem(position);
+		Team team = (Team) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
-                g.getId()+" "+g.getName()+" "+g.getDescription(),
+                team.getId()+" "+team.getName()+" "+team.getDescription(),
                 Toast.LENGTH_LONG).show();
-		launchFindGamesThread(gameId, g.getId());
+		launchJoinTeamThread(gameId, team.getId());
 	
 	}
 	
-	private class JoinGameHandler extends Handler {
+	private class JoinTeamHandler extends Handler {
 
-		public JoinGameHandler(Looper looper) {
+		public JoinTeamHandler(Looper looper) {
 			super(looper);
 		}
 		
@@ -257,12 +257,12 @@ public class ViewTeamsActivity extends ListActivity {
 		}
 	}
 	
-	private class JoinGameTask implements Runnable {
+	private class JoinTeamTask implements Runnable {
 
 		long gameId, teamId;
 		HttpGameServiceImpl gameService;
 		
-		JoinGameTask(long gameId, long teamId) {
+		JoinTeamTask(long gameId, long teamId) {
 			this.gameId = gameId;
 			this.teamId = teamId;
 			gameService = new HttpGameServiceImpl();
@@ -270,7 +270,7 @@ public class ViewTeamsActivity extends ListActivity {
 		
 		public void run() {
 			
-			JoinGameHandler handler = new JoinGameHandler(Looper.getMainLooper());
+			JoinTeamHandler handler = new JoinTeamHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			try {
