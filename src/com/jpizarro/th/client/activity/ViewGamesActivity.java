@@ -6,6 +6,7 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
+import com.jpizarro.th.util.CustomResultCodes;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -30,8 +31,6 @@ public class ViewGamesActivity extends ListActivity {
 	
 //	private static final int FIND_TEAM_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
-	private static final int VIEW_TEAMS_REQUEST_CODE = 0;
-
 	private User user;
 	
 	private String city = null;
@@ -198,8 +197,25 @@ public class ViewGamesActivity extends ListActivity {
     	i.putExtra("user", user);
     	i.putExtra("gameId", g.getGameId());
     	
-    	startActivityForResult(i, VIEW_TEAMS_REQUEST_CODE);
+    	startActivityForResult(i, CustomResultCodes.VIEW_TEAMS_REQUEST_CODE);
 		
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case CustomResultCodes.VIEW_TEAMS_REQUEST_CODE:
+			switch (resultCode) {
+			case RESULT_OK:
+				Intent mIntent = new Intent();
+				mIntent.putExtras(data.getExtras());
+				setResult(RESULT_OK, mIntent);
+				finish();
+				break;
+			}
+			break;
+		}
 	}
 	
 

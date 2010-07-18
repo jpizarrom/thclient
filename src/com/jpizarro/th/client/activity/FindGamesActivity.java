@@ -7,8 +7,8 @@ import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.entity.User;
+import com.jpizarro.th.util.CustomResultCodes;
 
-import es.sonxurxo.gpsgame.client.cv.util.constants.CustomResultCodes;
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 import android.app.Activity;
@@ -69,6 +69,24 @@ public class FindGamesActivity extends Activity {
 		menu.add(0, LOGOUT_ID,0, R.string.logout);
         menu.add(0, FIND_GAMES_ID,0, R.string.find_games);
         return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case CustomResultCodes.VIEW_GAMES_REQUEST_CODE:
+			switch (resultCode) {
+			case RESULT_OK:
+				Intent mIntent = new Intent();
+				mIntent.putExtras(data.getExtras());
+				setResult(RESULT_OK, mIntent);
+				finish();
+				break;
+			}
+			break;
+		}
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
+import com.jpizarro.th.util.CustomResultCodes;
 
-import es.sonxurxo.gpsgame.client.cv.util.constants.CustomResultCodes;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -160,11 +160,7 @@ public class MainMenuActivity extends Activity {
 		}
 		switch (requestCode) {
 			case FIND_GAMES_REQUEST_CODE:
-				switch (resultCode) {
-				case CustomResultCodes.FG_NO_CITIES_RESULT_CODE:
-					showToast(R.string.fg_no_cities, Toast.LENGTH_SHORT);
-					break;
-				}
+				break;
 		}
 	}
 	private void doLogout() {

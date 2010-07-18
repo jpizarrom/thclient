@@ -27,7 +27,7 @@ public class HttpHelper {
 	
 	private String TAG = "HttpHelper";
 	
-	private final String SERVER_HOST_IP = "192.168.42.20";
+	private final String SERVER_HOST_IP = "192.168.42.100";
 //	private final String SERVER_HOST_IP = "10.42.43.1";
 	private final String SERVER_PORT = "8070";
 	private final String GAME_URL = "thserver";

@@ -15,6 +15,7 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -237,12 +238,21 @@ public class ViewTeamsActivity extends ListActivity {
 		        	return;
 	        	}
 			if (msg.getData().getBoolean("result")) {
-//				long gameId = msg.getData().getLong("gameId");
-//				doJoinGame(gameId);
+				long gameId = msg.getData().getLong("gameId");
+				long teamId = msg.getData().getLong("teamId");
+				
+				user.setGameId(gameId);
 				Toast.makeText(
 		                getBaseContext(),
 		                "Joined",
 		                Toast.LENGTH_LONG).show();
+				Intent mIntent = new Intent();
+				Bundle bundle = new Bundle();
+				
+				bundle.putSerializable("user", user);
+				mIntent.putExtras(bundle);
+		    	setResult(RESULT_OK, mIntent);
+		    	finish();
 			}
 		}
 	}
