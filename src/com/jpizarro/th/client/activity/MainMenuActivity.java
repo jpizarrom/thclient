@@ -33,7 +33,7 @@ public class MainMenuActivity extends Activity {
     
     private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
-	private TextView usernameView, gamenameView;
+	private TextView usernameView, gamenameView, teamnameView;
 	
 	private User user;
 	private Game game;
@@ -49,6 +49,7 @@ public class MainMenuActivity extends Activity {
 		
 		usernameView = (TextView)findViewById(R.id.username);
 		gamenameView = (TextView)findViewById(R.id.gamename);
+		teamnameView = (TextView)findViewById(R.id.mm_teamname);
 	}
 	@Override
 	protected void onResume() {

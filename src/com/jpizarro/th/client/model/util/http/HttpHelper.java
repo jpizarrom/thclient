@@ -62,6 +62,9 @@ public class HttpHelper {
 	
 	private final String FIND_TEAMS_BY_GAME_URL = "ws/findTeamsByGame";
 	private final String JOIN_GAME_URL = "ws/joinGame";
+	
+	private final String TAKE_PLACE_URL = "ws/takePlace";
+	private final String PLACE_ID_PARAMETER = "placeId";
 
 	
 	private static HttpClient client = new DefaultHttpClient();
@@ -336,6 +339,29 @@ throws Exception {
         } catch (Exception e) {
         	throw e;
         }
+	}
+
+	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
+	throws Exception{
+			request = new HttpPost(FULL_ADDRESS + 
+					TAKE_PLACE_URL + "?" + 
+					PLACE_ID_PARAMETER + "=" + String.valueOf(id) + "&" +  
+	        		LATITUDE_PARAMETER + "=" + String.valueOf(latitude) + "&" +  
+	        		LONGITUDE_PARAMETER + "=" + String.valueOf(longitude));
+			try{
+				response = client.execute(request);
+	        	HttpEntity entity = response.getEntity();
+	        	
+	        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
+	        	
+		 } catch (ServerException e) {
+	     	throw e;
+	     } catch(IOException e) {
+	     	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+				e.getMessage());
+	     } catch (Exception e) {
+	     	throw e;
+	     }
 	}
 
 }

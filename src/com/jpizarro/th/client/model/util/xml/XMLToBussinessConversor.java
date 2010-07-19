@@ -389,6 +389,22 @@ public class XMLToBussinessConversor {
 				genericGameResponseTO.getHideHints().add(pl);
 			}
 		}
+		if (gameDocument.getElementsByTagName("userSeeHints").getLength() == 1) {
+			Element hE = (Element)gameDocument.getElementsByTagName("userSeeHints").item(0);
+			NodeList hints = hE.getElementsByTagName("hint");
+			for (int i=0;i<hints.getLength();i++) {
+				Hint pl = toHint((Element)hints.item(i));
+				genericGameResponseTO.getUserSeeHintTOList().add(pl);
+			}
+		}
+		if (gameDocument.getElementsByTagName("teamSeeHints").getLength() == 1) {
+			Element hE = (Element)gameDocument.getElementsByTagName("teamSeeHints").item(0);
+			NodeList hints = hE.getElementsByTagName("hint");
+			for (int i=0;i<hints.getLength();i++) {
+				Hint pl = toHint((Element)hints.item(i));
+				genericGameResponseTO.getTeamSeeHintTOList().add(pl);
+			}
+		}
 		
 		return genericGameResponseTO;
 	}

@@ -22,6 +22,9 @@ public interface GameService {
 	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
 	throws Exception;
 	
+	public GenericGameResponseTO takePlace(long placeId, int latitude, int longitude) 
+	throws Exception;
+	
 	public GameCTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception ;
 	

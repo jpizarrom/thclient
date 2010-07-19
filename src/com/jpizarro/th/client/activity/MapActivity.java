@@ -1,5 +1,6 @@
 package com.jpizarro.th.client.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int MENU_ABANDON = MENU_ABOUT + 1;
 	private static final int MENU_UPDATE = MENU_ABANDON + 1;
 	
-	private static final int USER_TAPPED_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
+	private static final int USER_TAPPED_USER_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
+	private static final int USER_TAPPED_HINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 1;
+	private static final int USER_TAPPED_HIDEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 2;
+	private static final int USER_TAPPED_USERSEEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 3;
+	private static final int USER_TAPPED_TEAMSEEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 4;
 	
 	// ===========================================================
 	// Fields
@@ -71,9 +76,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
 	
-	private TableLayout userTappedTable;
+	private TableLayout userTappedTable, userTappedPlaceTable;
 	
 	private String tappedUser;
+	private int tappedIdx;
 	
 	// Overlays	
 	private MyLocationOverlay mLocationOverlay;
@@ -83,8 +89,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	
 	private List<HintOverlayItem> hints;
 	private List<HintOverlayItem> hideHints;
+	private List<HintOverlayItem> userSeeHints;
+	private List<HintOverlayItem> teamSeeHints;
 	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHintsOverlay;
 	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHideHintsOverlay;
+	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mUserSeeHintsOverlay;
+	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mTeamSeeHintsOverlay;
 
 	
 	private ResourceProxy mResourceProxy;
@@ -95,6 +105,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	
 	private StartGameTask startGameTask = new StartGameTask();
 	private UpdateLocationTask updateLocationTask = new UpdateLocationTask();
+	TakePlaceTask takePlaceTask = new TakePlaceTask();
 	
 	private User user;
 		
@@ -184,7 +195,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
 							try {
 								tappedUser = item.mTitle;
-								showDialog(USER_TAPPED_DIALOG_ID);
+								showDialog(USER_TAPPED_USER_DIALOG_ID);
 							} catch (Exception e) {
 								CommonDialogs.errorMessage = e.getLocalizedMessage();
 								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
@@ -209,8 +220,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
 						@Override
 						public boolean onItemTap(int index, HintOverlayItem item) {
-							Toast.makeText(MapActivity.this, item.toString(), Toast.LENGTH_LONG).show();
-							return true; // We 'handled' this event.
+							try {
+								tappedIdx = index;
+								showDialog(USER_TAPPED_HINT_DIALOG_ID);
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
+							return true;
 						}
 		        	}, 
 		        	mResourceProxy);
@@ -230,12 +247,73 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
 						@Override
 						public boolean onItemTap(int index, HintOverlayItem item) {
-							Toast.makeText(MapActivity.this, "Hide "+item.toString(), Toast.LENGTH_LONG).show();
-							return true; // We 'handled' this event.
+							try {
+								tappedUser = item.mTitle;
+								
+								showDialog(USER_TAPPED_HIDEHINT_DIALOG_ID);
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
+							return true;
 						}
 		        	}, 
 		        	mResourceProxy);
 		        this.mOsmv.getOverlays().add(this.mHideHintsOverlay);
+	        }
+        }
+        
+        {
+        	if( userSeeHints == null )
+        		userSeeHints = new ArrayList<HintOverlayItem>();
+        	
+        	if( this.mUserSeeHintsOverlay == null ){
+		        /* OnTapListener for the Markers, shows a simple Toast. */
+		        this.mUserSeeHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, userSeeHints,
+		        		this.getResources().getDrawable(R.drawable.marker_black),
+		        	null,
+		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
+						@Override
+						public boolean onItemTap(int index, HintOverlayItem item) {
+							try {
+								tappedUser = item.mTitle;
+								showDialog(USER_TAPPED_USERSEEHINT_DIALOG_ID);
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
+							return true;
+						}
+		        	}, 
+		        	mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mUserSeeHintsOverlay);
+	        }
+        }
+        
+        {
+        	if( this.teamSeeHints == null )
+        		teamSeeHints = new ArrayList<HintOverlayItem>();
+        	
+        	if( this.mTeamSeeHintsOverlay == null ){
+		        /* OnTapListener for the Markers, shows a simple Toast. */
+		        this.mTeamSeeHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, teamSeeHints,
+		        		this.getResources().getDrawable(R.drawable.marker_yellow),
+		        	null,
+		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
+						@Override
+						public boolean onItemTap(int index, HintOverlayItem item) {
+							try {
+								tappedUser = item.mTitle;
+								showDialog(USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
+							return true;
+						}
+		        	}, 
+		        	mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mTeamSeeHintsOverlay);
 	        }
         }
         
@@ -278,10 +356,16 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch(id) {
-		case USER_TAPPED_DIALOG_ID:
+		case USER_TAPPED_USER_DIALOG_ID:
 			userTappedTable = new TableLayout(this);
-        	fillTappedTable();
+        	fillTappedUserTable();
         	dialog.setContentView(userTappedTable);
+        	return;
+		case USER_TAPPED_HINT_DIALOG_ID:
+		case USER_TAPPED_USERSEEHINT_DIALOG_ID:
+			userTappedPlaceTable = new TableLayout(this);
+        	fillTappedPlaceTable(id);
+        	dialog.setContentView(userTappedPlaceTable);
         	return;
 		}
 	}
@@ -293,9 +377,29 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			return d;
 		
 		switch(id) {
-			case USER_TAPPED_DIALOG_ID:
+			case USER_TAPPED_USER_DIALOG_ID:
 	        	d = new Dialog(this);
 	        	d.setTitle("User Info");
+	        	d.setCanceledOnTouchOutside(true);
+	        	return d;
+			case USER_TAPPED_HINT_DIALOG_ID:
+	        	d = new Dialog(this);
+	        	d.setTitle("HINT Info");
+	        	d.setCanceledOnTouchOutside(true);
+	        	return d;
+			case USER_TAPPED_HIDEHINT_DIALOG_ID:
+	        	d = new Dialog(this);
+	        	d.setTitle("HIDEHINT Info");
+	        	d.setCanceledOnTouchOutside(true);
+	        	return d;
+			case USER_TAPPED_USERSEEHINT_DIALOG_ID:
+	        	d = new Dialog(this);
+	        	d.setTitle("USERSEEHINT Info");
+	        	d.setCanceledOnTouchOutside(true);
+	        	return d;
+			case USER_TAPPED_TEAMSEEHINT_DIALOG_ID:
+	        	d = new Dialog(this);
+	        	d.setTitle("TEAMSEEHINT Info");
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
 		}
@@ -346,17 +450,35 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
+		
+		hints.clear();
 		if (genericGameResponseTO.getHints().size() != 0) {
-			hints.clear();
 			for( Hint in : genericGameResponseTO.getHints() ){
 				 hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
+		
+		hideHints.clear();
 		if (genericGameResponseTO.getHideHints().size() != 0) {
-			hideHints.clear();
 			for( Hint in : genericGameResponseTO.getHideHints() ){
 				 hideHints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+			}
+		}
+		
+		userSeeHints.clear();
+		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
+			for( Hint in : genericGameResponseTO.getUserSeeHintTOList() ){
+				userSeeHints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+			}
+		}
+		
+		teamSeeHints.clear();
+		if (genericGameResponseTO.getTeamSeeHintTOList().size() != 0) {
+			for( Hint in : genericGameResponseTO.getTeamSeeHintTOList() ){
+				teamSeeHints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
@@ -366,7 +488,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		this.mOsmv.invalidate();
 
 	}
-	private void fillTappedTable() {
+	private void fillTappedUserTable() {
 		userTappedTable.removeAllViews();
 		TableRow tr;
 		
@@ -374,8 +496,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		
 //		Toast.makeText(MapActivity.this, "User '" + tappedInfoTitle+" got tapped", Toast.LENGTH_LONG).show();
 
-		InGameUserInfoTO p = genericGameResponseTO.getInGamePlayerInfoTO(
-				tappedUser);
+//		InGameUserInfoTO p = genericGameResponseTO.getInGamePlayerInfoTO(
+//				tappedUser);
 		
 		tvName = new TextView(this);
 		tvName.setText("Username :\t" + tappedUser );
@@ -395,7 +517,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        	i.putExtra("receiverUser", tappedUser);
 	        	startActivityForResult(i, SEND_MESSAGE_REQUEST_CODE);
 	        	try {
-	        		dismissDialog(USER_TAPPED_DIALOG_ID);
+	        		dismissDialog(USER_TAPPED_USER_DIALOG_ID);
 	        	} catch (Exception e) {
 	        		
 	        	}
@@ -411,6 +533,71 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		
 	}
 	
+	private void fillTappedPlaceTable(int userTappedHintDialogId) {
+		// TODO Auto-generated method stub
+		userTappedPlaceTable.removeAllViews();
+		TableRow tr;
+		
+		TextView tvName;
+		
+		
+//		Toast.makeText(MapActivity.this, "User '" + tappedInfoTitle+" got tapped", Toast.LENGTH_LONG).show();
+
+//		InGameUserInfoTO p = genericGameResponseTO.getInGamePlayerInfoTO(
+//				tappedUser);
+		switch(userTappedHintDialogId){
+		case USER_TAPPED_HINT_DIALOG_ID:
+			HintOverlayItem h = this.hints.get(tappedIdx);
+
+			tvName = new TextView(this);
+			tvName.setText("Title :\t" + h.mTitle );
+			tvName.setWidth(260);
+			tr = new TableRow(this);
+			tr.addView(tvName);
+			tr.setGravity(Gravity.CENTER);
+			userTappedPlaceTable.addView(tr);
+
+			tvName = new TextView(this);
+			tvName.setText("Desc :\t" + h.mDescription );
+			tvName.setWidth(260);
+			tr = new TableRow(this);
+			tr.addView(tvName);
+			tr.setGravity(Gravity.CENTER);
+			userTappedPlaceTable.addView(tr);
+			break;
+
+		case USER_TAPPED_USERSEEHINT_DIALOG_ID:
+			Button bAct;
+			bAct = new Button(this);
+			bAct.setText("Take place");
+			bAct.setOnClickListener(new android.view.View.OnClickListener() {
+
+				public void onClick(View v) {
+					try {
+						launchTakePlaceThread(tappedIdx);
+						dismissDialog(USER_TAPPED_USERSEEHINT_DIALOG_ID);
+					} catch (Exception e) {}
+				}
+			});
+			tr = new TableRow(this);
+//			bAct.setWidth(LayoutParams.FILL_PARENT);
+			tr.addView(bAct);
+			tr.setGravity(Gravity.CENTER);
+			userTappedPlaceTable.addView(tr);
+			break;
+		}
+		
+	}
+	
+	private void launchTakePlaceThread(int tappedIdx2) {
+		// TODO Auto-generated method stub
+		takePlaceTask.setPlaceId(userSeeHints.get(tappedIdx2).id);
+		Thread takePlaceThread = new Thread(null, takePlaceTask, "StartGame");
+		takePlaceThread.start();
+		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+		
+	}
+
 	private class SampleLocationListener implements LocationListener {
 
 		@Override
@@ -442,7 +629,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		
 	}
 	
-	private class HintOverlayItem extends OpenStreetMapViewOverlayItem{
+	private class HintOverlayItem extends OpenStreetMapViewOverlayItem implements Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8292145846143000436L;
 		private long id;
 		public HintOverlayItem(long id, String aTitle, String aDescription,
 				GeoPoint aGeoPoint) {
@@ -450,11 +641,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			this.id = id;
 		}	
 
-		public HintOverlayItem(String aTitle, String aDescription,
-				GeoPoint aGeoPoint) {
-			super(aTitle, aDescription, aGeoPoint);
-			// TODO Auto-generated constructor stub
-		}
+//		public HintOverlayItem(String aTitle, String aDescription,
+//				GeoPoint aGeoPoint) {
+//			super(aTitle, aDescription, aGeoPoint);
+//			// TODO Auto-generated constructor stub
+//		}
 
 		@Override
 		public String toString() {
@@ -628,5 +819,107 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				handler.sendMessage(msg);
 	        }
 		}
+	}
+	
+	private class TakePlaceHandler extends Handler {
+
+		public TakePlaceHandler(Looper looper) {
+			super(looper);
+		}
+		
+		@Override
+		public void handleMessage(android.os.Message msg) {
+			try {
+				dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+			} catch (Exception e) {}
+			
+			ServerException sE = 
+				(ServerException)msg.getData().getSerializable("ServerException");
+			if (sE	!= null) {
+				CommonDialogs.errorMessage = sE.getMessage();
+	        	if (sE.getCode() == ServerException.INSTANCE_NOT_FOUND_CODE)
+					showDialog(CommonDialogs.CONNECTION_LOST_DIALOG_ID);
+				else
+					showDialog(CommonDialogs.SERVER_ERROR_DIALOG_ID);
+	        	return;
+	        }
+        	Exception e = 
+	        	(Exception)msg.getData().getSerializable("Exception");
+	        	if (e != null) {
+	        		CommonDialogs.errorMessage = e.getLocalizedMessage();
+		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+		        	return;
+	        	}
+	        	GenericGameResponseTO gGRTO2 = 
+					(GenericGameResponseTO)msg.getData().getSerializable("gGRTO");
+				if (gGRTO2 != null) {
+					genericGameResponseTO = gGRTO2;
+					doTakePlace();
+				}
+		}
+	}
+	private class TakePlaceTask implements Runnable {
+
+		long placeId;
+		int latitude, longitude;
+		HttpGameServiceImpl gameService;
+		
+		public long getPlaceId() {
+			return placeId;
+		}
+
+		public void setPlaceId(long placeId) {
+			this.placeId = placeId;
+		}
+
+		public int getLatitude() {
+			return latitude;
+		}
+
+		public void setLatitude(int latitude) {
+			this.latitude = latitude;
+		}
+
+		public int getLongitude() {
+			return longitude;
+		}
+
+		public void setLongitude(int longitude) {
+			this.longitude = longitude;
+		}
+
+		TakePlaceTask() {
+			gameService = new HttpGameServiceImpl();
+		}
+
+		public void run() {
+
+			TakePlaceHandler handler = 
+				new TakePlaceHandler(Looper.getMainLooper());
+			Bundle data = new Bundle();
+			android.os.Message msg = new android.os.Message();
+			try {
+				GenericGameResponseTO gGRTO = 
+					gameService.takePlace(placeId, latitude, longitude);
+				
+				data.putSerializable("gGRTO", gGRTO);
+				msg.setData(data);
+				handler.sendMessage(msg);
+				
+			} catch (ServerException e) {
+	        	data.putSerializable("ServerException", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        } catch (Exception e) {
+	        	data.putSerializable("Exception", e);
+	        	msg.setData(data);
+				handler.sendMessage(msg);
+	        }
+		}
+	}
+	public void doTakePlace() {
+		// TODO Auto-generated method stub
+		update();
+		
 	}
 }

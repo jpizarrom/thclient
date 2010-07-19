@@ -67,4 +67,11 @@ public class HttpGameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
+	@Override
+	public GenericGameResponseTO takePlace(long id, int latitude,
+			int longitude) throws Exception {
+		// TODO Auto-generated method stub
+		return HttpHelper.getInstance().takePlace(id, latitude, longitude);
+	}
+
 }
