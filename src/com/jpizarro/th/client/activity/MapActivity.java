@@ -104,7 +104,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHideHintsOverlay;
 //	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mUserSeeHintsOverlay;
 //	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mTeamSeeHintsOverlay;
-	private Drawable mMarker1, mMarker2, mMarker3;
+	private Drawable mMarker1, mMarker2, mMarker3, mMarker4;
 
 	
 	private ResourceProxy mResourceProxy;
@@ -191,6 +191,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	if ( this.mMarker3 == null )
     		this.mMarker3 = this.getResources().getDrawable(R.drawable.marker_yellow);
     	
+    	if ( this.mMarker4 == null )
+    		this.mMarker4 = this.getResources().getDrawable(R.drawable.marker_blue);
+    	
     	/* MyLocationOverlay */
         {
         	if(this.mLocationOverlay == null){
@@ -257,16 +260,18 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 							try {
 								tappedIdx = index;
 								switch(item.type){
-								case HintOverlayItem.TEAM_HAVE_ITEM:
+								case HintOverlayItem.ITEM_TEAM_HAVE:
 									showDialog(USER_TAPPED_HINT_DIALOG_ID);
 									break;
-								case HintOverlayItem.TEAM_SEE_ITEM:
+								case HintOverlayItem.ITEM_TEAM_SEE:
 									showDialog(MapActivity.USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
 									break;
-								case HintOverlayItem.USER_SEE_ITEM:
+								case HintOverlayItem.ITEM_USER_SEE:
 									showDialog(MapActivity.USER_TAPPED_USERSEEHINT_DIALOG_ID);
 									break;
-								case HintOverlayItem.HIDE_ITEM:
+								case HintOverlayItem.ITEM_GOAL:
+									break;
+								case HintOverlayItem.ITEM_HIDE:
 								default:
 									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
 								}
@@ -288,16 +293,19 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        		
 		        		HintOverlayItem item = mItemList.get(index);
 		        		switch(item.type){
-						case HintOverlayItem.TEAM_HAVE_ITEM:
+						case HintOverlayItem.ITEM_TEAM_HAVE:
 							m = mMarker1;
 							break;
-						case HintOverlayItem.TEAM_SEE_ITEM:
+						case HintOverlayItem.ITEM_TEAM_SEE:
 							m = mMarker2;
 							break;
-						case HintOverlayItem.USER_SEE_ITEM:
+						case HintOverlayItem.ITEM_USER_SEE:
 							m = mMarker3;
 							break;
-						case HintOverlayItem.HIDE_ITEM:
+						case HintOverlayItem.ITEM_GOAL:
+							m = mMarker4;
+							break;
+						case HintOverlayItem.ITEM_HIDE:
 						default:
 							m = this.mMarker;
 						}
@@ -525,22 +533,34 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
-		
 		hints.clear();
+		
+		if (genericGameResponseTO.getGoal() != null) {
+			Hint in = genericGameResponseTO.getGoal() ;
+			GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+			int type = HintOverlayItem.ITEM_HIDE;
+			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
+				type = HintOverlayItem.ITEM_USER_SEE;
+			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_TAKE )
+				type = HintOverlayItem.ITEM_GOAL;
+			hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+					g, type));
+		}
+
 		if (genericGameResponseTO.getHints().size() != 0) {
 			for( Hint in : genericGameResponseTO.getHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 				 hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
-						g, HintOverlayItem.TEAM_HAVE_ITEM));
+						g, HintOverlayItem.ITEM_TEAM_HAVE));
 			}
 		}
 		
 		if (genericGameResponseTO.getHideHints().size() != 0) {
 			for( Hint in : genericGameResponseTO.getHideHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-				int type = HintOverlayItem.HIDE_ITEM;
+				int type = HintOverlayItem.ITEM_HIDE;
 				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-					type = HintOverlayItem.USER_SEE_ITEM;
+					type = HintOverlayItem.ITEM_USER_SEE;
 				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
 			}
@@ -549,14 +569,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
 			for( Hint in : genericGameResponseTO.getUserSeeHintTOList() ){
 				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
-						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.USER_SEE_ITEM));
+						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_USER_SEE));
 			}
 		}
 		
 		if (genericGameResponseTO.getTeamSeeHintTOList().size() != 0) {
 			for( Hint in : genericGameResponseTO.getTeamSeeHintTOList() ){
 				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
-						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.TEAM_SEE_ITEM));
+						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_TEAM_SEE));
 			}
 		}
 		
@@ -713,10 +733,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		private static final long serialVersionUID = 8292145846143000436L;
 		private long id;
 		
-		private static final int TEAM_HAVE_ITEM = 0;
-		private static final int USER_SEE_ITEM = 1;
-		private static final int TEAM_SEE_ITEM = 2;
-		private static final int HIDE_ITEM = Integer.MIN_VALUE;
+		private static final int ITEM_TEAM_HAVE = 0;
+		private static final int ITEM_USER_SEE = 1;
+		private static final int ITEM_TEAM_SEE = 2;
+		private static final int ITEM_GOAL = 3;
+		private static final int ITEM_HIDE = Integer.MIN_VALUE;
 		
 		private int type;
 		
@@ -724,7 +745,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				GeoPoint aGeoPoint) {
 			super(aTitle, aDescription, aGeoPoint);
 			this.id = id;
-			this.type = HIDE_ITEM;
+			this.type = ITEM_HIDE;
 		}	
 		
 		public HintOverlayItem(long id, String aTitle, String aDescription,

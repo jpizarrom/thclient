@@ -373,6 +373,11 @@ public class XMLToBussinessConversor {
 			}
 		}
 		
+		if (gameDocument.getElementsByTagName("goal").getLength() == 1) {
+				Hint pl = toHint((Element)gameDocument.getElementsByTagName("goal").item(0));
+				genericGameResponseTO.setGoal(pl);
+		}
+		
 		if (gameDocument.getElementsByTagName("hints").getLength() == 1) {
 			Element hE = (Element)gameDocument.getElementsByTagName("hints").item(0);
 			NodeList hints = hE.getElementsByTagName("hint");
