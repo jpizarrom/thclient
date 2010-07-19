@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
+<LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/username"></TextView>
-<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/username"></EditText>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password"></TextView>
-<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/password" android:password="true"></EditText>
-<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rememberPassword" android:text="@string/rememberPassword"></CheckBox>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/login" android:id="@+id/loginButton"></Button>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/username_msg"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/password_msg"></TextView>
-</TableLayout>
+  android:layout_height="wrap_content" android:orientation="vertical">
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="10dp" android:orientation="vertical"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/username"></TextView><EditText android:layout_height="wrap_content" android:id="@+id/username" android:layout_width="fill_parent"></EditText><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password"></TextView><EditText android:layout_height="wrap_content" android:id="@+id/password" android:password="true" android:layout_width="fill_parent"></EditText><CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rememberPassword" android:text="@string/rememberPassword"></CheckBox><Button android:layout_height="wrap_content" android:text="@string/login" android:id="@+id/loginButton" android:layout_width="fill_parent"></Button><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/username_msg"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/password_msg"></TextView></LinearLayout>
+
+
+
+
+
+
+
+
+
+</LinearLayout>
