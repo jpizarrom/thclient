@@ -8,6 +8,7 @@ import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
+import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
@@ -32,6 +33,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -72,6 +74,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int USER_TAPPED_HIDEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 2;
 	private static final int USER_TAPPED_USERSEEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 3;
 	private static final int USER_TAPPED_TEAMSEEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 4;
+	
+	private static final int METERS_TO_SEE = 150;
+	private static final int METERS_TO_TAKE = 50;
 	
 	// ===========================================================
 	// Fields
@@ -189,7 +194,22 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	/* MyLocationOverlay */
         {
         	if(this.mLocationOverlay == null){
-		        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy);
+		        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy)
+		        {
+		        	@Override
+		        	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
+		        		if(getMyLocation() != null) {
+		        			final OpenStreetMapViewProjection pj = osmv.getProjection();
+		        			Point mMapCoords = new Point();
+		        			pj.toMapPixels(getMyLocation(), mMapCoords);
+		        			final float radius = pj.metersToEquatorPixels(METERS_TO_SEE);
+		        			
+		        			this.mCirclePaint.setAlpha(50);
+		        			this.mCirclePaint.setStyle(Style.STROKE);
+		        			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
+		        		}
+		        	}
+		        };
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
         	}
         }
@@ -519,7 +539,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			for( Hint in : genericGameResponseTO.getHideHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 				int type = HintOverlayItem.HIDE_ITEM;
-				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < 100 )
+				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
 					type = HintOverlayItem.USER_SEE_ITEM;
 				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));

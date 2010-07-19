@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;
 
 public class GenericGameResponseTO implements Serializable {
@@ -18,6 +19,7 @@ public class GenericGameResponseTO implements Serializable {
 	private List<Hint> hideHints = new ArrayList<Hint>();
 	private List<Hint> userSeeHintTOList = new ArrayList<Hint>();
 	private List<Hint> teamSeeHintTOList = new ArrayList<Hint>();
+	private Hint goal;
 //	private List<Message> messages = new ArrayList<Message>();
 //	private boolean hasFinished = false;	
 
@@ -40,6 +42,14 @@ public class GenericGameResponseTO implements Serializable {
 				return igpiTO;
 		}
 		return null;
+	}
+
+	public Hint getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Hint goal) {
+		this.goal = goal;
 	}
 
 	public List<Hint> getHints() {
