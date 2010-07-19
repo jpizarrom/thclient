@@ -332,9 +332,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_MY_LOCATION, Menu.NONE, "my_location");
-		menu.add(0, MENU_ABANDON, Menu.NONE, "Abandon Game");
-		menu.add(0, MENU_UPDATE, Menu.NONE, "Update");
+		menu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location);
+		menu.add(0, MENU_ABANDON, Menu.NONE, R.string.abandon_game);
+		menu.add(0, MENU_UPDATE, Menu.NONE, R.string.update);
 		return true;
 	}
 
@@ -383,27 +383,27 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		switch(id) {
 			case USER_TAPPED_USER_DIALOG_ID:
 	        	d = new Dialog(this);
-	        	d.setTitle("User Info");
+	        	d.setTitle(R.string.info_user);
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
 			case USER_TAPPED_HINT_DIALOG_ID:
 	        	d = new Dialog(this);
-	        	d.setTitle("HINT Info");
+	        	d.setTitle(R.string.info_hint);
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
 			case USER_TAPPED_HIDEHINT_DIALOG_ID:
 	        	d = new Dialog(this);
-	        	d.setTitle("HIDEHINT Info");
+	        	d.setTitle(R.string.info_hint);
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
 			case USER_TAPPED_USERSEEHINT_DIALOG_ID:
 	        	d = new Dialog(this);
-	        	d.setTitle("USERSEEHINT Info");
+	        	d.setTitle(R.string.info_hint);
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
 			case USER_TAPPED_TEAMSEEHINT_DIALOG_ID:
 	        	d = new Dialog(this);
-	        	d.setTitle("TEAMSEEHINT Info");
+	        	d.setTitle(R.string.info_hint);
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
 		}
@@ -418,7 +418,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		case SEND_MESSAGE_REQUEST_CODE:
 			switch(resultCode) {
 			case RESULT_OK:
-				Toast.makeText(this, "Message sent", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, R.string.message_sent, Toast.LENGTH_LONG).show();
 				break;
 			}
 			break;

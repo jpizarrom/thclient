@@ -78,9 +78,13 @@ public class MainMenuActivity extends Activity {
         case FIND_GAMES_DIALOG_ID:
         	CharSequence [] items;
         	if (city != null)
-        		items = new CharSequence[]{"By city", "By distance", "Here, in " + city};
+        		items = new CharSequence[]{
+        			getResources().getString(R.string.by_city)
+        			,getResources().getString(R.string.by_distance)
+        			,getResources().getString(R.string.here_in) + " " + city
+        			};
         	else 
-        		items = new CharSequence[]{"By city"};
+        		items = new CharSequence[]{getResources().getString(R.string.by_city)};
 
             return new AlertDialog.Builder(this)
 //            .setTitle(R.string.pi_find_games_choose)
@@ -112,13 +116,13 @@ public class MainMenuActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(0, LOGOUT_ID, 0, R.string.pi_mo_logout)
+		menu.add(0, LOGOUT_ID, 0, R.string.logout)
 //    	.setIcon(R.drawable.logout)
     	;
-		menu.add(0, FIND_GAMES_ID, 0, R.string.pi_b_find_games)
+		menu.add(0, FIND_GAMES_ID, 0, R.string.find_games)
 //    	.setIcon(R.drawable.find)
     	;
-		menu.add(0, PLAY_ID, 0, "Play Game")
+		menu.add(0, PLAY_ID, 0, R.string.play_game)
 //    	.setIcon(R.drawable.find)
     	;
 		return true;

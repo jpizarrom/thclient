@@ -40,10 +40,7 @@
 			<TextView 
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content" 
-				android:textColor="#000"
-				android:textStyle="bold"
-				android:layout_marginLeft="10sp"
-				android:text="Message:"/>
+				android:layout_marginLeft="10sp" android:text="@string/message"/>
 
 		</TableRow>
 
@@ -70,21 +67,19 @@
 		
 			<Button 
 				android:id="@+id/wm_send"
-				android:text="Send" 
 				android:layout_width="wrap_content"
 				android:textColor="#000"
 				android:layout_gravity="left"
 				android:layout_height="wrap_content"
-				android:visibility="visible"/>
+				android:visibility="visible" android:text="@string/send"/>
 	
 			<Button 
 				android:id="@+id/wm_cancel"
-				android:text="Cancel"
 				android:textColor="#000"
 				android:layout_width="wrap_content"
 				android:layout_gravity="right"
 				android:layout_height="wrap_content"
-				android:visibility="visible" />
+				android:visibility="visible" android:text="@string/cancel"/>
 		
 		</TableRow>
 					

@@ -21,23 +21,23 @@
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name: "
-            />
-            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="@string/name"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sep"></TextView><TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             android:id="@+id/vg_game_name"/>
-        </LinearLayout>
+        
+</LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
+            R.string.<TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="City:"/>
-            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="@string/city"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sep"></TextView><TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             android:id="@+id/game_city"/>
-        </LinearLayout>
+        
+</LinearLayout>
     </LinearLayout>
 </LinearLayout>

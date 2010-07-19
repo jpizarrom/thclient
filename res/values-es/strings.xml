@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hola Mundo, Main!</string>
+    <string name="app_name">TH</string>
+<string name="username">Nombre de usuario</string>
+<string name="password">Contraseña</string>
+<string name="rememberPassword">Recordar Contraseña</string>
+<string name="login">Login</string>
+<string name="user">Usuario</string>
+<string name="accept">Aceptar</string>
+<string name="fillUserName">You need to Fill the username</string>
+<string name="error_login_exists_message">error_login_exists_message</string>
+<string name="error_incorrect_password_message">error_incorrect_password_message</string>
+<string name="error_instance_not_found_message">error_instance_not_found_message</string>
+<string name="error_client_exception">error_client_exception</string>
+<string name="ok">OK</string>
+<string name="error_server_error_message">error_server_error_message</string>
+<string name="server_offline">server_offline</string>
+<string name="connection_lost">Connection Lost</string>
+<string name="sqlite_error">sqlite_error</string>
+
+
+<string name="fg_no_cities">fg_no_cities</string>
+<string name="logout">Logout</string>
+<string name="find_games">Buscar Juegos</string>
+<string name="name">Nombre</string>
+<string name="description">Descripcion</string>
+<string name="send_message">Enviar mensaje</string>
+<string name="gamename">Nombre de Juego</string>
+<string name="teamname">Nombre de Equipo</string>
+<string name="take_hint">Tomar Hint</string>
+<string name="city">Ciudad</string>
+<string name="cancel">Cancelar</string>
+<string name="send">Enviar</string>
+<string name="message">Mensaje</string>
+<string name="info_user">User Info</string>
+<string name="info_hint">Hint Info</string>
+<string name="update">Actualizar</string>
+<string name="abandon_game">Abandonar Juego</string>
+<string name="my_location">My Location</string>
+<string name="message_sent">Mensaje enviado</string>
+<string name="by_city">Por ciudad</string>
+<string name="by_distance">Por distancia</string>
+<string name="here_in">Aquí, en</string>
+<string name="play_game">Jugar</string>
+</resources>
