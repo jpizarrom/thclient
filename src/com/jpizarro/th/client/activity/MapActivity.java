@@ -97,13 +97,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mUsersOverlay;
 	
 	private List<HintOverlayItem> hints;
-//	private List<HintOverlayItem> hideHints;
-//	private List<HintOverlayItem> userSeeHints;
-//	private List<HintOverlayItem> teamSeeHints;
 	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHintsOverlay;
-//	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHideHintsOverlay;
-//	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mUserSeeHintsOverlay;
-//	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mTeamSeeHintsOverlay;
 	private Drawable mMarker1, mMarker2, mMarker3, mMarker4;
 
 	
@@ -170,30 +164,6 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     protected void onResume() {
     	super.onResume();
     	mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
-//    	if ( this.mLocationOverlay != null )
-//	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
-//	    		this.mLocationOverlay.enableMyLocation();
-//	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
-    	
-    	user = (User)getIntent().getExtras().getSerializable("user");
-
-    	launchStartGameThread();
-    }
-    
-    private void doStartGame() {
-    	/* Drawable */
-    	if ( this.mMarker1 == null )
-    		this.mMarker1 = this.getResources().getDrawable(R.drawable.marker_black);
-    	
-    	if ( this.mMarker2 == null )
-    		this.mMarker2 = this.getResources().getDrawable(R.drawable.marker_red);
-    	
-    	if ( this.mMarker3 == null )
-    		this.mMarker3 = this.getResources().getDrawable(R.drawable.marker_yellow);
-    	
-    	if ( this.mMarker4 == null )
-    		this.mMarker4 = this.getResources().getDrawable(R.drawable.marker_blue);
-    	
     	/* MyLocationOverlay */
         {
         	if(this.mLocationOverlay == null){
@@ -216,7 +186,34 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
         	}
         }
-        
+    	if ( this.mLocationOverlay != null ){
+	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
+	    		this.mLocationOverlay.enableMyLocation();
+
+	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
+	    }
+        // register location listener
+		initLocation();
+    	
+    	user = (User)getIntent().getExtras().getSerializable("user");
+
+    	launchStartGameThread();
+    }
+    
+    private void doStartGame() {
+    	/* Drawable */
+    	if ( this.mMarker1 == null )
+    		this.mMarker1 = this.getResources().getDrawable(R.drawable.marker_black);
+    	
+    	if ( this.mMarker2 == null )
+    		this.mMarker2 = this.getResources().getDrawable(R.drawable.marker_red);
+    	
+    	if ( this.mMarker3 == null )
+    		this.mMarker3 = this.getResources().getDrawable(R.drawable.marker_yellow);
+    	
+    	if ( this.mMarker4 == null )
+    		this.mMarker4 = this.getResources().getDrawable(R.drawable.marker_blue);
+    	
         {
         	if( this.users == null )
 	        	users = new ArrayList<OpenStreetMapViewOverlayItem>();
@@ -273,7 +270,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 									break;
 								case HintOverlayItem.ITEM_HIDE:
 								default:
-									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
+//									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
 								}
 								
 							} catch (Exception e) {
@@ -306,6 +303,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 							m = mMarker4;
 							break;
 						case HintOverlayItem.ITEM_HIDE:
+//							return;
 						default:
 							m = this.mMarker;
 						}
@@ -321,7 +319,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         update();
         
      // register location listener
-		initLocation();
+//		initLocation();
     }
 	private void launchStartGameThread() {
 		startGameTask.setLogin(user.getUserName());
