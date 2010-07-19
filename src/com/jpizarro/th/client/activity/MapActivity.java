@@ -85,7 +85,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
 	
-	private TableLayout userTappedTable, userTappedPlaceTable;
+//	private TableLayout userTappedTable, userTappedPlaceTable;
 	
 	private String tappedUser;
 	private int tappedIdx;
@@ -147,7 +147,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
     	
     	// register location listener
-		initLocation();
+//		initLocation();
     }
         
     @Override
@@ -176,7 +176,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
     	
     	user = (User)getIntent().getExtras().getSerializable("user");
-    	
+
     	launchStartGameThread();
     }
     
@@ -318,89 +318,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        }
         }
         
-//        {
-//        	if( this.hideHints == null )
-//        		hideHints = new ArrayList<HintOverlayItem>();
-//        	
-//        	if( this.mHideHintsOverlay == null ){
-//		        /* OnTapListener for the Markers, shows a simple Toast. */
-//		        this.mHideHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, hideHints,
-//		        		this.getResources().getDrawable(R.drawable.marker_red),
-//		        	null,
-//		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
-//						@Override
-//						public boolean onItemTap(int index, HintOverlayItem item) {
-//							try {
-//								tappedUser = item.mTitle;
-//								
-//								showDialog(USER_TAPPED_HIDEHINT_DIALOG_ID);
-//							} catch (Exception e) {
-//								CommonDialogs.errorMessage = e.getLocalizedMessage();
-//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-//							}
-//							return true;
-//						}
-//		        	}, 
-//		        	mResourceProxy);
-//		        this.mOsmv.getOverlays().add(this.mHideHintsOverlay);
-//	        }
-//        }
-//        
-//        {
-//        	if( userSeeHints == null )
-//        		userSeeHints = new ArrayList<HintOverlayItem>();
-//        	
-//        	if( this.mUserSeeHintsOverlay == null ){
-//		        /* OnTapListener for the Markers, shows a simple Toast. */
-//		        this.mUserSeeHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, userSeeHints,
-//		        		this.getResources().getDrawable(R.drawable.marker_black),
-//		        	null,
-//		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
-//						@Override
-//						public boolean onItemTap(int index, HintOverlayItem item) {
-//							try {
-//								tappedUser = item.mTitle;
-//								showDialog(USER_TAPPED_USERSEEHINT_DIALOG_ID);
-//							} catch (Exception e) {
-//								CommonDialogs.errorMessage = e.getLocalizedMessage();
-//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-//							}
-//							return true;
-//						}
-//		        	}, 
-//		        	mResourceProxy);
-//		        this.mOsmv.getOverlays().add(this.mUserSeeHintsOverlay);
-//	        }
-//        }
-//        
-//        {
-//        	if( this.teamSeeHints == null )
-//        		teamSeeHints = new ArrayList<HintOverlayItem>();
-//        	
-//        	if( this.mTeamSeeHintsOverlay == null ){
-//		        /* OnTapListener for the Markers, shows a simple Toast. */
-//		        this.mTeamSeeHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, teamSeeHints,
-//		        		this.getResources().getDrawable(R.drawable.marker_yellow),
-//		        	null,
-//		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
-//						@Override
-//						public boolean onItemTap(int index, HintOverlayItem item) {
-//							try {
-//								tappedUser = item.mTitle;
-//								showDialog(USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
-//							} catch (Exception e) {
-//								CommonDialogs.errorMessage = e.getLocalizedMessage();
-//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-//							}
-//							return true;
-//						}
-//		        	}, 
-//		        	mResourceProxy);
-//		        this.mOsmv.getOverlays().add(this.mTeamSeeHintsOverlay);
-//	        }
-//        }
+        update();
         
-        update();    	
+     // register location listener
+		initLocation();
     }
 	private void launchStartGameThread() {
 		startGameTask.setLogin(user.getUserName());
@@ -440,15 +361,15 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch(id) {
 		case USER_TAPPED_USER_DIALOG_ID:
-			userTappedTable = new TableLayout(this);
-        	fillTappedUserTable();
-        	dialog.setContentView(userTappedTable);
+//			userTappedTable = new TableLayout(this);
+        	fillTappedUserTable(dialog);
+//        	dialog.setContentView(userTappedTable);
         	return;
 		case USER_TAPPED_HINT_DIALOG_ID:
 		case USER_TAPPED_USERSEEHINT_DIALOG_ID:
-			userTappedPlaceTable = new TableLayout(this);
-        	fillTappedPlaceTable(id);
-        	dialog.setContentView(userTappedPlaceTable);
+//			userTappedPlaceTable = new TableLayout(this);
+        	fillTappedPlaceTable(dialog, id);
+//        	dialog.setContentView(userTappedPlaceTable);
         	return;
 		}
 	}
@@ -585,29 +506,21 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		this.mOsmv.invalidate();
 
 	}
-	private void fillTappedUserTable() {
-		userTappedTable.removeAllViews();
-		TableRow tr;
-		
-		TextView tvName;
+	private void fillTappedUserTable(Dialog dialog) {
+		dialog.setContentView(R.layout.dialog_show_user);
+		TextView tv;
+		Button bt;
 		
 //		Toast.makeText(MapActivity.this, "User '" + tappedInfoTitle+" got tapped", Toast.LENGTH_LONG).show();
 
 //		InGameUserInfoTO p = genericGameResponseTO.getInGamePlayerInfoTO(
 //				tappedUser);
 		
-		tvName = new TextView(this);
-		tvName.setText("Username :\t" + tappedUser );
-		tvName.setWidth(260);
-        tr = new TableRow(this);
-        tr.addView(tvName);
-        tr.setGravity(Gravity.CENTER);
-        userTappedTable.addView(tr);
+		tv = (TextView) dialog.findViewById(R.id.dsu_tv_username);
+		tv.setText( tappedUser );
         
-        Button bSendMessage;
-        bSendMessage = new Button(this);
-        bSendMessage.setText("Send Message");
-        bSendMessage.setOnClickListener(new android.view.View.OnClickListener() {
+        bt = (Button) dialog.findViewById(R.id.dsu_bt_sendmsg);
+        bt.setOnClickListener(new android.view.View.OnClickListener() {
 
 			public void onClick(View v) {
 				Intent i = new Intent(MapActivity.this, SendMessageActivity.class);
@@ -620,23 +533,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        	}
 			}
 		});
-        tr = new TableRow(this);
-        bSendMessage.setWidth(LayoutParams.FILL_PARENT);
-        tr.addView(bSendMessage);
-        tr.setGravity(Gravity.CENTER);
-        userTappedTable.addView(tr);
-
-		
-		
+        
 	}
 	
-	private void fillTappedPlaceTable(int userTappedHintDialogId) {
+	private void fillTappedPlaceTable(Dialog d, int userTappedHintDialogId) {
 		// TODO Auto-generated method stub
-		userTappedPlaceTable.removeAllViews();
-		TableRow tr;
-		
-		TextView tvName;
-		
+		TextView tv;
 		
 //		Toast.makeText(MapActivity.this, "User '" + tappedInfoTitle+" got tapped", Toast.LENGTH_LONG).show();
 
@@ -644,29 +546,20 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //				tappedUser);
 		switch(userTappedHintDialogId){
 		case USER_TAPPED_HINT_DIALOG_ID:
+			d.setContentView(R.layout.dialog_show_hint);
 			HintOverlayItem h = this.hints.get(tappedIdx);
-
-			tvName = new TextView(this);
-			tvName.setText("Title :\t" + h.mTitle );
-			tvName.setWidth(260);
-			tr = new TableRow(this);
-			tr.addView(tvName);
-			tr.setGravity(Gravity.CENTER);
-			userTappedPlaceTable.addView(tr);
-
-			tvName = new TextView(this);
-			tvName.setText("Desc :\t" + h.mDescription );
-			tvName.setWidth(260);
-			tr = new TableRow(this);
-			tr.addView(tvName);
-			tr.setGravity(Gravity.CENTER);
-			userTappedPlaceTable.addView(tr);
+			
+			tv = (TextView) d.findViewById(R.id.dsh_name);
+			tv.setText(h.mTitle );
+			
+			tv = (TextView) d.findViewById(R.id.dsh_desc);
+			tv.setText(h.mDescription );
 			break;
 
 		case USER_TAPPED_USERSEEHINT_DIALOG_ID:
+			d.setContentView(R.layout.dialog_take_hint);
 			Button bAct;
-			bAct = new Button(this);
-			bAct.setText("Take place");
+			bAct = (Button)d.findViewById(R.id.dth_bt_take);
 			bAct.setOnClickListener(new android.view.View.OnClickListener() {
 
 				public void onClick(View v) {
@@ -676,11 +569,6 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 					} catch (Exception e) {}
 				}
 			});
-			tr = new TableRow(this);
-//			bAct.setWidth(LayoutParams.FILL_PARENT);
-			tr.addView(bAct);
-			tr.setGravity(Gravity.CENTER);
-			userTappedPlaceTable.addView(tr);
 			break;
 		}
 		
