@@ -2,10 +2,14 @@ package com.jpizarro.th.client.activity;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
+import com.jpizarro.th.client.model.service.user.Axis2UserServiceImpl;
+import com.jpizarro.th.client.model.service.user.UserService;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.User;
+import com.jpizarro.th.util.CustomAPP;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -115,14 +119,14 @@ public class Login extends Activity {
 	
 	private class LoginTask implements Runnable {
 		String userName, password;
-		HttpUserServiceImpl userService;
-		HttpGameServiceImpl gameService;
+		UserService userService;
+		GameService gameService;
 		
 		LoginTask(String userName, String password) {
 			this.userName = userName;
 			this.password = password;
-			userService = new HttpUserServiceImpl();
-			gameService = new HttpGameServiceImpl();
+			userService = CustomAPP.getUserService();
+			gameService = CustomAPP.getGameService();
 		}
 
 		public void run() {

@@ -8,7 +8,7 @@ public class User extends Ubication{
 	private static final long serialVersionUID = 7534948413604544467L;
 	private String userName;
 	private String Password;
-	private PersonalInformation personalInformation;
+//	private PersonalInformation personalInformation;
 	private long gameId;
 	
 	public User() {
@@ -33,13 +33,13 @@ public class User extends Ubication{
 		Password = password;
 	}
 
-	public PersonalInformation getPersonalInformation() {
-		return personalInformation;
-	}
-
-	public void setPersonalInformation(PersonalInformation personalInformation) {
-		this.personalInformation = personalInformation;
-	}
+//	public PersonalInformation getPersonalInformation() {
+//		return personalInformation;
+//	}
+//
+//	public void setPersonalInformation(PersonalInformation personalInformation) {
+//		this.personalInformation = personalInformation;
+//	}
 
 	public void setGameId(long gameId) {
 		this.gameId = gameId;
@@ -47,6 +47,12 @@ public class User extends Ubication{
 
 	public long getGameId() {
 		return gameId;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", Password=" + Password
+				+ ", gameId=" + gameId + "]";
 	}
 	
 
