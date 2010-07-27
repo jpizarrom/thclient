@@ -12,34 +12,28 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class HttpGameServiceImpl implements GameService{
 
-	@Override
 	public List<String> findCitiesWithGames() throws Exception {
 		return HttpHelper.getInstance().findCitiesWithGames();
 	}
 
-	@Override
 	public boolean abandonGame(long gameId) throws Exception {
 		// TODO Auto-generated method stub
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl "+"abandonGame");
 	}
 
-	@Override
 	public Game findGame(long gameId) throws Exception {
 		return HttpHelper.getInstance().findGame(gameId);
 	}
 
-	@Override
 	public boolean joinGame(long gameId, long teamId) throws Exception {
 		return HttpHelper.getInstance().joinGame(gameId, teamId);
 	}
 
-	@Override
 	public GenericGameResponseTO updateLocation(int latitude, int longitude)
 			throws Exception {
 		return HttpHelper.getInstance().updateLocation(latitude, longitude);
 	}
 
-	@Override
 	public GameCTO findGamesByCity(String city, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
@@ -47,19 +41,16 @@ public class HttpGameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
-	@Override
 	public GenericGameResponseTO startOrContinueGame(String username)
 			throws Exception {
 		return HttpHelper.getInstance().startOrContinueGame(username);
 	}
 
-	@Override
 	public boolean sendMessage(String receiverUser, String body)
 			throws Exception {
 		return HttpHelper.getInstance().sendMessage(receiverUser, body);
 	}
 
-	@Override
 	public List<Team> findTeamsByGame(long gameId, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
@@ -67,7 +58,6 @@ public class HttpGameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
-	@Override
 	public GenericGameResponseTO takePlace(long id, int latitude,
 			int longitude) throws Exception {
 		// TODO Auto-generated method stub

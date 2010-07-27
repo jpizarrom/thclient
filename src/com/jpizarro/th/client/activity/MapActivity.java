@@ -224,7 +224,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        	this.getResources().getDrawable(R.drawable.person_red),
 		        	null,
 		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
-						@Override
+
 						public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
 //							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
 							try {
@@ -252,7 +252,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        	null,
 		        	null,
 		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
-						@Override
+
 						public boolean onItemTap(int index, HintOverlayItem item) {
 							try {
 								tappedIdx = index;
@@ -583,7 +583,6 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 	private class SampleLocationListener implements LocationListener {
 
-		@Override
 		public void onLocationChanged(Location loc) {
 			user.setLatitude((new GeoPoint(loc)).getLatitudeE6() );
 			user.setLongitude((new GeoPoint(loc)).getLongitudeE6() );
@@ -592,19 +591,16 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			
 		}
 
-		@Override
 		public void onProviderDisabled(String arg0) {
 			// TODO Auto-generated method stub
 			
 		}
 
-		@Override
 		public void onProviderEnabled(String arg0) {
 			// TODO Auto-generated method stub
 			
 		}
 
-		@Override
 		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 			// TODO Auto-generated method stub
 			

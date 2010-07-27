@@ -5,18 +5,15 @@ import com.jpizarro.th.entity.User;
 
 public class HttpUserServiceImpl implements UserService{
 
-	@Override
 	public User login(String login, String clearPassword)
 			throws Exception {
 		return HttpHelper.getInstance().login(login, clearPassword);
 	}
 
-	@Override
 	public void logout(String username) throws Exception {
 		HttpHelper.getInstance().logout(username);
 	}
 
-	@Override
 	public boolean changePassword(String oldPassword, String newPassword)
 			throws Exception {
 		return HttpHelper.getInstance().changePassword(oldPassword, newPassword);

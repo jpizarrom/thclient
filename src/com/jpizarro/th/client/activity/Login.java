@@ -124,7 +124,7 @@ public class Login extends Activity {
 			userService = new HttpUserServiceImpl();
 			gameService = new HttpGameServiceImpl();
 		}
-		@Override
+
 		public void run() {
 			LoginHandler handler = new LoginHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();

@@ -112,7 +112,6 @@ public class Loader extends ListActivity {
 			gameService = new HttpGameServiceImpl();
 		}
 
-		@Override
 		public void run() {
 			TestHandler handler = new TestHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();
