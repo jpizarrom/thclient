@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;
-import com.jpizarro.th.entity.Users;
+import com.jpizarro.th.entity.list.Users;
 
 public class GenericGameResponseTO implements Serializable {
 

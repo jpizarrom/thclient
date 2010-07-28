@@ -1,12 +1,14 @@
-package com.jpizarro.th.entity;
+package com.jpizarro.th.entity.list;
 
 import java.util.List;
 
-public class Games {
+import com.jpizarro.th.entity.User;
+
+public class Users {
 	private Integer count;
 	private Integer start;
 	private Integer total;
-	private List<Game> games;
+	private List<User> users;
 	public Integer getCount() {
 		return count;
 	}
@@ -25,11 +27,13 @@ public class Games {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
-	public List<Game> getGames() {
-		return games;
+	public List<User> getUsers() {
+		return users;
 	}
-	public void setGames(List<Game> games) {
-		this.games = games;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
-	
+	public void addUser(User u){
+		this.users.add(u);
+	}	
 }

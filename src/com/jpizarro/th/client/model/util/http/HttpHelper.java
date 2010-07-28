@@ -20,10 +20,11 @@ import com.jpizarro.th.client.model.util.xml.XMLToBussinessConversor;
 import com.jpizarro.th.client.model.util.xml.XStreamFactory;
 import com.jpizarro.th.client.model.util.xml.XStreamResponse;
 import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Games;
 import com.jpizarro.th.entity.Team;
-import com.jpizarro.th.entity.Teams;
 import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.list.Cities;
+import com.jpizarro.th.entity.list.Games;
+import com.jpizarro.th.entity.list.Teams;
 import com.thoughtworks.xstream.XStream;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -111,7 +112,6 @@ public class HttpHelper {
 
         	return (User)this.getXStream().fromXML(entity.getContent());    	
 //        	return XMLToBussinessConversor.toUser(entity);
-        	
 //        } catch (ServerException e) {
 //        	throw e;
         } catch(IOException e) {
@@ -164,7 +164,8 @@ public class HttpHelper {
 			response = client.execute(request);
 			HttpEntity entity = response.getEntity();
 			
-//			return (List<String>)this.getXStream().fromXML(entity.getContent());
+//			Cities cities = (Cities)this.getXStream().fromXML(entity.getContent());
+//			return cities.getCities();
 			return XMLToBussinessConversor.toCityList(entity);
 		} catch (ServerException e) {
         	throw e;
@@ -172,6 +173,7 @@ public class HttpHelper {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 		
@@ -186,10 +188,10 @@ public class HttpHelper {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return (Game)this.getXStream().fromXML(entity.getContent());
-//        	return XMLToBussinessConversor.toGame(entity);
-//        } catch (ServerException e) {
-//        	throw e;
+//        	return (Game)this.getXStream().fromXML(entity.getContent());
+        	return XMLToBussinessConversor.toGame(entity);
+        } catch (ServerException e) {
+        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
