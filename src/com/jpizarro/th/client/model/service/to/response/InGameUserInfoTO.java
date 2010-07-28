@@ -13,6 +13,9 @@ public class InGameUserInfoTO implements Serializable {
 	private int latitude;
 	private int longitude;
 	
+	public InGameUserInfoTO() {
+		super();
+	}
 	public InGameUserInfoTO(String username, int latitude, int longitude) {
 		super();
 		this.username = username;

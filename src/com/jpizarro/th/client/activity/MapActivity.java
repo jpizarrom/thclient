@@ -445,8 +445,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	}
 	
 	private void update() {
-		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
-			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
+		if (genericGameResponseTO.getUsers().getUsers().size() != 0) {
+			for( User in : genericGameResponseTO.getUsers().getUsers() ){
 				 users.add(new OpenStreetMapViewOverlayItem( in.getUsername(), "SampleDescription", 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}

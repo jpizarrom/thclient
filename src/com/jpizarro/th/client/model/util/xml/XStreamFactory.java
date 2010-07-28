@@ -4,6 +4,7 @@ import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Games;
 import com.jpizarro.th.entity.Goal;
+import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.Team;
 import com.jpizarro.th.entity.Teams;
 import com.jpizarro.th.entity.User;
@@ -22,17 +23,20 @@ public class XStreamFactory
 		xstream.addImplicitCollection(Teams.class, "teams", Team.class);
 		xstream.addImplicitCollection(Users.class, "users", User.class);
 		
-//		xstream.aliasField("game", Games.class, "games");
-		
 		xstream.alias("user", User.class);
 		xstream.alias("game", Game.class);
 		xstream.alias("team", Team.class);
 		xstream.alias("goal", Goal.class);
+		xstream.alias("hint", Hint.class);
 		
 		xstream.alias("games", Games.class);
 		xstream.alias("teams", Teams.class);
+		xstream.alias("users", Users.class);
 		
 		xstream.alias("genericGameResponse", GenericGameResponseTO.class);
+		
+//		xstream.aliasField("users", GenericGameResponseTO.class, "inGameUserInfoTOs");
+//		xstream.aliasField("user", InGameUserInfoTO.class, "inGameUserInfoTOs");
 		
 		return xstream;
 	}

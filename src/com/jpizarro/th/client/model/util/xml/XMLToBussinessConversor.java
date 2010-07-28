@@ -368,8 +368,8 @@ public class XMLToBussinessConversor {
 			NodeList inGamePlayerInfos = 
 				hE.getElementsByTagName("user");
 			for (int i=0;i<inGamePlayerInfos.getLength();i++) {
-				InGameUserInfoTO pl = toInGameUserInfoTO((Element)inGamePlayerInfos.item(i));
-				genericGameResponseTO.getInGameUserInfoTOs().add(pl);
+				User pl = toInGameUserInfoTO((Element)inGamePlayerInfos.item(i));
+				genericGameResponseTO.getUsers().getUsers().add(pl);
 			}
 		}
 		
@@ -414,7 +414,7 @@ public class XMLToBussinessConversor {
 		return genericGameResponseTO;
 	}
 
-	private static InGameUserInfoTO toInGameUserInfoTO(Element gameDocument) throws Exception {
+	private static User toInGameUserInfoTO(Element gameDocument) throws Exception {
 		Element nameElement = (Element)gameDocument.getElementsByTagName("username").item(0);
 		String name = nameElement.getChildNodes().item(0).getNodeValue();
 		
@@ -426,7 +426,12 @@ public class XMLToBussinessConversor {
 		int longitude = Integer.parseInt(
 		longitudeElement.getChildNodes().item(0).getNodeValue());
 		
-		return new InGameUserInfoTO(name, latitude, longitude);
+		User u = new User();
+		u.setName(name);
+		u.setLatitude(latitude);
+		u.setLongitude(longitude);
+		
+		return u;
 	}
 
 	public static List<Team> toTeamList(HttpEntity entity) throws Exception {

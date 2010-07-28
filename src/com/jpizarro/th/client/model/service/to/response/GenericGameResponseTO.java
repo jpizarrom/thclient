@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;
+import com.jpizarro.th.entity.Users;
 
 public class GenericGameResponseTO implements Serializable {
 
@@ -14,7 +15,8 @@ public class GenericGameResponseTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 7187541164428347769L;
 	
-	private List<InGameUserInfoTO> inGameUserInfoTOs = new ArrayList<InGameUserInfoTO>();
+//	private List<InGameUserInfoTO> inGameUserInfoTOs = new ArrayList<InGameUserInfoTO>();
+	private Users users;
 	private List<Hint> hints = new ArrayList<Hint>();
 	private List<Hint> hideHints = new ArrayList<Hint>();
 	private List<Hint> userSeeHintTOList = new ArrayList<Hint>();
@@ -28,20 +30,28 @@ public class GenericGameResponseTO implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<InGameUserInfoTO> getInGameUserInfoTOs() {
-		return inGameUserInfoTOs;
+//	public List<InGameUserInfoTO> getInGameUserInfoTOs() {
+//		return inGameUserInfoTOs;
+//	}
+//
+//	public void setInGameUserInfoTOs(List<InGameUserInfoTO> inGameUserInfoTOs) {
+//		this.inGameUserInfoTOs = inGameUserInfoTOs;
+//	}
+//	
+//	public InGameUserInfoTO getInGamePlayerInfoTO(String login) {
+//		for (InGameUserInfoTO igpiTO:inGameUserInfoTOs) {
+//			if (igpiTO.getUsername().equals(login))
+//				return igpiTO;
+//		}
+//		return null;
+//	}
+
+	public Users getUsers() {
+		return users;
 	}
 
-	public void setInGameUserInfoTOs(List<InGameUserInfoTO> inGameUserInfoTOs) {
-		this.inGameUserInfoTOs = inGameUserInfoTOs;
-	}
-	
-	public InGameUserInfoTO getInGamePlayerInfoTO(String login) {
-		for (InGameUserInfoTO igpiTO:inGameUserInfoTOs) {
-			if (igpiTO.getUsername().equals(login))
-				return igpiTO;
-		}
-		return null;
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 	public Hint getGoal() {
