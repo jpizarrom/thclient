@@ -105,7 +105,7 @@ public class FindGamesActivity extends Activity {
 
 	private void doLogout() {
 		// TODO Auto-generated method stub
-		CommonActions.launchLogoutThread(user.getUserName(), this);
+		CommonActions.launchLogoutThread(user.getUsername(), this);
 	}
 
 	private void doFindGames() {

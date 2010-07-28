@@ -7,7 +7,7 @@ public class Test {
 		Goal goal = new Goal("Goal1","Goal esta en casa pe");
 		
 		Competitor c = new Competitor("name1","desc1");
-		c.setUserName("username1");
+		c.setUsername("username1");
 		c.setPassword("pass1");
 		
 		Team t = new Team("Team1");

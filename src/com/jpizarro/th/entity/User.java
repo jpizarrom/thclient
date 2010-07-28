@@ -6,10 +6,13 @@ public class User extends Ubication{
 	 * 
 	 */
 	private static final long serialVersionUID = 7534948413604544467L;
-	private String userName;
-	private String Password;
+	private long userId;
+	private String username;
+	private String password;
 //	private PersonalInformation personalInformation;
 	private long gameId;
+	
+	private String role;
 	
 	public User() {
 		super();
@@ -19,19 +22,6 @@ public class User extends Ubication{
 		super(name, description);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getPassword() {
-		return Password;
-	}
-	public void setPassword(String password) {
-		Password = password;
-	}
 
 //	public PersonalInformation getPersonalInformation() {
 //		return personalInformation;
@@ -40,6 +30,30 @@ public class User extends Ubication{
 //	public void setPersonalInformation(PersonalInformation personalInformation) {
 //		this.personalInformation = personalInformation;
 //	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public void setGameId(long gameId) {
 		this.gameId = gameId;
@@ -51,7 +65,7 @@ public class User extends Ubication{
 
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", Password=" + Password
+		return "User [userName=" + username + ", password=" + password
 				+ ", gameId=" + gameId + "]";
 	}
 	

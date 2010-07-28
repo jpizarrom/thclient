@@ -9,11 +9,13 @@ public class Team implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 731485816032540739L;
-	private long id;
+	private long teamId;
 	private String name;
 	private String description;
 //	private List<Competitor> competitors;
 //	private List<Hint> hints;
+	private int currentUsers;
+	private List<User> users;
 	
 	public Team(String name) {
 		super();
@@ -37,12 +39,12 @@ public class Team implements Serializable {
 		return result;
 	}
 
-	public long getId() {
-		return id;
+	public long getTeamId() {
+		return teamId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setTeamId(long teamId) {
+		this.teamId = teamId;
 	}
 
 	public String getName() {
@@ -61,12 +63,22 @@ public class Team implements Serializable {
 		this.description = description;
 	}
 
-//	public List<Competitor> getCompetitors() {
-//		return competitors;
-//	}
-//
-//	public void setCompetitors(List<Competitor> competitors) {
-//		this.competitors = competitors;
-//	}
+	public int getCurrentUsers() {
+		return currentUsers;
+	}
 
+	public void setCurrentUsers(int currentUsers) {
+		this.currentUsers = currentUsers;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	public void addUser(User user) {
+		this.users.add(user);
+	}
 }

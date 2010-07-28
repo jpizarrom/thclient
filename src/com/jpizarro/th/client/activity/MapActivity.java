@@ -20,7 +20,6 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
-import com.jpizarro.th.client.osm.OpenStreetMapViewMultiItemizedOverlay;
 import com.jpizarro.th.entity.Hint;
 import com.jpizarro.th.entity.User;
 
@@ -322,7 +321,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //		initLocation();
     }
 	private void launchStartGameThread() {
-		startGameTask.setLogin(user.getUserName());
+		startGameTask.setLogin(user.getUsername());
 		Thread startGameThread = new Thread(null, startGameTask, "StartGame");
 		startGameThread.start();
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
@@ -462,14 +461,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				type = HintOverlayItem.ITEM_USER_SEE;
 			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_TAKE )
 				type = HintOverlayItem.ITEM_GOAL;
-			hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+			hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 					g, type));
 		}
 
 		if (genericGameResponseTO.getHints().size() != 0) {
 			for( Hint in : genericGameResponseTO.getHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-				 hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						g, HintOverlayItem.ITEM_TEAM_HAVE));
 			}
 		}
@@ -480,21 +479,21 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				int type = HintOverlayItem.ITEM_HIDE;
 				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
 					type = HintOverlayItem.ITEM_USER_SEE;
-				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
 			}
 		}
 		
 		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
 			for( Hint in : genericGameResponseTO.getUserSeeHintTOList() ){
-				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_USER_SEE));
 			}
 		}
 		
 		if (genericGameResponseTO.getTeamSeeHintTOList().size() != 0) {
 			for( Hint in : genericGameResponseTO.getTeamSeeHintTOList() ){
-				hints.add(new HintOverlayItem(in.getId(), in.getName(), in.getDescription(), 
+				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_TEAM_SEE));
 			}
 		}

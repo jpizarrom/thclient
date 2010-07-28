@@ -8,7 +8,7 @@ public class Ubication implements Serializable {
 	 */
 	private static final long serialVersionUID = 7491962873324125012L;
 	
-	private long id;
+	private long placeId;
 	
 	private int latitude;
 	private int longitude;
@@ -29,19 +29,19 @@ public class Ubication implements Serializable {
 	public Ubication(long id, int latitude, int longitude, String name,
 			String description) {
 		super();
-		this.id = id;
+		this.placeId = id;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.name = name;
 		this.description = description;
 	}
 
-	public long getId() {
-		return id;
+	public long getPlaceId() {
+		return placeId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setPlaceId(long placeId) {
+		this.placeId = placeId;
 	}
 
 	public int getLatitude() {

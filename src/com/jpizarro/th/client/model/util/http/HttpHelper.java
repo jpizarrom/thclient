@@ -17,9 +17,14 @@ import android.util.Log;
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.xml.XMLToBussinessConversor;
+import com.jpizarro.th.client.model.util.xml.XStreamFactory;
+import com.jpizarro.th.client.model.util.xml.XStreamResponse;
 import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.Games;
 import com.jpizarro.th.entity.Team;
+import com.jpizarro.th.entity.Teams;
 import com.jpizarro.th.entity.User;
+import com.thoughtworks.xstream.XStream;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -71,14 +76,25 @@ public class HttpHelper {
 	private HttpUriRequest request;
 	private HttpResponse response;
 	private static HttpHelper instance;
+	private XStream xstream;
 	
 	static {
 		instance = new HttpHelper();
+		
 	}
 	public static HttpHelper getInstance() {
 		return instance;
 	}
-	
+	protected XStream getXStream()
+	{
+		
+		if (xstream == null)
+		{
+			return XStreamFactory.createXStream();
+		}
+		
+		return xstream;
+	}
 	public User login(String userName, String password) 
 	throws Exception {
 		String encodedLogin = URLEncoder.encode(userName.replace("%2B", "+"), "UTF-8");
@@ -93,13 +109,16 @@ public class HttpHelper {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return XMLToBussinessConversor.toUser(entity);
-        } catch (ServerException e) {
-        	throw e;
+        	return (User)this.getXStream().fromXML(entity.getContent());    	
+//        	return XMLToBussinessConversor.toUser(entity);
+        	
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
         			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 		
@@ -145,6 +164,7 @@ public class HttpHelper {
 			response = client.execute(request);
 			HttpEntity entity = response.getEntity();
 			
+//			return (List<String>)this.getXStream().fromXML(entity.getContent());
 			return XMLToBussinessConversor.toCityList(entity);
 		} catch (ServerException e) {
         	throw e;
@@ -166,14 +186,15 @@ public class HttpHelper {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return XMLToBussinessConversor.toGame(entity);
-
-        } catch (ServerException e) {
-        	throw e;
+        	return (Game)this.getXStream().fromXML(entity.getContent());
+//        	return XMLToBussinessConversor.toGame(entity);
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 	}
@@ -280,14 +301,17 @@ throws Exception {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
-        	return gameCTO;
-        } catch (ServerException e) {
-        	throw e;
+        	Games response = (Games)this.getXStream().fromXML(entity.getContent());
+        	return new GameCTO(response.getGames(),false);
+//        	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
+//        	return gameCTO;
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 	}
@@ -302,14 +326,15 @@ throws Exception {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
-
-        } catch (ServerException e) {
-        	throw e;
+        	return (GenericGameResponseTO)this.getXStream().fromXML(entity.getContent());
+//        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 	}
@@ -328,15 +353,18 @@ throws Exception {
         try {        	
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
-
-        	List<Team> teams = XMLToBussinessConversor.toTeamList(entity);
-        	return teams;
-        } catch (ServerException e) {
-        	throw e;
+        	
+        	Teams response = (Teams)this.getXStream().fromXML(entity.getContent());
+        	return response.getTeams();
+//        	List<Team> teams = XMLToBussinessConversor.toTeamList(entity);
+//        	return teams;
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 	}
@@ -352,10 +380,11 @@ throws Exception {
 				response = client.execute(request);
 	        	HttpEntity entity = response.getEntity();
 	        	
-	        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
+	        	return (GenericGameResponseTO)this.getXStream().fromXML(entity.getContent());
+//	        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
 	        	
-		 } catch (ServerException e) {
-	     	throw e;
+//		 } catch (ServerException e) {
+//	     	throw e;
 	     } catch(IOException e) {
 	     	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 				e.getMessage());

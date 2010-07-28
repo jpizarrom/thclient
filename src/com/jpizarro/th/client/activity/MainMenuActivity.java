@@ -108,7 +108,7 @@ public class MainMenuActivity extends Activity {
 	}
 	
 	private void fillPersonalInfo() {
-		usernameView.setText(user.getUserName());
+		usernameView.setText(user.getUsername());
 	}
 	
 	@Override
@@ -169,7 +169,7 @@ public class MainMenuActivity extends Activity {
 		}
 	}
 	private void doLogout() {
-		CommonActions.launchLogoutThread(user.getUserName(), this);		
+		CommonActions.launchLogoutThread(user.getUsername(), this);		
 	}
 	
 	public void doFindGames() {

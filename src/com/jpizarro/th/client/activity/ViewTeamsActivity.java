@@ -201,9 +201,9 @@ public class ViewTeamsActivity extends ListActivity {
 		Team team = (Team) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
-                team.getId()+" "+team.getName()+" "+team.getDescription(),
+                team.getTeamId()+" "+team.getName()+" "+team.getDescription(),
                 Toast.LENGTH_LONG).show();
-		launchJoinTeamThread(gameId, team.getId());
+		launchJoinTeamThread(gameId, team.getTeamId());
 	
 	}
 	

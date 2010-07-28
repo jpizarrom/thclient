@@ -74,7 +74,7 @@ public class Loader extends ListActivity {
 	
 	private void doTest(){			
 //		Toast.makeText(this, Test.test(), Toast.LENGTH_LONG).show();
-		Toast.makeText(this, user.getUserName(), Toast.LENGTH_LONG).show();
+		Toast.makeText(this, user.getUsername(), Toast.LENGTH_LONG).show();
 		for(InGameUserInfoTO in: ggrTO.getInGameUserInfoTOs())
 			Toast.makeText(this, in.getUsername(), Toast.LENGTH_LONG).show();
 	}

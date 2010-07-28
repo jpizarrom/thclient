@@ -62,7 +62,7 @@ public class XMLToBussinessConversor {
 			Element element = (Element)document.getElementsByTagName(
 			"username").item(0);
 			String username = element.getChildNodes().item(0).getNodeValue();
-			user.setUserName(username.replace("+", " "));
+			user.setUsername(username.replace("+", " "));
 			
 			if (document.getElementsByTagName("game").getLength() == 1) {
 				Element game = (Element) document.getElementsByTagName("game").item(0);
@@ -466,7 +466,7 @@ public class XMLToBussinessConversor {
 		Element gameIdElement = (Element)gameDocument.getElementsByTagName(
 		"teamId").item(0);
 		long teamId = Long.parseLong(gameIdElement.getChildNodes().item(0).getNodeValue());
-		team.setId(teamId);
+		team.setTeamId(teamId);
 		
 		Element element = (Element)gameDocument.getElementsByTagName("name").item(0);
 		String st = element.getChildNodes().item(0).getNodeValue();

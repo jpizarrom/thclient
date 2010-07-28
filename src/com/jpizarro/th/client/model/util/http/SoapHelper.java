@@ -52,8 +52,8 @@ public class SoapHelper {
             result = (SoapObject) envelope.getResponse();
             User ret = new User();
             
-            ret.setUserName(result.getProperty("username").toString());
-            ret.setId(Long.parseLong(result.getProperty("userId").toString()));
+            ret.setUsername(result.getProperty("username").toString());
+            ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
 
             Log.v(getClass().getName(),ret.toString());
           Log.v(getClass().getName(),envelope.bodyIn.toString());
@@ -83,8 +83,8 @@ public class SoapHelper {
             result = (SoapObject) envelope.getResponse();
             User ret = new User();
             
-            ret.setId(Long.parseLong(result.getProperty("userId").toString()));
-            ret.setUserName(result.getProperty("username").toString());
+            ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
+            ret.setUsername(result.getProperty("username").toString());
             
             ret.setGameId( Long.parseLong(result.getProperty("gameId").toString()));
             ret.setLatitude( Integer.parseInt(result.getProperty("latitude").toString()));
