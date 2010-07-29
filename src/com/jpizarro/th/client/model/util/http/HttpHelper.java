@@ -34,7 +34,8 @@ public class HttpHelper {
 	private String TAG = "HttpHelper";
 	
 //	private final String SERVER_HOST_IP = "192.168.42.100";
-	private final String SERVER_HOST_IP = "10.42.43.1";
+//	private final String SERVER_HOST_IP = "10.42.43.1";
+	private final String SERVER_HOST_IP = "192.168.1.70";
 	private final String SERVER_PORT = "8070";
 	private final String GAME_URL = "thserver";
 	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
@@ -164,11 +165,11 @@ public class HttpHelper {
 			response = client.execute(request);
 			HttpEntity entity = response.getEntity();
 			
-//			Cities cities = (Cities)this.getXStream().fromXML(entity.getContent());
-//			return cities.getCities();
-			return XMLToBussinessConversor.toCityList(entity);
-		} catch (ServerException e) {
-        	throw e;
+			Cities cities = (Cities)this.getXStream().fromXML(entity.getContent());
+			return cities.getCities();
+//			return XMLToBussinessConversor.toCityList(entity);
+//		} catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
@@ -188,10 +189,10 @@ public class HttpHelper {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-//        	return (Game)this.getXStream().fromXML(entity.getContent());
-        	return XMLToBussinessConversor.toGame(entity);
-        } catch (ServerException e) {
-        	throw e;
+        	return (Game)this.getXStream().fromXML(entity.getContent());
+//        	return XMLToBussinessConversor.toGame(entity);
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
@@ -220,13 +221,15 @@ throws Exception {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return XMLToBussinessConversor.toBooleanOrExceptionJoin(entity);
-        } catch (ServerException e) {
-        	throw e;
+        	return (Boolean)this.getXStream().fromXML(entity.getContent());
+//        	return XMLToBussinessConversor.toBooleanOrExceptionJoin(entity);
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
         } catch (Exception e) {
+        	e.printStackTrace();
         	throw e;
         }
 	}
@@ -242,10 +245,10 @@ throws Exception {
 			response = client.execute(request);
         	HttpEntity entity = response.getEntity();
         	
-        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
-        	
-	 } catch (ServerException e) {
-     	throw e;
+        	return (GenericGameResponseTO)this.getXStream().fromXML(entity.getContent());
+//        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
+//	 } catch (ServerException e) {
+//     	throw e;
      } catch(IOException e) {
      	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());

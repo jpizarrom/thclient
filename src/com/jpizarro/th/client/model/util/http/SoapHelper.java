@@ -22,8 +22,8 @@ public class SoapHelper {
 //  private static final String NAMESPACE = "http://soap";
     // !!!!! IMPORTANT!!!!! THE URL OF THE CoLDFUSION WEBSERVER NOT LOCALHOST BECAUSE LOCALHOST IS THE ANDROID EMULATOR !!!!!
 //    private static final String URL = "http://192.168.0.188:8080/PatientWebServices/services/ProfilesComunication?wsdl";
-    private static final String URL_USER = "http://10.42.43.1:8070/thserver/services/WSUserService?wsdl";
-    private static final String URL_GAME = "http://10.42.43.1:8070/thserver/services/WSGameService?wsdl";
+    private static final String URL_USER = "http://192.168.1.70:8070/thserver/services/WSUserService?wsdl";
+    private static final String URL_GAME = "http://192.168.1.70:8070/thserver/services/WSGameService?wsdl";
     
     private static SoapHelper instance;
     static {
