@@ -1,4 +1,4 @@
-package com.jpizarro.th.client.model.util.xml.xstream;
+package com.jpizarro.th.util.xml.xstream;
 
 import java.util.Iterator;
 

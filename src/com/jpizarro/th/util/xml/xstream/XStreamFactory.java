@@ -1,7 +1,7 @@
-package com.jpizarro.th.client.model.util.xml;
+package com.jpizarro.th.util.xml.xstream;
 
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.client.model.util.xml.xstream.JoinedConverter;
+import com.jpizarro.th.client.model.util.xml.CalendarConverter;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;

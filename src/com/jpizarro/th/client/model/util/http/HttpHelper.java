@@ -16,13 +16,13 @@ import android.util.Log;
 
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.client.model.util.xml.XStreamFactory;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Team;
 import com.jpizarro.th.entity.User;
 import com.jpizarro.th.entity.list.Cities;
 import com.jpizarro.th.entity.list.Games;
 import com.jpizarro.th.entity.list.Teams;
+import com.jpizarro.th.util.xml.xstream.XStreamFactory;
 import com.thoughtworks.xstream.XStream;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
