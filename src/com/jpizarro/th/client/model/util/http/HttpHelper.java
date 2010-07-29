@@ -30,11 +30,13 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 public class HttpHelper {
 	
 	private String TAG = "HttpHelper";
+	private final String SERVER_HOST_IP = "cs01.doingit.cl";
+	private final String SERVER_PORT = "8081";
 	
-	private final String SERVER_HOST_IP = "192.168.42.100";
+//	private final String SERVER_HOST_IP = "192.168.42.100";
 //	private final String SERVER_HOST_IP = "10.42.43.1";
 //	private final String SERVER_HOST_IP = "192.168.1.70";
-	private final String SERVER_PORT = "8070";
+//	private final String SERVER_PORT = "8070";
 	private final String GAME_URL = "thserver";
 	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
 		SERVER_PORT + "/" + GAME_URL + "/";
@@ -380,6 +382,8 @@ throws Exception {
 					PLACE_ID_PARAMETER + "=" + String.valueOf(id) + "&" +  
 	        		LATITUDE_PARAMETER + "=" + String.valueOf(latitude) + "&" +  
 	        		LONGITUDE_PARAMETER + "=" + String.valueOf(longitude));
+			Log.d("TESTSSSSS", request.getURI().toString());
+			
 			try{
 				response = client.execute(request);
 	        	HttpEntity entity = response.getEntity();
@@ -393,6 +397,7 @@ throws Exception {
 	     	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 				e.getMessage());
 	     } catch (Exception e) {
+	    	 e.printStackTrace();
 	     	throw e;
 	     }
 	}
