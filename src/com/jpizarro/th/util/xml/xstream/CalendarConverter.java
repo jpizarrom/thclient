@@ -1,4 +1,4 @@
-package com.jpizarro.th.client.model.util.xml;
+package com.jpizarro.th.util.xml.xstream;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

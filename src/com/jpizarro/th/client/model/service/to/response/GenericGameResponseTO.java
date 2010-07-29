@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;
+import com.jpizarro.th.entity.Message;
 import com.jpizarro.th.entity.list.Users;
 
 public class GenericGameResponseTO implements Serializable {
@@ -15,15 +16,15 @@ public class GenericGameResponseTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 7187541164428347769L;
 	
-//	private List<InGameUserInfoTO> inGameUserInfoTOs = new ArrayList<InGameUserInfoTO>();
-	private Users users;
+	private List<InGameUserInfoTO> inGameUserInfoTOs = new ArrayList<InGameUserInfoTO>();
+//	private Users inGameUserInfoTOs;
 	private List<Hint> hints = new ArrayList<Hint>();
 	private List<Hint> hideHints = new ArrayList<Hint>();
 	private List<Hint> userSeeHintTOList = new ArrayList<Hint>();
 	private List<Hint> teamSeeHintTOList = new ArrayList<Hint>();
 	private Hint goal;
-//	private List<Message> messages = new ArrayList<Message>();
-//	private boolean hasFinished = false;	
+	private List<Message> myMessages = new ArrayList<Message>();
+	private boolean hasFinished = false;	
 
 	public GenericGameResponseTO() {
 		super();
@@ -46,16 +47,16 @@ public class GenericGameResponseTO implements Serializable {
 //		return null;
 //	}
 
-	public Users getUsers() {
-		return users;
-	}
-
-	public void setUsers(Users users) {
-		this.users = users;
-	}
-
 	public Hint getGoal() {
 		return goal;
+	}
+
+	public List<InGameUserInfoTO> getInGameUserInfoTOs() {
+		return inGameUserInfoTOs;
+	}
+
+	public void setInGameUserInfoTOs(List<InGameUserInfoTO> inGameUserInfoTOs) {
+		this.inGameUserInfoTOs = inGameUserInfoTOs;
 	}
 
 	public void setGoal(Hint goal) {
@@ -93,7 +94,20 @@ public class GenericGameResponseTO implements Serializable {
 	public void setTeamSeeHintTOList(List<Hint> teamSeeHintTOList) {
 		this.teamSeeHintTOList = teamSeeHintTOList;
 	}
-	
-	
 
+	public boolean isHasFinished() {
+		return hasFinished;
+	}
+
+	public void setHasFinished(boolean hasFinished) {
+		this.hasFinished = hasFinished;
+	}
+
+	public List<Message> getMyMessages() {
+		return myMessages;
+	}
+
+	public void setMyMessages(List<Message> myMessages) {
+		this.myMessages = myMessages;
+	}
 }

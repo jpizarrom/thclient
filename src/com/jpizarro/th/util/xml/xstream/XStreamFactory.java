@@ -1,7 +1,7 @@
 package com.jpizarro.th.util.xml.xstream;
 
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.client.model.util.xml.CalendarConverter;
+import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Goal;
 import com.jpizarro.th.entity.Hint;
@@ -53,6 +53,8 @@ public class XStreamFactory
 		
 		xstream.alias("genericGameResponse", GenericGameResponseTO.class);
 		xstream.alias("updateLocationReponse", GenericGameResponseTO.class);
+		
+		xstream.alias("inGameUserInfoTO", InGameUserInfoTO.class);
 		
 //		xstream.aliasField("users", GenericGameResponseTO.class, "inGameUserInfoTOs");
 //		xstream.aliasField("user", InGameUserInfoTO.class, "inGameUserInfoTOs");
