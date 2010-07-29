@@ -42,6 +42,7 @@ public class XStreamFactory
 		
 		xstream.alias("joined", Boolean.class);
 		xstream.alias("logout", Boolean.class);
+		xstream.alias("messageSent", Boolean.class);
 		
 		xstream.alias("city", String.class);
 		

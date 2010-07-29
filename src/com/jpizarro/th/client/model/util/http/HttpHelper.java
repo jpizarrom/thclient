@@ -16,9 +16,7 @@ import android.util.Log;
 
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.client.model.util.xml.XMLToBussinessConversor;
 import com.jpizarro.th.client.model.util.xml.XStreamFactory;
-import com.jpizarro.th.client.model.util.xml.XStreamResponse;
 import com.jpizarro.th.entity.Game;
 import com.jpizarro.th.entity.Team;
 import com.jpizarro.th.entity.User;
@@ -33,9 +31,9 @@ public class HttpHelper {
 	
 	private String TAG = "HttpHelper";
 	
-//	private final String SERVER_HOST_IP = "192.168.42.100";
+	private final String SERVER_HOST_IP = "192.168.42.100";
 //	private final String SERVER_HOST_IP = "10.42.43.1";
-	private final String SERVER_HOST_IP = "192.168.1.70";
+//	private final String SERVER_HOST_IP = "192.168.1.70";
 	private final String SERVER_PORT = "8070";
 	private final String GAME_URL = "thserver";
 	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
@@ -281,9 +279,10 @@ throws Exception {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return XMLToBussinessConversor.toBooleanOrExceptionSend(entity);
-        } catch (ServerException e) {
-        	throw e;
+        	return (Boolean)this.getXStream().fromXML(entity.getContent());
+//        	return XMLToBussinessConversor.toBooleanOrExceptionSend(entity);
+//        } catch (ServerException e) {
+//        	throw e;
         } catch(IOException e) {
         	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
 			e.getMessage());
