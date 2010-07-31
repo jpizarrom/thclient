@@ -2,13 +2,13 @@ package com.jpizarro.th.entity.list;
 
 import java.util.List;
 
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
 
-public class Users {
+public class CitiesTO {
 	private Integer count;
 	private Integer start;
 	private Integer total;
-	private List<User> users;
+	private List<String> cities;
 	public Integer getCount() {
 		return count;
 	}
@@ -27,13 +27,13 @@ public class Users {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
-	public List<User> getUsers() {
-		return users;
+	public List<String> getCities() {
+		return cities;
 	}
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setCities(List<String> cities) {
+		this.cities = cities;
 	}
-	public void addUser(User u){
-		this.users.add(u);
-	}	
+	private void addCity(String c){
+		this.cities.add(c);
+	}
 }

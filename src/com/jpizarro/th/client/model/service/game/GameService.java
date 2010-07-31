@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Team;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
 
 public interface GameService {
 	public List<String> findCitiesWithGames() throws Exception;
 	
-	public Game findGame(long gameId) 
+	public GameTO findGame(long gameId) 
 	throws Exception;
 	
 	public boolean joinGame(long gameId, long teamId) 
@@ -28,7 +28,7 @@ public interface GameService {
 	public GameCTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception ;
 	
-	public List<Team> findTeamsByGame(long gameId, int startIndex, int count) 
+	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception ;
 	
 	public GenericGameResponseTO startOrContinueGame(String login) 

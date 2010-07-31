@@ -5,8 +5,8 @@ import java.util.List;
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.http.HttpHelper;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Team;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -21,7 +21,7 @@ public class HttpGameServiceImpl implements GameService{
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl "+"abandonGame");
 	}
 
-	public Game findGame(long gameId) throws Exception {
+	public GameTO findGame(long gameId) throws Exception {
 		return HttpHelper.getInstance().findGame(gameId);
 	}
 
@@ -51,7 +51,7 @@ public class HttpGameServiceImpl implements GameService{
 		return HttpHelper.getInstance().sendMessage(receiverUser, body);
 	}
 
-	public List<Team> findTeamsByGame(long gameId, int startIndex, int count)
+	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return HttpHelper.getInstance().findTeamsByGame(gameId, 

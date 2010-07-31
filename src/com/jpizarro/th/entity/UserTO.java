@@ -1,6 +1,6 @@
 package com.jpizarro.th.entity;
 
-public class User extends Ubication{
+public class UserTO extends Ubication{
 
 	/**
 	 * 
@@ -14,11 +14,11 @@ public class User extends Ubication{
 	
 	private String role;
 	
-	public User() {
+	public UserTO() {
 		super();
 	}
 
-	public User(String name, String description) {
+	public UserTO(String name, String description) {
 		super(name, description);
 		// TODO Auto-generated constructor stub
 	}

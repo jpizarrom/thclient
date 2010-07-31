@@ -2,15 +2,15 @@ package com.jpizarro.th.util.xml.xstream;
 
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Goal;
-import com.jpizarro.th.entity.Hint;
-import com.jpizarro.th.entity.Team;
-import com.jpizarro.th.entity.User;
-import com.jpizarro.th.entity.list.Cities;
-import com.jpizarro.th.entity.list.Games;
-import com.jpizarro.th.entity.list.Teams;
-import com.jpizarro.th.entity.list.Users;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.GoalTO;
+import com.jpizarro.th.entity.HintTO;
+import com.jpizarro.th.entity.TeamTO;
+import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.entity.list.CitiesTO;
+import com.jpizarro.th.entity.list.GamesTO;
+import com.jpizarro.th.entity.list.TeamsTO;
+import com.jpizarro.th.entity.list.UsersTO;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.BooleanConverter;
 import com.thoughtworks.xstream.converters.basic.NullConverter;
@@ -28,17 +28,17 @@ public class XStreamFactory
 //		xstream.registerConverter(new JoinedConverter(), XStream.PRIORITY_NORMAL);
 
 		
-		xstream.addImplicitCollection(Games.class, "games", Game.class);
-		xstream.addImplicitCollection(Teams.class, "teams", Team.class);
-		xstream.addImplicitCollection(Users.class, "users", User.class);
+		xstream.addImplicitCollection(GamesTO.class, "games", GameTO.class);
+		xstream.addImplicitCollection(TeamsTO.class, "teams", TeamTO.class);
+		xstream.addImplicitCollection(UsersTO.class, "users", UserTO.class);
 		
-		xstream.addImplicitCollection(Cities.class, "cities");
+		xstream.addImplicitCollection(CitiesTO.class, "cities");
 		
-		xstream.alias("user", User.class);
-		xstream.alias("game", Game.class);
-		xstream.alias("team", Team.class);
-		xstream.alias("goal", Goal.class);
-		xstream.alias("hint", Hint.class);
+		xstream.alias("user", UserTO.class);
+		xstream.alias("game", GameTO.class);
+		xstream.alias("team", TeamTO.class);
+		xstream.alias("goal", GoalTO.class);
+		xstream.alias("hint", HintTO.class);
 		
 		xstream.alias("joined", Boolean.class);
 		xstream.alias("logout", Boolean.class);
@@ -46,10 +46,10 @@ public class XStreamFactory
 		
 		xstream.alias("city", String.class);
 		
-		xstream.alias("games", Games.class);
-		xstream.alias("teams", Teams.class);
-		xstream.alias("users", Users.class);
-		xstream.alias("cities", Cities.class);
+		xstream.alias("games", GamesTO.class);
+		xstream.alias("teams", TeamsTO.class);
+		xstream.alias("users", UsersTO.class);
+		xstream.alias("cities", CitiesTO.class);
 		
 		xstream.alias("genericGameResponse", GenericGameResponseTO.class);
 		xstream.alias("updateLocationReponse", GenericGameResponseTO.class);

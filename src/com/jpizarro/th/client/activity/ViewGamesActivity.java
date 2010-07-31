@@ -4,8 +4,8 @@ import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.UserTO;
 import com.jpizarro.th.util.CustomResultCodes;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -31,17 +31,17 @@ public class ViewGamesActivity extends ListActivity {
 	
 //	private static final int FIND_TEAM_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
-	private User user;
+	private UserTO user;
 	
 	private String city = null;
-	private Game[] gameArray;
+	private GameTO[] gameArray;
 	private FindGamesTask findGamesTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		user = (User)getIntent().getExtras().getSerializable("user");
+		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		city = getIntent().getExtras().getString("city");
 		if (city != null) {
 			launchFindGamesThread(city);
@@ -94,7 +94,7 @@ public class ViewGamesActivity extends ListActivity {
 							0, 10);
 
 				data.putSerializable("gameArray", gameCTO.getGameList().
-						toArray(new Game [0]));
+						toArray(new GameTO [0]));
 				data.putBoolean("hasMore", gameCTO.isHasMore());
 				msg.setData(data);
 				handler.sendMessage(msg);
@@ -137,8 +137,8 @@ public class ViewGamesActivity extends ListActivity {
 		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
 		        	return;
 	        	}
-			Game [] gameArray2 = 
-				(Game [])msg.getData().getSerializable("gameArray");
+			GameTO [] gameArray2 = 
+				(GameTO [])msg.getData().getSerializable("gameArray");
 			if (gameArray2 != null) {
 //				hasMore = msg.getData().getBoolean("hasMore");
 				gameArray = gameArray2;
@@ -147,10 +147,10 @@ public class ViewGamesActivity extends ListActivity {
 		}
 	}
 
-	public class TAdapter extends ArrayAdapter<Game>{
+	public class TAdapter extends ArrayAdapter<GameTO>{
 
 		public TAdapter(Context context, int textViewResourceId,
-				Game[] objects) {
+				GameTO[] objects) {
 			super(context, textViewResourceId, objects);
 			// TODO Auto-generated constructor stub
 		}
@@ -168,7 +168,7 @@ public class ViewGamesActivity extends ListActivity {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.row_game_list, null);
             }
-            Game g = this.getItem(position);
+            GameTO g = this.getItem(position);
             if (g != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
             	name.setText(g.getName());
@@ -187,7 +187,7 @@ public class ViewGamesActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 //		super.onListItemClick(l, v, position, id);
-		Game g = (Game) l.getAdapter().getItem(position);
+		GameTO g = (GameTO) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
                 g.getGameId()+" "+g.getName()+" "+g.getDescription(),

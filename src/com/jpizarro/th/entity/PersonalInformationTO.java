@@ -1,6 +1,6 @@
 package com.jpizarro.th.entity;
 
-public class PersonalInformation {
+public class PersonalInformationTO {
 	private String direction;
 	
 	@Override

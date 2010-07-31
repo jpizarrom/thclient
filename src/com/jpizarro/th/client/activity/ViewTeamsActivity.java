@@ -6,9 +6,9 @@ import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Team;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
+import com.jpizarro.th.entity.UserTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -33,10 +33,10 @@ public class ViewTeamsActivity extends ListActivity {
 	
 	private static final int FIND_TEAM_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
-	private User user;
+	private UserTO user;
 
 	private long gameId;
-	private Team[] teamArray;
+	private TeamTO[] teamArray;
 	private FindTeamsTask findTeamsTask;
 	private JoinTeamTask joinTeamTask;
 
@@ -45,7 +45,7 @@ public class ViewTeamsActivity extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		user = (User)getIntent().getExtras().getSerializable("user");
+		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		gameId = getIntent().getExtras().getLong("gameId");
 //		if (city != null) {
 			launchFindTeamsThread(gameId);
@@ -92,14 +92,14 @@ public class ViewTeamsActivity extends ListActivity {
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			try {
-				List<Team> teamCTO;
+				List<TeamTO> teamCTO;
 //				if (city != null) 
 					teamCTO = gameService.findTeamsByGame(gameId, 
 							0, 10);
 
 //				data.putSerializable("gameArray", gameCTO.getGameList().
 //						toArray(new Game [0]));
-				data.putSerializable("teamArray", teamCTO.toArray( new Team [0] ));
+				data.putSerializable("teamArray", teamCTO.toArray( new TeamTO [0] ));
 //				data.putBoolean("hasMore", gameCTO.isHasMore());
 				msg.setData(data);
 				handler.sendMessage(msg);
@@ -142,8 +142,8 @@ public class ViewTeamsActivity extends ListActivity {
 		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
 		        	return;
 	        	}
-			Team [] tamArray2 = 
-				(Team [])msg.getData().getSerializable("teamArray");
+			TeamTO [] tamArray2 = 
+				(TeamTO [])msg.getData().getSerializable("teamArray");
 			if (tamArray2 != null) {
 //				hasMore = msg.getData().getBoolean("hasMore");
 				teamArray = tamArray2;
@@ -152,10 +152,10 @@ public class ViewTeamsActivity extends ListActivity {
 		}
 	}
 
-	public class TAdapter extends ArrayAdapter<Team>{
+	public class TAdapter extends ArrayAdapter<TeamTO>{
 
 		public TAdapter(Context context, int textViewResourceId,
-				Team[] objects) {
+				TeamTO[] objects) {
 			super(context, textViewResourceId, objects);
 			// TODO Auto-generated constructor stub
 		}
@@ -173,7 +173,7 @@ public class ViewTeamsActivity extends ListActivity {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.row_game_list, null);
             }
-            Team team = this.getItem(position);
+            TeamTO team = this.getItem(position);
             if (team != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
             	name.setText(team.getName());
@@ -198,7 +198,7 @@ public class ViewTeamsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 //		super.onListItemClick(l, v, position, id);
-		Team team = (Team) l.getAdapter().getItem(position);
+		TeamTO team = (TeamTO) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
                 team.getTeamId()+" "+team.getName()+" "+team.getDescription(),

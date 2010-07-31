@@ -1,10 +1,10 @@
 package com.jpizarro.th.client.model.service.user;
 
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.UserTO;
 
 
 public interface UserService {
-	public User login(String username, String clearPassword) 
+	public UserTO login(String username, String clearPassword) 
 	throws Exception;
 	
 	public void logout(String username) 

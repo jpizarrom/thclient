@@ -7,8 +7,8 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
 import com.jpizarro.th.client.model.service.user.Axis2UserServiceImpl;
 import com.jpizarro.th.client.model.service.user.UserService;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.UserTO;
 import com.jpizarro.th.util.CustomAPP;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -46,8 +46,8 @@ public class Login extends Activity {
 	private static final int PLAYER_INFO_REQUEST_CODE = 0;
 	
 	private LoginTask loginTask;
-	private User user = new User();
-	private Game game = new Game();
+	private UserTO user = new UserTO();
+	private GameTO game = new GameTO();
 	
 	private TextView loginErrorView, passwordErrorView;
 	
@@ -133,10 +133,10 @@ public class Login extends Activity {
 			LoginHandler handler = new LoginHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();
 			Message msg = new Message();
-			Game game;
+			GameTO game;
 			
 			try {
-				User user = userService.login(userName, password);
+				UserTO user = userService.login(userName, password);
 //				user.setGameId(1);
 				data.putSerializable("user", user);
 				if ( user.getGameId() != 0 ){
@@ -197,8 +197,8 @@ public class Login extends Activity {
 		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
 		        	return;
 	        	}
-			user = (User)msg.getData().getSerializable("user");
-			game = (Game)msg.getData().getSerializable("game");
+			user = (UserTO)msg.getData().getSerializable("user");
+			game = (GameTO)msg.getData().getSerializable("game");
 			doLogin();
 		}
 		

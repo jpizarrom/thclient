@@ -2,13 +2,14 @@ package com.jpizarro.th.entity.list;
 
 import java.util.List;
 
-import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.TeamTO;
 
-public class Cities {
+public class TeamsTO {
 	private Integer count;
 	private Integer start;
 	private Integer total;
-	private List<String> cities;
+	private List<TeamTO> teams;
+//	private Users users;
 	public Integer getCount() {
 		return count;
 	}
@@ -27,13 +28,19 @@ public class Cities {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
-	public List<String> getCities() {
-		return cities;
+	public List<TeamTO> getTeams() {
+		return teams;
 	}
-	public void setCities(List<String> cities) {
-		this.cities = cities;
+	public void setTeams(List<TeamTO> teams) {
+		this.teams = teams;
 	}
-	private void addCity(String c){
-		this.cities.add(c);
+	public void addTeam(TeamTO t){
+		this.addTeam(t);
 	}
+//	public Users getUsers() {
+//		return users;
+//	}
+//	public void setUsers(Users users) {
+//		this.users = users;
+//	}
 }

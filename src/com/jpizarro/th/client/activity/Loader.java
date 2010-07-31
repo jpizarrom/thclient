@@ -7,13 +7,11 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
-import com.jpizarro.th.entity.Competitor;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Goal;
-import com.jpizarro.th.entity.Hint;
-import com.jpizarro.th.entity.Team;
-import com.jpizarro.th.entity.Test;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.GoalTO;
+import com.jpizarro.th.entity.HintTO;
+import com.jpizarro.th.entity.TeamTO;
+import com.jpizarro.th.entity.UserTO;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -30,7 +28,7 @@ import android.widget.Toast;
 public class Loader extends ListActivity {
 	
 	private TestTask testTask;
-	User user;
+	UserTO user;
 	GenericGameResponseTO ggrTO;
 	
 	/** Called when the activity is first created. */
@@ -96,7 +94,7 @@ public class Loader extends ListActivity {
 		        	return;
 	        	}
 			
-			user = (User)msg.getData().getSerializable("user");
+			user = (UserTO)msg.getData().getSerializable("user");
 			ggrTO = (GenericGameResponseTO)msg.getData().getSerializable("ggrTO");
 			
 			doTest();
@@ -117,7 +115,7 @@ public class Loader extends ListActivity {
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			
-			User user;
+			UserTO user;
 			try {
 				user = userService.login("j", "j");
 				GenericGameResponseTO ggrTO = gameService.updateLocation(10, 10);

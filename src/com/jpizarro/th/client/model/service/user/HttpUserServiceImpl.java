@@ -1,11 +1,11 @@
 package com.jpizarro.th.client.model.service.user;
 
 import com.jpizarro.th.client.model.util.http.HttpHelper;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.UserTO;
 
 public class HttpUserServiceImpl implements UserService{
 
-	public User login(String login, String clearPassword)
+	public UserTO login(String login, String clearPassword)
 			throws Exception {
 		return HttpHelper.getInstance().login(login, clearPassword);
 	}

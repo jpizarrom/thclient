@@ -3,7 +3,7 @@ package com.jpizarro.th.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 
-public class Game implements Serializable{
+public class GameTO implements Serializable{
 	
 	/**
 	 * 
@@ -31,9 +31,9 @@ public class Game implements Serializable{
 	private int latitude;
 	private int longitude;
 	
-	public Game() {}
+	public GameTO() {}
 	
-	public Game(long gameId, Calendar startDate, Calendar finishDate,
+	public GameTO(long gameId, Calendar startDate, Calendar finishDate,
 			String city, int availablePlaces, int availableHints,
 			int availableGoals, int currentTeams, int currentUsers,
 			int currentMessages, int maxTeams, int maxUserPerTeam,

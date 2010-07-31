@@ -20,8 +20,8 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
-import com.jpizarro.th.entity.Hint;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.HintTO;
+import com.jpizarro.th.entity.UserTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -110,7 +110,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private UpdateLocationTask updateLocationTask = new UpdateLocationTask();
 	private TakePlaceTask takePlaceTask = new TakePlaceTask();
 	
-	private User user;
+	private UserTO user;
 		
 	// ===========================================================
 	// Constructors
@@ -194,7 +194,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         // register location listener
 		initLocation();
     	
-    	user = (User)getIntent().getExtras().getSerializable("user");
+    	user = (UserTO)getIntent().getExtras().getSerializable("user");
 
     	launchStartGameThread();
     }
@@ -454,7 +454,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		hints.clear();
 		
 		if (genericGameResponseTO.getGoal() != null) {
-			Hint in = genericGameResponseTO.getGoal() ;
+			HintTO in = genericGameResponseTO.getGoal() ;
 			GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 			int type = HintOverlayItem.ITEM_HIDE;
 			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
@@ -466,7 +466,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 
 		if (genericGameResponseTO.getHints().size() != 0) {
-			for( Hint in : genericGameResponseTO.getHints() ){
+			for( HintTO in : genericGameResponseTO.getHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						g, HintOverlayItem.ITEM_TEAM_HAVE));
@@ -474,7 +474,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		
 		if (genericGameResponseTO.getHideHints().size() != 0) {
-			for( Hint in : genericGameResponseTO.getHideHints() ){
+			for( HintTO in : genericGameResponseTO.getHideHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 				int type = HintOverlayItem.ITEM_HIDE;
 				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
@@ -485,14 +485,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		
 		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
-			for( Hint in : genericGameResponseTO.getUserSeeHintTOList() ){
+			for( HintTO in : genericGameResponseTO.getUserSeeHintTOList() ){
 				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_USER_SEE));
 			}
 		}
 		
 		if (genericGameResponseTO.getTeamSeeHintTOList().size() != 0) {
-			for( Hint in : genericGameResponseTO.getTeamSeeHintTOList() ){
+			for( HintTO in : genericGameResponseTO.getTeamSeeHintTOList() ){
 				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_TEAM_SEE));
 			}

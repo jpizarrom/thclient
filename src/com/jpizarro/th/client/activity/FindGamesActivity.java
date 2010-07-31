@@ -6,7 +6,7 @@ import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.UserTO;
 import com.jpizarro.th.util.CustomResultCodes;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -31,7 +31,7 @@ public class FindGamesActivity extends Activity {
 	private static final int LOGOUT_ID = Menu.FIRST;
 	private static final int FIND_GAMES_ID = Menu.FIRST + 1;
 	
-	private User user;
+	private UserTO user;
 	
 	private Spinner spinner;
 	
@@ -50,7 +50,7 @@ public class FindGamesActivity extends Activity {
 		
 		method = getIntent().getExtras().getInt("method");
 		
-		user = (User)getIntent().getExtras().getSerializable("user");
+		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		
 		if (method == SEARCH_METHOD_CITY) {
 			launchFindCitiesThread();

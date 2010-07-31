@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jpizarro.th.entity.Goal;
-import com.jpizarro.th.entity.Hint;
-import com.jpizarro.th.entity.Message;
-import com.jpizarro.th.entity.list.Users;
+import com.jpizarro.th.entity.GoalTO;
+import com.jpizarro.th.entity.HintTO;
+import com.jpizarro.th.entity.MessageTO;
+import com.jpizarro.th.entity.list.UsersTO;
 
 public class GenericGameResponseTO implements Serializable {
 
@@ -18,12 +18,12 @@ public class GenericGameResponseTO implements Serializable {
 	
 	private List<InGameUserInfoTO> inGameUserInfoTOs = new ArrayList<InGameUserInfoTO>();
 //	private Users inGameUserInfoTOs;
-	private List<Hint> hints = new ArrayList<Hint>();
-	private List<Hint> hideHints = new ArrayList<Hint>();
-	private List<Hint> userSeeHintTOList = new ArrayList<Hint>();
-	private List<Hint> teamSeeHintTOList = new ArrayList<Hint>();
-	private Hint goal;
-	private List<Message> myMessages = new ArrayList<Message>();
+	private List<HintTO> hints = new ArrayList<HintTO>();
+	private List<HintTO> hideHints = new ArrayList<HintTO>();
+	private List<HintTO> userSeeHintTOList = new ArrayList<HintTO>();
+	private List<HintTO> teamSeeHintTOList = new ArrayList<HintTO>();
+	private HintTO goal;
+	private List<MessageTO> myMessages = new ArrayList<MessageTO>();
 	private boolean hasFinished = false;	
 
 	public GenericGameResponseTO() {
@@ -47,7 +47,7 @@ public class GenericGameResponseTO implements Serializable {
 //		return null;
 //	}
 
-	public Hint getGoal() {
+	public HintTO getGoal() {
 		return goal;
 	}
 
@@ -59,39 +59,39 @@ public class GenericGameResponseTO implements Serializable {
 		this.inGameUserInfoTOs = inGameUserInfoTOs;
 	}
 
-	public void setGoal(Hint goal) {
+	public void setGoal(HintTO goal) {
 		this.goal = goal;
 	}
 
-	public List<Hint> getHints() {
+	public List<HintTO> getHints() {
 		return hints;
 	}
 
-	public void setHints(List<Hint> hints) {
+	public void setHints(List<HintTO> hints) {
 		this.hints = hints;
 	}
 
-	public List<Hint> getHideHints() {
+	public List<HintTO> getHideHints() {
 		return hideHints;
 	}
 
-	public void setHideHints(List<Hint> hideHints) {
+	public void setHideHints(List<HintTO> hideHints) {
 		this.hideHints = hideHints;
 	}
 
-	public List<Hint> getUserSeeHintTOList() {
+	public List<HintTO> getUserSeeHintTOList() {
 		return userSeeHintTOList;
 	}
 
-	public void setUserSeeHintTOList(List<Hint> userSeeHintTOList) {
+	public void setUserSeeHintTOList(List<HintTO> userSeeHintTOList) {
 		this.userSeeHintTOList = userSeeHintTOList;
 	}
 
-	public List<Hint> getTeamSeeHintTOList() {
+	public List<HintTO> getTeamSeeHintTOList() {
 		return teamSeeHintTOList;
 	}
 
-	public void setTeamSeeHintTOList(List<Hint> teamSeeHintTOList) {
+	public void setTeamSeeHintTOList(List<HintTO> teamSeeHintTOList) {
 		this.teamSeeHintTOList = teamSeeHintTOList;
 	}
 
@@ -103,11 +103,11 @@ public class GenericGameResponseTO implements Serializable {
 		this.hasFinished = hasFinished;
 	}
 
-	public List<Message> getMyMessages() {
+	public List<MessageTO> getMyMessages() {
 		return myMessages;
 	}
 
-	public void setMyMessages(List<Message> myMessages) {
+	public void setMyMessages(List<MessageTO> myMessages) {
 		this.myMessages = myMessages;
 	}
 }

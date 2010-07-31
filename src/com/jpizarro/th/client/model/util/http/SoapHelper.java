@@ -1,16 +1,22 @@
 package com.jpizarro.th.client.model.util.http;
 
+import java.util.List;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.AndroidHttpTransport;
 
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.client.model.service.to.GameCTO;
+import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
+import com.jpizarro.th.entity.UserTO;
 
 import android.util.Log;
 import android.widget.Toast;
 
-public class SoapHelper {
+public class SoapHelper implements THHelper{
     /** Called when the activity is first created. */
 	private static final String SOAP_ACTION = "joinGame";
     private static final String METHOD_NAME = "joinGame";
@@ -33,7 +39,7 @@ public class SoapHelper {
 		return instance;
 	}
 	
-	public User login(String userName, String password) 
+	public UserTO login(String userName, String password) 
 	throws Exception {
 		SoapObject request = new SoapObject(NAMESPACE,SoapHelper.METHOD_LOGIN);
 		
@@ -50,7 +56,7 @@ public class SoapHelper {
             androidHttpTransport.call(SoapHelper.METHOD_LOGIN, envelope);
             SoapObject result = null;
             result = (SoapObject) envelope.getResponse();
-            User ret = new User();
+            UserTO ret = new UserTO();
             
             ret.setUsername(result.getProperty("username").toString());
             ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
@@ -65,7 +71,7 @@ public class SoapHelper {
           }
 	}
 	
-	public User findUserById(long gameId)  throws Exception {
+	public UserTO findUserById(long gameId)  throws Exception {
 		String method = SoapHelper.FIND_USER_BY_ID;
 		SoapObject request = new SoapObject(NAMESPACE,method);
 		
@@ -81,7 +87,7 @@ public class SoapHelper {
             androidHttpTransport.call(method, envelope);
             SoapObject result = null;
             result = (SoapObject) envelope.getResponse();
-            User ret = new User();
+            UserTO ret = new UserTO();
             
             ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
             ret.setUsername(result.getProperty("username").toString());
@@ -134,5 +140,72 @@ public class SoapHelper {
           }
           return r;
     }
+
+	public void logout(String login) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean registerUser() throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateUser() throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean changePassword(String oldPassword, String newPassword)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public List<String> findCitiesWithGames() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GameTO findGame(long gameId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GenericGameResponseTO updateLocation(int latitude, int longitude)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean sendMessage(String receiverLogin, String body)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public GameCTO findGamesByCity(String city, int startIndex, int count)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GenericGameResponseTO startOrContinueGame(String login)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GenericGameResponseTO takePlace(long id, int latitude, int longitude)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

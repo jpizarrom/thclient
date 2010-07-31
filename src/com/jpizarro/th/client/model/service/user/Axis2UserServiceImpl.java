@@ -2,19 +2,19 @@ package com.jpizarro.th.client.model.service.user;
 
 import com.jpizarro.th.client.model.util.http.HttpHelper;
 import com.jpizarro.th.client.model.util.http.SoapHelper;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.UserTO;
 
 public class Axis2UserServiceImpl implements UserService{
 
-	public User login(String login, String clearPassword)
+	public UserTO login(String login, String clearPassword)
 			throws Exception {
-		User user =  SoapHelper.getInstance().login(login, clearPassword);
+		UserTO user =  SoapHelper.getInstance().login(login, clearPassword);
 		return findUserById(user.getPlaceId());
 	}
 	
 	
-	private User findUserById(long gameId)  throws Exception {
+	private UserTO findUserById(long gameId)  throws Exception {
 		return SoapHelper.getInstance().findUserById(gameId);
 	}
 

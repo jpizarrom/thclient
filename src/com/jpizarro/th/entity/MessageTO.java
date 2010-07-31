@@ -1,6 +1,6 @@
 package com.jpizarro.th.entity;
 
-public class Message {
+public class MessageTO {
 	private long messageId;
 	private String senderLogin;
 	private String receiverLogin;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Team implements Serializable {
+public class TeamTO implements Serializable {
 	/**
 	 * 
 	 */
@@ -15,15 +15,15 @@ public class Team implements Serializable {
 //	private List<Competitor> competitors;
 //	private List<Hint> hints;
 	private int currentUsers;
-	private List<User> users;
+	private List<UserTO> users;
 	
-	public Team(String name) {
+	public TeamTO(String name) {
 		super();
 		this.name = name;
 //		competitors = new ArrayList<Competitor>();
 	}
 
-	public Team() {
+	public TeamTO() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -71,14 +71,14 @@ public class Team implements Serializable {
 		this.currentUsers = currentUsers;
 	}
 
-	public List<User> getUsers() {
+	public List<UserTO> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<User> users) {
+	public void setUsers(List<UserTO> users) {
 		this.users = users;
 	}
-	public void addUser(User user) {
+	public void addUser(UserTO user) {
 		this.users.add(user);
 	}
 }

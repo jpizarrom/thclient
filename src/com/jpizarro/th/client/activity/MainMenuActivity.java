@@ -3,8 +3,8 @@ package com.jpizarro.th.client.activity;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.User;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.UserTO;
 import com.jpizarro.th.util.CustomResultCodes;
 
 
@@ -35,8 +35,8 @@ public class MainMenuActivity extends Activity {
 	
 	private TextView usernameView, gamenameView, teamnameView;
 	
-	private User user;
-	private Game game;
+	private UserTO user;
+	private GameTO game;
 	 
 	 
 	 private String city = null;
@@ -55,9 +55,9 @@ public class MainMenuActivity extends Activity {
 	protected void onResume() {
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		super.onResume();
-		user = (User)getIntent().getExtras().getSerializable("user");
+		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		if ( user.getGameId() > 0 )
-			game = (Game)getIntent().getExtras().getSerializable("game");
+			game = (GameTO)getIntent().getExtras().getSerializable("game");
 		fillPersonalInfo();
 		if (game != null)
 			fillGameInfo();

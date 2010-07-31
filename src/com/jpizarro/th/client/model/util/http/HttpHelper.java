@@ -16,18 +16,18 @@ import android.util.Log;
 
 import com.jpizarro.th.client.model.service.to.GameCTO;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.entity.Game;
-import com.jpizarro.th.entity.Team;
-import com.jpizarro.th.entity.User;
-import com.jpizarro.th.entity.list.Cities;
-import com.jpizarro.th.entity.list.Games;
-import com.jpizarro.th.entity.list.Teams;
+import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
+import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.entity.list.CitiesTO;
+import com.jpizarro.th.entity.list.GamesTO;
+import com.jpizarro.th.entity.list.TeamsTO;
 import com.jpizarro.th.util.xml.xstream.XStreamFactory;
 import com.thoughtworks.xstream.XStream;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
-public class HttpHelper {
+public class HttpHelper implements THHelper{
 	
 	private String TAG = "HttpHelper";
 	private final String SERVER_HOST_IP = "cs01.doingit.cl";
@@ -97,7 +97,7 @@ public class HttpHelper {
 		
 		return xstream;
 	}
-	public User login(String userName, String password) 
+	public UserTO login(String userName, String password) 
 	throws Exception {
 		String encodedLogin = URLEncoder.encode(userName.replace("%2B", "+"), "UTF-8");
 		String encodedPassword = URLEncoder.encode(password.replace("%2B", "+"), "UTF-8");
@@ -111,7 +111,7 @@ public class HttpHelper {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return (User)this.getXStream().fromXML(entity.getContent());    	
+        	return (UserTO)this.getXStream().fromXML(entity.getContent());    	
 //        	return XMLToBussinessConversor.toUser(entity);
 //        } catch (ServerException e) {
 //        	throw e;
@@ -165,7 +165,7 @@ public class HttpHelper {
 			response = client.execute(request);
 			HttpEntity entity = response.getEntity();
 			
-			Cities cities = (Cities)this.getXStream().fromXML(entity.getContent());
+			CitiesTO cities = (CitiesTO)this.getXStream().fromXML(entity.getContent());
 			return cities.getCities();
 //			return XMLToBussinessConversor.toCityList(entity);
 //		} catch (ServerException e) {
@@ -180,7 +180,7 @@ public class HttpHelper {
 		
 	}
 	
-	public Game findGame(long gameId)  throws Exception {
+	public GameTO findGame(long gameId)  throws Exception {
 		request = new HttpGet(FULL_ADDRESS + 
 				FIND_GAME_BY_ID_URL + "?" + 
 				GAME_ID_PARAMETER + "=" + gameId);
@@ -189,7 +189,7 @@ public class HttpHelper {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	return (Game)this.getXStream().fromXML(entity.getContent());
+        	return (GameTO)this.getXStream().fromXML(entity.getContent());
 //        	return XMLToBussinessConversor.toGame(entity);
 //        } catch (ServerException e) {
 //        	throw e;
@@ -307,7 +307,7 @@ throws Exception {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
 
-        	Games response = (Games)this.getXStream().fromXML(entity.getContent());
+        	GamesTO response = (GamesTO)this.getXStream().fromXML(entity.getContent());
         	return new GameCTO(response.getGames(),false);
 //        	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
 //        	return gameCTO;
@@ -345,7 +345,7 @@ throws Exception {
         }
 	}
 
-	public List<Team> findTeamsByGame(long gameId, int startIndex, int count) 
+	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception {
 		// TODO Auto-generated method stub
 //		String encodedCity = URLEncoder.encode(city.replace("%2B", "+"), "UTF-8");
@@ -360,7 +360,7 @@ throws Exception {
         	response = client.execute(request);
         	HttpEntity entity = response.getEntity();
         	
-        	Teams response = (Teams)this.getXStream().fromXML(entity.getContent());
+        	TeamsTO response = (TeamsTO)this.getXStream().fromXML(entity.getContent());
         	return response.getTeams();
 //        	List<Team> teams = XMLToBussinessConversor.toTeamList(entity);
 //        	return teams;

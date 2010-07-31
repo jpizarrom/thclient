@@ -24,7 +24,7 @@ package com.jpizarro.th.client.model.service.to;
 import java.io.Serializable;
 import java.util.List;
 
-import com.jpizarro.th.entity.Game;
+import com.jpizarro.th.entity.GameTO;
 
 /**
  * 
@@ -36,12 +36,12 @@ public class GameCTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3611436455883261106L;
-	private List<Game> gameList;
+	private List<GameTO> gameList;
 	private boolean hasMore;
 	
 	public GameCTO() {}
 	
-	public GameCTO(List<Game> gameList, boolean hasMore) {
+	public GameCTO(List<GameTO> gameList, boolean hasMore) {
 		super();
 		this.hasMore = hasMore;
 		this.gameList = gameList;
@@ -55,11 +55,11 @@ public class GameCTO implements Serializable {
 		this.hasMore = hasMore;
 	}
 
-	public List<Game> getGameList() {
+	public List<GameTO> getGameList() {
 		return gameList;
 	}
 
-	public void setGameList(List<Game> gameList) {
+	public void setGameList(List<GameTO> gameList) {
 		this.gameList = gameList;
 	}
 

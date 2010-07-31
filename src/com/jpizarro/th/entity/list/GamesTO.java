@@ -2,14 +2,14 @@ package com.jpizarro.th.entity.list;
 
 import java.util.List;
 
-import com.jpizarro.th.entity.Team;
+import com.jpizarro.th.entity.GameTO;
 
-public class Teams {
+public class GamesTO {
 	private Integer count;
 	private Integer start;
 	private Integer total;
-	private List<Team> teams;
-	private Users users;
+	private List<GameTO> games;
+	private boolean hasMore;
 	public Integer getCount() {
 		return count;
 	}
@@ -28,20 +28,17 @@ public class Teams {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
-	public List<Team> getTeams() {
-		return teams;
+	public List<GameTO> getGames() {
+		return games;
 	}
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
+	public void setGames(List<GameTO> games) {
+		this.games = games;
 	}
-	public void addTeam(Team t){
-		this.addTeam(t);
+	public boolean isHasMore() {
+		return hasMore;
 	}
-	public Users getUsers() {
-		return users;
-	}
-	public void setUsers(Users users) {
-		this.users = users;
+	public void setHasMore(boolean hasMore) {
+		this.hasMore = hasMore;
 	}
 	
 }
