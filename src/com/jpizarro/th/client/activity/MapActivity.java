@@ -20,6 +20,7 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
+import com.jpizarro.th.entity.GoalTO;
 import com.jpizarro.th.entity.HintTO;
 import com.jpizarro.th.entity.UserTO;
 
@@ -451,7 +452,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		hints.clear();
 		
 		if (genericGameResponseTO.getGoal() != null) {
-			HintTO in = genericGameResponseTO.getGoal() ;
+			GoalTO in = genericGameResponseTO.getGoal() ;
 			GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 			int type = HintOverlayItem.ITEM_HIDE;
 			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )

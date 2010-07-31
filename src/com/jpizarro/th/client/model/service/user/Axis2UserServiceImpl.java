@@ -9,7 +9,7 @@ public class Axis2UserServiceImpl implements UserService{
 	public UserTO login(String login, String clearPassword)
 			throws Exception {
 		UserTO user =  SoapHelper.getInstance().login(login, clearPassword);
-		return findUserById(user.getPlaceId());
+		return findUserById(user.getUserId());
 	}
 	
 	
