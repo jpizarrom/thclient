@@ -2,8 +2,6 @@ package com.jpizarro.th.entity.list;
 
 import java.util.List;
 
-import com.jpizarro.th.entity.GameTO;
-
 public class CitiesTO {
 	private Integer count;
 	private Integer start;

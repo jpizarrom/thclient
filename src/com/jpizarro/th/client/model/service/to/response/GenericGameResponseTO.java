@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jpizarro.th.entity.GoalTO;
 import com.jpizarro.th.entity.HintTO;
 import com.jpizarro.th.entity.MessageTO;
-import com.jpizarro.th.entity.list.UsersTO;
 
 public class GenericGameResponseTO implements Serializable {
 

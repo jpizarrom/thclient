@@ -1,7 +1,6 @@
 package com.jpizarro.th.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeamTO implements Serializable {

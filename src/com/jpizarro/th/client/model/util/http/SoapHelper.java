@@ -14,7 +14,6 @@ import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
 
 import android.util.Log;
-import android.widget.Toast;
 
 public class SoapHelper implements THHelper{
     /** Called when the activity is first created. */

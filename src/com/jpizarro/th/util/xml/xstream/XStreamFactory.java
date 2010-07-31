@@ -12,9 +12,6 @@ import com.jpizarro.th.entity.list.GamesTO;
 import com.jpizarro.th.entity.list.TeamsTO;
 import com.jpizarro.th.entity.list.UsersTO;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.basic.BooleanConverter;
-import com.thoughtworks.xstream.converters.basic.NullConverter;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
 public class XStreamFactory

@@ -2,7 +2,6 @@ package com.jpizarro.th.client.model.service.user;
 
 import com.jpizarro.th.client.model.util.http.HttpHelper;
 import com.jpizarro.th.client.model.util.http.SoapHelper;
-import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.UserTO;
 
 public class Axis2UserServiceImpl implements UserService{

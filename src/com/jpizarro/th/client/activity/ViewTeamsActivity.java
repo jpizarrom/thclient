@@ -5,8 +5,6 @@ import java.util.List;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
-import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
 
@@ -25,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 

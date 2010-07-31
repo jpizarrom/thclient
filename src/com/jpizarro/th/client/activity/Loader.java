@@ -7,10 +7,6 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
-import com.jpizarro.th.entity.GameTO;
-import com.jpizarro.th.entity.GoalTO;
-import com.jpizarro.th.entity.HintTO;
-import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
 
 import android.app.Dialog;

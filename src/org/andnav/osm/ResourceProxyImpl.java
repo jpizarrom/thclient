@@ -1,12 +1,8 @@
 package org.andnav.osm;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
-import org.andnav.osm.ResourceProxy.bitmap;
-import org.andnav.osm.ResourceProxy.string;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 public class ResourceProxyImpl extends DefaultResourceProxyImpl {
