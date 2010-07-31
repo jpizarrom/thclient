@@ -1,4 +1,4 @@
-package com.jpizarro.th.util;
+package com.jpizarro.th.client.util;
 
 import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;

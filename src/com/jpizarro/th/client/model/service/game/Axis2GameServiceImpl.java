@@ -2,11 +2,11 @@ package com.jpizarro.th.client.model.service.game;
 
 import java.util.List;
 
-import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.client.model.util.http.HttpHelper;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.TeamTO;
+import com.jpizarro.th.entity.list.GamesTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -34,7 +34,7 @@ public class Axis2GameServiceImpl implements GameService{
 		return HttpHelper.getInstance().updateLocation(latitude, longitude);
 	}
 
-	public GameCTO findGamesByCity(String city, int startIndex, int count)
+	public GamesTO findGamesByCity(String city, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return HttpHelper.getInstance().findGamesByCity(city, 

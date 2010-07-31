@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
-import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.client.model.service.to.response.InGameUserInfoTO;
+import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
 import com.jpizarro.th.entity.UserTO;
 

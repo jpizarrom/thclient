@@ -7,11 +7,11 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.AndroidHttpTransport;
 
-import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.entity.list.GamesTO;
 
 import android.util.Log;
 
@@ -183,7 +183,7 @@ public class SoapHelper implements THHelper{
 		return false;
 	}
 
-	public GameCTO findGamesByCity(String city, int startIndex, int count)
+	public GamesTO findGamesByCity(String city, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;

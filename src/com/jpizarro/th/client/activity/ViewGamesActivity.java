@@ -3,10 +3,10 @@ package com.jpizarro.th.client.activity;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
-import com.jpizarro.th.client.model.service.to.GameCTO;
+import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.UserTO;
-import com.jpizarro.th.util.CustomResultCodes;
+import com.jpizarro.th.entity.list.GamesTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -87,12 +87,12 @@ public class ViewGamesActivity extends ListActivity {
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			try {
-				GameCTO gameCTO;
+				GamesTO gameCTO;
 //				if (city != null) 
 					gameCTO = gameService.findGamesByCity(city, 
 							0, 10);
 
-				data.putSerializable("gameArray", gameCTO.getGameList().
+				data.putSerializable("gameArray", gameCTO.getGames().
 						toArray(new GameTO [0]));
 				data.putBoolean("hasMore", gameCTO.isHasMore());
 				msg.setData(data);

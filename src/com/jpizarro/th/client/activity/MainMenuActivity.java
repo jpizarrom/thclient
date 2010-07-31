@@ -3,9 +3,9 @@ package com.jpizarro.th.client.activity;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.UserTO;
-import com.jpizarro.th.util.CustomResultCodes;
 
 
 import android.app.Activity;

@@ -14,8 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
 
-import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
@@ -293,7 +292,7 @@ throws Exception {
         }
 	}
 	
-	public GameCTO findGamesByCity(String city, int startIndex, int count) 
+	public GamesTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception {
 		String encodedCity = URLEncoder.encode(city.replace("%2B", "+"), "UTF-8");
 		request = new HttpGet(FULL_ADDRESS + 
@@ -308,7 +307,8 @@ throws Exception {
         	HttpEntity entity = response.getEntity();
 
         	GamesTO response = (GamesTO)this.getXStream().fromXML(entity.getContent());
-        	return new GameCTO(response.getGames(),false);
+        	return response;
+//        	return new GameCTO(response.getGames(),false);
 //        	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
 //        	return gameCTO;
 //        } catch (ServerException e) {

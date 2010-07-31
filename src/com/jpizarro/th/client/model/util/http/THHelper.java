@@ -2,11 +2,11 @@ package com.jpizarro.th.client.model.util.http;
 
 import java.util.List;
 
-import com.jpizarro.th.client.model.service.to.GameCTO;
-import com.jpizarro.th.client.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.entity.list.GamesTO;
 
 public interface THHelper {
 	public UserTO login(String userName, String password) 
@@ -37,7 +37,7 @@ public interface THHelper {
 	public boolean sendMessage(String receiverLogin, String body) 
 	throws Exception;
 	
-	public GameCTO findGamesByCity(String city, int startIndex, int count) 
+	public GamesTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception;
 	
 	public GenericGameResponseTO startOrContinueGame(String login) 

@@ -19,48 +19,25 @@
  * along with Android Runner.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jpizarro.th.client.model.service.to;
+package com.jpizarro.th.client.util;
 
-import java.io.Serializable;
-import java.util.List;
-
-import com.jpizarro.th.entity.GameTO;
+import android.app.Activity;
 
 /**
  * 
  * @author "Xurxo Mendez Perez"
  *
  */
-public class GameCTO implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3611436455883261106L;
-	private List<GameTO> gameList;
-	private boolean hasMore;
-	
-	public GameCTO() {}
-	
-	public GameCTO(List<GameTO> gameList, boolean hasMore) {
-		super();
-		this.hasMore = hasMore;
-		this.gameList = gameList;
-	}
+public class CustomResultCodes {
 
-	public boolean isHasMore() {
-		return hasMore;
-	}
-
-	public void setHasMore(boolean hasMore) {
-		this.hasMore = hasMore;
-	}
-
-	public List<GameTO> getGameList() {
-		return gameList;
-	}
-
-	public void setGameList(List<GameTO> gameList) {
-		this.gameList = gameList;
-	}
-
+	public static final int LOGOUT_RESULT_CODE = Activity.RESULT_FIRST_USER;
+//	public static final int VH_NO_GAMES_RESULT_CODE = LOGOUT_RESULT_CODE + 1;
+//	public static final int REMOVED_FROM_GAME_RESULT_CODE = LOGOUT_RESULT_CODE + 2;
+	public static final int FG_NO_CITIES_RESULT_CODE = LOGOUT_RESULT_CODE + 3;
+//	public static final int VG_NO_GAMES_RESULT_CODE = LOGOUT_RESULT_CODE + 4;
+//	public static final int GAME_FINISHED_RESULT_CODE = LOGOUT_RESULT_CODE + 5;
+//	public static final int ABANDONED_RESULT_CODE = LOGOUT_RESULT_CODE + 6;
+	public static final int VIEW_GAMES_REQUEST_CODE = LOGOUT_RESULT_CODE + 7;
+//	public static final int JOINED_RESULT_CODE = LOGOUT_RESULT_CODE + 8;
+	public static final int VIEW_TEAMS_REQUEST_CODE = LOGOUT_RESULT_CODE + 9;
 }

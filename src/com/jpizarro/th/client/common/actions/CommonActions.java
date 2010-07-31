@@ -2,7 +2,7 @@ package com.jpizarro.th.client.common.actions;
 
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
-import com.jpizarro.th.util.CustomResultCodes;
+import com.jpizarro.th.client.util.CustomResultCodes;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 import android.app.Activity;
