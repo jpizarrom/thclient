@@ -1,16 +1,26 @@
 package com.jpizarro.th.client.model.util.http;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 
 import android.util.Log;
 
@@ -27,7 +37,12 @@ import com.thoughtworks.xstream.XStream;
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class HttpHelper implements THHelper{
-	
+	protected static final Logger LOG = Logger.getLogger(HttpHelper.class.getCanonicalName());
+
+
+	private static final boolean DEBUG = false;
+
+
 	private String TAG = "HttpHelper";
 //	private final String SERVER_HOST_IP = "cs01.doingit.cl";
 //	private final String SERVER_PORT = "8081";
@@ -36,17 +51,18 @@ public class HttpHelper implements THHelper{
 //	private final String SERVER_HOST_IP = "10.42.43.1";
 //	private final String SERVER_HOST_IP = "192.168.1.70";
 	private final String SERVER_PORT = "8070";
-	private final String GAME_URL = "thserver";
-	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
-		SERVER_PORT + "/" + GAME_URL + "/";
+	private final String URL_SERVICE = "thserver";
+//	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
+//		SERVER_PORT + "/" + URL_SERVICE + "/";
 	
-	private final String LOGIN_URL = "ws/login";
+	
+	private final String LOGIN_URL = "login";
 	private final String LOGIN_PARAMETER = "login";
 	private final String CLEAR_PASSWORD_PARAMETER = "password";
 	
-	private final String FIND_CITIES_WITH_GAMES_URL = "ws/findCitiesWithGames";
-	private final String FIND_GAMES_BY_CITY_URL = "ws/findGamesByCity";
-	private final String FIND_GAME_BY_ID_URL = "ws/findGameById";
+	private final String FIND_CITIES_WITH_GAMES_URL = "findCitiesWithGames";
+	private final String FIND_GAMES_BY_CITY_URL = "findGamesByCity";
+	private final String FIND_GAME_BY_ID_URL = "findGameById";
 	
 	private final String CITY_PARAMETER = "city";
 	private final String START_INDEX_PARAMETER = "startIndex";
@@ -54,34 +70,46 @@ public class HttpHelper implements THHelper{
 	private final String GAME_ID_PARAMETER = "gameId";
 	private final String TEAM_ID_PARAMETER = "teamId";
 	
-	private final String LOGOUT_URL = "ws/logout";
+	private final String LOGOUT_URL = "logout";
 	
-	private final String START_OR_CONTINUEGAME_URL = "ws/GameState";
+	private final String START_OR_CONTINUEGAME_URL = "GameState";
 	
-	private final String UPDATE_LOCATION_URL = "ws/updateLocation";
+	private final String UPDATE_LOCATION_URL = "updateLocation";
 	private final String LATITUDE_PARAMETER = "latitude";
 	private final String LONGITUDE_PARAMETER = "longitude";
 	
-	private final String SEND_MESSAGE_URL = "ws/sendMessage";
+	private final String SEND_MESSAGE_URL = "sendMessage";
 	private final String RECEIVER_USER_PARAMETER = "receiverUser";
 	private final String BODY_PARAMETER = "body";
 	
-	private final String FIND_TEAMS_BY_GAME_URL = "ws/findTeamsByGame";
-	private final String JOIN_GAME_URL = "ws/joinGame";
+	private final String FIND_TEAMS_BY_GAME_URL = "findTeamsByGame";
+	private final String FIND_TEAM_BY_ID_URL = "findTeamById";
+	private final String JOIN_GAME_URL = "joinGame";
 	
-	private final String TAKE_PLACE_URL = "ws/takePlace";
+	private final String TAKE_PLACE_URL = "takePlace";
 	private final String PLACE_ID_PARAMETER = "placeId";
 
 	
 	private static HttpClient client = new DefaultHttpClient();
-	private HttpUriRequest request;
+	private HttpRequestBase request;
 	private HttpResponse response;
 	private static HttpHelper instance;
 	private XStream xstream;
+
+
+	private static final String CLIENT_VERSION_HEADER = "User-Agent";
+	private String mClientVersion;
+
+	private String mApiBaseUrl = "http://" + SERVER_HOST_IP + ":" + 
+		SERVER_PORT + "/" + URL_SERVICE +"/"+"ws"+"/";
 	
+	public HttpHelper() {
+		super();
+		mClientVersion = CLIENT_VERSION_HEADER;
+	}
 	static {
 		instance = new HttpHelper();
-		
+
 	}
 	public static HttpHelper getInstance() {
 		return instance;
@@ -96,49 +124,84 @@ public class HttpHelper implements THHelper{
 		
 		return xstream;
 	}
+	
+    public HttpResponse executeHttpRequest(HttpRequestBase httpRequest) throws IOException {
+        if (DEBUG) LOG.log(Level.FINE, "executing HttpRequest for: "
+                + httpRequest.getURI().toString());
+        Log.d(TAG, httpRequest.getURI().toString());
+        try {
+        	client.getConnectionManager().closeExpiredConnections();
+            return client.execute(httpRequest);
+        } catch (IOException e) {
+            httpRequest.abort();
+            throw e;
+        }
+    }
+    public Object executeHttpRequest(HttpRequestBase httpRequest, XStream xstream)
+    throws Exception{
+
+    	 HttpResponse response = executeHttpRequest(httpRequest);
+    	 
+    	 int statusCode = response.getStatusLine().getStatusCode();
+         switch (statusCode) {
+             case 200:
+            	 return xstream.fromXML(response.getEntity().getContent()); 
+         }
+         throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
+     			"executeHttpRequest");
+    }
+    
+    public HttpGet createHttpGet(String url, NameValuePair... nameValuePairs) {
+        if (DEBUG) LOG.log(Level.FINE, "creating HttpGet for: " + url);
+        String query = URLEncodedUtils.format(stripNulls(nameValuePairs), HTTP.UTF_8);
+        HttpGet httpGet = new HttpGet(url + "?" + query);
+        httpGet.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
+        if (DEBUG) LOG.log(Level.FINE, "Created: " + httpGet.getURI());
+        return httpGet;
+    }
+
+    public HttpPost createHttpPost(String url, NameValuePair... nameValuePairs) {
+        if (DEBUG) LOG.log(Level.FINE, "creating HttpPost for: " + url);
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader(CLIENT_VERSION_HEADER, mClientVersion);
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(stripNulls(nameValuePairs), HTTP.UTF_8));
+        } catch (UnsupportedEncodingException e1) {
+            throw new IllegalArgumentException("Unable to encode http parameters.");
+        }
+        if (DEBUG) LOG.log(Level.FINE, "Created: " + httpPost);
+        return httpPost;
+    }
+    private List<NameValuePair> stripNulls(NameValuePair... nameValuePairs) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        for (int i = 0; i < nameValuePairs.length; i++) {
+            NameValuePair param = nameValuePairs[i];
+            if (param.getValue() != null) {
+                if (DEBUG) LOG.log(Level.FINE, "Param: " + param);
+                params.add(param);
+            }
+        }
+        return params;
+    }
+    private String fullUrl(String url) {
+        return mApiBaseUrl   + url;
+    }
+    
 	public UserTO login(String userName, String password) 
 	throws Exception {
-		String encodedLogin = URLEncoder.encode(userName.replace("%2B", "+"), "UTF-8");
-		String encodedPassword = URLEncoder.encode(password.replace("%2B", "+"), "UTF-8");
-        request = new HttpGet(FULL_ADDRESS + 
-        		LOGIN_URL + "?" + 
-        		LOGIN_PARAMETER + "=" + encodedLogin + "&" + 
-        		CLEAR_PASSWORD_PARAMETER + "=" + encodedPassword);
-        Log.d(TAG, request.getURI().toString());
-
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-
-        	return (UserTO)this.getXStream().fromXML(entity.getContent());    	
-//        	return XMLToBussinessConversor.toUser(entity);
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-        			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
-		
+		request = createHttpGet(fullUrl(LOGIN_URL) //
+                ,new BasicNameValuePair(LOGIN_PARAMETER, userName) //
+				,new BasicNameValuePair(CLEAR_PASSWORD_PARAMETER, password) //
+		);
+		return (UserTO) executeHttpRequest(request, this.getXStream() );
 	}
 	
 	public void logout(String login) 
 	throws Exception {
-		String encodedLogin = URLEncoder.encode(login.replace("%2B", "+"), "UTF-8");
-        request = new HttpGet(FULL_ADDRESS + 
-        		LOGOUT_URL + "?" + 
-        		LOGIN_PARAMETER + "=" + encodedLogin);
-        Log.d(TAG, request.getURI().toString());
-        try {
-        	response = client.execute(request);
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	throw e;
-        }
+		request = createHttpGet(fullUrl(LOGOUT_URL) //
+                ,new BasicNameValuePair(LOGIN_PARAMETER, login) //
+		);
+		executeHttpRequest(request, this.getXStream());
 	}
 	
 	public boolean registerUser() 
@@ -156,250 +219,95 @@ public class HttpHelper implements THHelper{
 	}
 
 	public List<String> findCitiesWithGames() throws Exception {
-		request = new HttpGet(FULL_ADDRESS + 
-				FIND_CITIES_WITH_GAMES_URL);
-		 Log.d(TAG, request.getURI().toString());
-		
-		try {
-			response = client.execute(request);
-			HttpEntity entity = response.getEntity();
-			
-			CitiesTO cities = (CitiesTO)this.getXStream().fromXML(entity.getContent());
-			return cities.getCities();
-//			return XMLToBussinessConversor.toCityList(entity);
-//		} catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
-		
+		request = createHttpGet(fullUrl(FIND_CITIES_WITH_GAMES_URL) //
+		);
+		return ((CitiesTO) executeHttpRequest(request, this.getXStream() )).getCities();		
 	}
 	
 	public GameTO findGame(long gameId)  throws Exception {
-		request = new HttpGet(FULL_ADDRESS + 
-				FIND_GAME_BY_ID_URL + "?" + 
-				GAME_ID_PARAMETER + "=" + gameId);
-
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-
-        	return (GameTO)this.getXStream().fromXML(entity.getContent());
-//        	return XMLToBussinessConversor.toGame(entity);
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
+		request = createHttpGet(fullUrl(FIND_GAME_BY_ID_URL) //
+                ,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
+		);
+		return (GameTO) executeHttpRequest(request, this.getXStream());
 	}
+	
 	public boolean joinGame(long gameId, long teamId) 
 throws Exception {
-		
-		String encodedGameId = URLEncoder.encode(
-				String.valueOf(gameId).replace("%2B", "+"), "UTF-8");
-		
-		String encodedTeamId = URLEncoder.encode(
-				String.valueOf(teamId).replace("%2B", "+"), "UTF-8");
-		
-		request = new HttpPost(FULL_ADDRESS + 
-				JOIN_GAME_URL + "?" + 
-        		GAME_ID_PARAMETER + "=" + encodedGameId +"&" +
-        		TEAM_ID_PARAMETER + "=" + encodedTeamId
-				);
-		Log.d("TESTSSSSS", request.getURI().toString());
-		
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-
-        	return (Boolean)this.getXStream().fromXML(entity.getContent());
-//        	return XMLToBussinessConversor.toBooleanOrExceptionJoin(entity);
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
+		request = createHttpGet(fullUrl(JOIN_GAME_URL) //
+                ,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
+				,new BasicNameValuePair(TEAM_ID_PARAMETER, String.valueOf(teamId)) //
+		);
+		return (Boolean) executeHttpRequest(request, this.getXStream());
 	}
 	
 	
 	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
 	throws Exception {
-		request = new HttpPost(FULL_ADDRESS + 
-				UPDATE_LOCATION_URL + "?" + 
-        		LATITUDE_PARAMETER + "=" + String.valueOf(latitude) + "&" +  
-        		LONGITUDE_PARAMETER + "=" + String.valueOf(longitude));
-		try{
-			response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-        	
-        	return (GenericGameResponseTO)this.getXStream().fromXML(entity.getContent());
-//        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
-//	 } catch (ServerException e) {
-//     	throw e;
-     } catch(IOException e) {
-     	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-     } catch (Exception e) {
-     	throw e;
-     }
+		request = createHttpGet(fullUrl(UPDATE_LOCATION_URL) //
+                ,new BasicNameValuePair(LATITUDE_PARAMETER, String.valueOf(latitude)) //
+				,new BasicNameValuePair(LONGITUDE_PARAMETER, String.valueOf(longitude)) //
+		);
+		return (GenericGameResponseTO) executeHttpRequest(request, this.getXStream());
 	}
 	
 	public boolean sendMessage(String receiverLogin, String body) 
 	throws Exception {
-		String encodedBody = 
-			URLEncoder.encode(body.replace("%2B", "+"), "UTF-8");
-		
-		if (receiverLogin != null) {
-			String encodedReceiverLogin = 
-				URLEncoder.encode(receiverLogin.replace("%2B", "+"), "UTF-8");	
-
-			request = new HttpPost(FULL_ADDRESS + 
-	        		SEND_MESSAGE_URL + "?" + 
-	        		RECEIVER_USER_PARAMETER + "=" + encodedReceiverLogin + "&" +  
-	        		BODY_PARAMETER + "=" + encodedBody);
-		}
-		else {
-			request = new HttpGet(FULL_ADDRESS + 
-	        		SEND_MESSAGE_URL + "?" + 
-	        		BODY_PARAMETER + "=" + encodedBody);
-		}
-
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-
-        	return (Boolean)this.getXStream().fromXML(entity.getContent());
-//        	return XMLToBussinessConversor.toBooleanOrExceptionSend(entity);
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	throw e;
-        }
+		if (receiverLogin != null) 
+			request = createHttpGet(fullUrl(SEND_MESSAGE_URL) //
+	                ,new BasicNameValuePair(RECEIVER_USER_PARAMETER, receiverLogin) //
+					,new BasicNameValuePair(BODY_PARAMETER, body) //
+			);
+		else
+			request = createHttpGet(fullUrl(SEND_MESSAGE_URL) //
+					,new BasicNameValuePair(BODY_PARAMETER, body) //
+			);
+			
+		return (Boolean) executeHttpRequest(request, this.getXStream());
 	}
 	
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception {
-		String encodedCity = URLEncoder.encode(city.replace("%2B", "+"), "UTF-8");
-		request = new HttpGet(FULL_ADDRESS + 
-				FIND_GAMES_BY_CITY_URL + "?" + 
-        		CITY_PARAMETER +  "=" + encodedCity + "&" + 
-        		START_INDEX_PARAMETER +  "=" + startIndex + "&" + 
-        		COUNT_PARAMETER +  "=" + count);
-		Log.d("TESTSSSSS", request.getURI().toString());
-
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-
-        	GamesTO response = (GamesTO)this.getXStream().fromXML(entity.getContent());
-        	return response;
-//        	return new GameCTO(response.getGames(),false);
-//        	GameCTO gameCTO = XMLToBussinessConversor.toGameList(entity);
-//        	return gameCTO;
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
+		request = createHttpGet(fullUrl(FIND_GAMES_BY_CITY_URL) //
+                ,new BasicNameValuePair(CITY_PARAMETER, city) //
+				,new BasicNameValuePair(START_INDEX_PARAMETER, String.valueOf(startIndex)) //
+				,new BasicNameValuePair(COUNT_PARAMETER, String.valueOf(count)) //
+		);
+		return (GamesTO) executeHttpRequest(request, this.getXStream());
 	}
 	
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception {
-		request = new HttpGet(FULL_ADDRESS + 
-				START_OR_CONTINUEGAME_URL );
-		
-		Log.d(this.getClass().getName(), request.getURI().toString());
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-
-        	return (GenericGameResponseTO)this.getXStream().fromXML(entity.getContent());
-//        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
+		request = createHttpGet(fullUrl(START_OR_CONTINUEGAME_URL) //
+		);
+		return (GenericGameResponseTO) executeHttpRequest(request, this.getXStream());
 	}
 
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception {
-		// TODO Auto-generated method stub
-//		String encodedCity = URLEncoder.encode(city.replace("%2B", "+"), "UTF-8");
-		request = new HttpGet(FULL_ADDRESS + 
-				FIND_TEAMS_BY_GAME_URL + "?" + 
-				GAME_ID_PARAMETER +  "=" + gameId + "&" + 
-        		START_INDEX_PARAMETER +  "=" + startIndex + "&" + 
-        		COUNT_PARAMETER +  "=" + count);
-		Log.d("TESTSSSSS", request.getURI().toString());
-
-        try {        	
-        	response = client.execute(request);
-        	HttpEntity entity = response.getEntity();
-        	
-        	TeamsTO response = (TeamsTO)this.getXStream().fromXML(entity.getContent());
-        	return response.getTeams();
-//        	List<Team> teams = XMLToBussinessConversor.toTeamList(entity);
-//        	return teams;
-//        } catch (ServerException e) {
-//        	throw e;
-        } catch(IOException e) {
-        	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-			e.getMessage());
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	throw e;
-        }
+		request = createHttpGet(fullUrl(FIND_TEAMS_BY_GAME_URL) //
+				,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
+				,new BasicNameValuePair(START_INDEX_PARAMETER, String.valueOf(startIndex)) //
+				,new BasicNameValuePair(COUNT_PARAMETER, String.valueOf(count)) //
+		);
+		return ((TeamsTO) executeHttpRequest(request, this.getXStream())).getTeams();
 	}
 
 	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
 	throws Exception{
-			request = new HttpPost(FULL_ADDRESS + 
-					TAKE_PLACE_URL + "?" + 
-					PLACE_ID_PARAMETER + "=" + String.valueOf(id) + "&" +  
-	        		LATITUDE_PARAMETER + "=" + String.valueOf(latitude) + "&" +  
-	        		LONGITUDE_PARAMETER + "=" + String.valueOf(longitude));
-			Log.d("TESTSSSSS", request.getURI().toString());
-			
-			try{
-				response = client.execute(request);
-	        	HttpEntity entity = response.getEntity();
-	        	
-	        	return (GenericGameResponseTO)this.getXStream().fromXML(entity.getContent());
-//	        	return XMLToBussinessConversor.toGenericGameResponseTO(entity);
-	        	
-//		 } catch (ServerException e) {
-//	     	throw e;
-	     } catch(IOException e) {
-	     	throw new ServerException(ServerException.SERVER_OFFLINE_CODE, 
-				e.getMessage());
-	     } catch (Exception e) {
-	    	 e.printStackTrace();
-	     	throw e;
-	     }
+		request = createHttpGet(fullUrl(TAKE_PLACE_URL) //
+				,new BasicNameValuePair(PLACE_ID_PARAMETER, String.valueOf(id)) //
+				,new BasicNameValuePair(LATITUDE_PARAMETER, String.valueOf(latitude)) //
+				,new BasicNameValuePair(LONGITUDE_PARAMETER, String.valueOf(longitude)) //
+		);
+		return (GenericGameResponseTO) executeHttpRequest(request, this.getXStream());
+	}
+	
+	@Override
+	public TeamTO findTeam(long teamId) throws Exception {
+		request = createHttpGet(fullUrl(FIND_TEAM_BY_ID_URL) //
+				,new BasicNameValuePair(TEAM_ID_PARAMETER, String.valueOf(teamId)) //
+		);
+		return (TeamTO) executeHttpRequest(request, this.getXStream());
 	}
 
 }

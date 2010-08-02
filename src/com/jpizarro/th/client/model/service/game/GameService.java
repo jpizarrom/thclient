@@ -13,6 +13,9 @@ public interface GameService {
 	public GameTO findGame(long gameId) 
 	throws Exception;
 	
+	public TeamTO findTeam(long teamId) 
+	throws Exception;
+	
 	public boolean joinGame(long gameId, long teamId) 
 	throws Exception;
 	

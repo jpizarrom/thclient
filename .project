@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>THClient</name>
-	<comment></comment>
+	<name>my-project</name>
+	<comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -32,7 +32,7 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src-lib</name>
+			<name>java</name>
 			<type>2</type>
 			<location>/mnt/disk/cursos/utal/memoria/memoria-src/thlib/src/main/java</location>
 		</link>

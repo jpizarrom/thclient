@@ -5,6 +5,7 @@ import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
 
 
@@ -37,6 +38,7 @@ public class MainMenuActivity extends Activity {
 	
 	private UserTO user;
 	private GameTO game;
+	private TeamTO team;
 	 
 	 
 	 private String city = null;
@@ -55,18 +57,31 @@ public class MainMenuActivity extends Activity {
 	protected void onResume() {
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		super.onResume();
+		
 		user = (UserTO)getIntent().getExtras().getSerializable("user");
+		fillPersonalInfo();
+		
+		if ( user.getTeamId() > 0 )
+			team = (TeamTO)getIntent().getExtras().getSerializable("team");
+		if (team != null)
+			fillTeamInfo();
+		
 		if ( user.getGameId() > 0 )
 			game = (GameTO)getIntent().getExtras().getSerializable("game");
-		fillPersonalInfo();
+		
 		if (game != null)
 			fillGameInfo();
+		
 		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 	}
 	
 	private void fillGameInfo() {
 		// TODO Auto-generated method stub
 		gamenameView.setText(game.getName());
+	}
+	private void fillTeamInfo() {
+		// TODO Auto-generated method stub
+		teamnameView.setText(team.getName());
 	}
 	@Override
 	protected Dialog onCreateDialog(int id) {

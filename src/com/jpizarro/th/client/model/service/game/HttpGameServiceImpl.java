@@ -64,4 +64,9 @@ public class HttpGameServiceImpl implements GameService{
 		return HttpHelper.getInstance().takePlace(id, latitude, longitude);
 	}
 
+	@Override
+	public TeamTO findTeam(long teamId) throws Exception {
+		return HttpHelper.getInstance().findTeam(teamId);
+	}
+
 }

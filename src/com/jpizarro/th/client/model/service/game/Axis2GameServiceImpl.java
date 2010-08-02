@@ -64,4 +64,10 @@ public class Axis2GameServiceImpl implements GameService{
 		return HttpHelper.getInstance().takePlace(id, latitude, longitude);
 	}
 
+	@Override
+	public TeamTO findTeam(long teamId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

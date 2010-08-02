@@ -46,8 +46,9 @@ public class SoapHelper implements THHelper{
     private static SoapHelper instance;
     
     private SoapObject rpc;
-    private HttpTransportSE service = new HttpTransportSE("");
-    SoapSerializationEnvelope envelope;
+    private AndroidHttpTransport service = new AndroidHttpTransport(null);
+    private SoapSerializationEnvelope envelope;
+    private String action;
 
     static {
 		instance = new SoapHelper();
@@ -72,12 +73,15 @@ public class SoapHelper implements THHelper{
 	void prepareCall(String serviceName,String soapAction){
 //		service = new AndroidHttpTransport(URL+serviceName);
 		service.setUrl(URL+serviceName);
-//		service.debug  = true;
+		this.action = soapAction;
+		service.debug  = true;
 //		service.setSoapAction(soapAction);
+		service.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
 		rpc=new SoapObject(NAMESPACE,soapAction);
-		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-		envelope.dotNet = true;
-		envelope.setOutputSoapObject(rpc);
+//		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//		envelope.dotNet = true;
+//		envelope.setOutputSoapObject(rpc);
 	}
 	public UserTO login(String userName, String password) 
 	throws Exception {
@@ -87,9 +91,10 @@ public class SoapHelper implements THHelper{
 		rpc.addProperty("username",userName);
 		rpc.addProperty("password",password);
        
+        envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 //        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 //        envelope.dotNet = true;
-//        envelope.setOutputSoapObject(rpc);
+        envelope.setOutputSoapObject(rpc);
 //        envelope.addMapping(NAMESPACE, "LoginResultTO",LoginResponse.class);
 //        envelope.encodingStyle = SoapSerializationEnvelope.XSI;
         
@@ -97,20 +102,22 @@ public class SoapHelper implements THHelper{
         
         try {
 //        	androidHttpTransport.call(SoapHelper.METHOD_LOGIN, envelope);
-            service.call(null, envelope);
-            SoapObject result ;
-            result = (SoapObject) envelope.getResponse();
-            String res = result.toString();
-            
-//            Object oresult = (Object) envelope.getResponse();
+            service.call(action, envelope);
+//            SoapObject result ;
+//            result = (SoapObject) envelope.getResponse();
+//            String res = result.toString();
+//            String res = (String) getResponse();
+//            
+            Object oresult = (Object) envelope.getResponse();
+            String res = oresult.toString();
 //            String res = oresult.toString();
-//            result = (SoapObject)oresult;
-//            LoginResponse lr = (LoginResponse)envelope.getResponse();
-            
+//            String res = (String)oresult;
+////            LoginResponse lr = (LoginResponse)envelope.getResponse();
+//            
             UserTO ret = new UserTO();
-            
-            ret.setUsername(result.getProperty("username").toString());
-            ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
+//            
+//            ret.setUsername(result.getProperty("username").toString());
+//            ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
 ////            
             Log.v(getClass().getName(),"----------------------------------");
 //            Log.v(getClass().getName(),result.toString());
@@ -120,7 +127,11 @@ public class SoapHelper implements THHelper{
 //            Log.v(getClass().getName(), envelope.bodyIn.toString());
 //            Log.v(getClass().getName(),"----------------------------------");
             
-	        Log.v(getClass().getName(),res);
+//	        Log.v(getClass().getName(),res);
+	        Log.v(getClass().getName(),"----------------------------------");
+	        Log.v(getClass().getName(), service.requestDump);
+	        Log.v(getClass().getName(),"----------------------------------");
+	        Log.v(getClass().getName(), service.responseDump);
 	        Log.v(getClass().getName(),"----------------------------------");
 //            this.getXStream().fromXML(oresult.toString());
 
@@ -265,6 +276,12 @@ public class SoapHelper implements THHelper{
 
 	public GenericGameResponseTO takePlace(long id, int latitude, int longitude)
 			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TeamTO findTeam(long teamId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

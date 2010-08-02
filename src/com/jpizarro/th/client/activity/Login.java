@@ -6,6 +6,7 @@ import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.user.UserService;
 import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.entity.GameTO;
+import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -45,6 +46,7 @@ public class Login extends Activity {
 	private LoginTask loginTask;
 	private UserTO user = new UserTO();
 	private GameTO game = new GameTO();
+	private TeamTO team;
 	
 	private TextView loginErrorView, passwordErrorView;
 	
@@ -111,6 +113,7 @@ public class Login extends Activity {
 		Intent i = new Intent(Login.this, MainMenuActivity.class);
     	i.putExtra("user", user);
     	i.putExtra("game", game);
+    	i.putExtra("team", team);
         startActivityForResult(i, PLAYER_INFO_REQUEST_CODE);
 	}
 	
@@ -131,16 +134,21 @@ public class Login extends Activity {
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			GameTO game;
+			TeamTO team;
 			
 			try {
 				UserTO user = userService.login(userName, password);
 //				user.setGameId(1);
 				data.putSerializable("user", user);
+				if ( user.getTeamId() != 0 ){
+					team = gameService.findTeam(user.getTeamId());
+					data.putSerializable("team", team);
+				}
 				if ( user.getGameId() != 0 ){
 					game = gameService.findGame(user.getGameId());
 					data.putSerializable("game", game);
 				}
-				data.putSerializable("user", user);
+//				data.putSerializable("user", user);
 				msg.setData(data);
 				handler.sendMessage(msg);
 			} catch (Exception e) {
@@ -196,6 +204,7 @@ public class Login extends Activity {
 	        	}
 			user = (UserTO)msg.getData().getSerializable("user");
 			game = (GameTO)msg.getData().getSerializable("game");
+			team = (TeamTO)msg.getData().getSerializable("team");
 			doLogin();
 		}
 		
