@@ -3,15 +3,19 @@ package com.jpizarro.th.client.model.util.http;
 import java.util.List;
 
 import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.AndroidHttpTransport;
+import org.ksoap2.transport.HttpTransportSE;
 
 import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
+import com.jpizarro.th.util.xml.xstream.XStreamFactory;
 import com.jpizarro.th.entity.GameTO;
 import com.jpizarro.th.entity.TeamTO;
 import com.jpizarro.th.entity.UserTO;
 import com.jpizarro.th.entity.list.GamesTO;
+import com.thoughtworks.xstream.XStream;
 
 import android.util.Log;
 
@@ -26,46 +30,104 @@ public class SoapHelper implements THHelper{
     
 //  private static final String NAMESPACE = "http://soap";
     // !!!!! IMPORTANT!!!!! THE URL OF THE CoLDFUSION WEBSERVER NOT LOCALHOST BECAUSE LOCALHOST IS THE ANDROID EMULATOR !!!!!
-//    private static final String URL = "http://192.168.0.188:8080/PatientWebServices/services/ProfilesComunication?wsdl";
-    private static final String URL_USER = "http://192.168.1.70:8070/thserver/services/WSUserService?wsdl";
-    private static final String URL_GAME = "http://192.168.1.70:8070/thserver/services/WSGameService?wsdl";
     
+//    private static final String HOST = "10.42.43.1";
+//    private static final String HOST = "192.168.1.70";
+    private static final String HOST = "192.168.42.100";
+    
+//    private static final String URL_USER = "http://192.168.1.70:8070/thserver/services/WSUserService?wsdl";
+//    private static final String URL_GAME = "http://192.168.1.70:8070/thserver/services/WSGameService?wsdl";
+    
+    private static final String URL = "http://"+HOST+":8070/thserver/services/";
+    private static final String USER_SERVICE = "WSUserService";
+    private static final String GAME_SERVICE = "WSGameService";
+    
+    private XStream xstream;
     private static SoapHelper instance;
+    
+    private SoapObject rpc;
+    private HttpTransportSE service = new HttpTransportSE("");
+    SoapSerializationEnvelope envelope;
+
     static {
 		instance = new SoapHelper();
 	}
 	public static SoapHelper getInstance() {
 		return instance;
 	}
-	
+
+	protected XStream getXStream()
+	{
+		
+		if (xstream == null)
+		{
+			return XStreamFactory.createXStream();
+		}
+		
+		return xstream;
+	}
+	void prepareService(String url){
+		service = new AndroidHttpTransport(url);
+	}
+	void prepareCall(String serviceName,String soapAction){
+//		service = new AndroidHttpTransport(URL+serviceName);
+		service.setUrl(URL+serviceName);
+//		service.debug  = true;
+//		service.setSoapAction(soapAction);
+		rpc=new SoapObject(NAMESPACE,soapAction);
+		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+	}
 	public UserTO login(String userName, String password) 
 	throws Exception {
-		SoapObject request = new SoapObject(NAMESPACE,SoapHelper.METHOD_LOGIN);
+		prepareCall(USER_SERVICE,SoapHelper.METHOD_LOGIN);
+//		SoapObject request = new SoapObject(NAMESPACE,SoapHelper.METHOD_LOGIN);
 		
-		request.addProperty("username",userName);
-		request.addProperty("password",password);
+		rpc.addProperty("username",userName);
+		rpc.addProperty("password",password);
        
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.dotNet = true;
-        envelope.setOutputSoapObject(request);
+//        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//        envelope.dotNet = true;
+//        envelope.setOutputSoapObject(rpc);
+//        envelope.addMapping(NAMESPACE, "LoginResultTO",LoginResponse.class);
+//        envelope.encodingStyle = SoapSerializationEnvelope.XSI;
         
-        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport (URL_USER);
+//        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport (URL_USER);
         
         try {
-            androidHttpTransport.call(SoapHelper.METHOD_LOGIN, envelope);
-            SoapObject result = null;
+//        	androidHttpTransport.call(SoapHelper.METHOD_LOGIN, envelope);
+            service.call(null, envelope);
+            SoapObject result ;
             result = (SoapObject) envelope.getResponse();
+            String res = result.toString();
+            
+//            Object oresult = (Object) envelope.getResponse();
+//            String res = oresult.toString();
+//            result = (SoapObject)oresult;
+//            LoginResponse lr = (LoginResponse)envelope.getResponse();
+            
             UserTO ret = new UserTO();
             
             ret.setUsername(result.getProperty("username").toString());
             ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
-
-            Log.v(getClass().getName(),ret.toString());
-          Log.v(getClass().getName(),envelope.bodyIn.toString());
+////            
+            Log.v(getClass().getName(),"----------------------------------");
+//            Log.v(getClass().getName(),result.toString());
+//            Log.v(getClass().getName(),"----------------------------------");
+//            Log.v(getClass().getName(),oresult.toString());
+//            Log.v(getClass().getName(),"----------------------------------");
+//            Log.v(getClass().getName(), envelope.bodyIn.toString());
+//            Log.v(getClass().getName(),"----------------------------------");
+            
+	        Log.v(getClass().getName(),res);
+	        Log.v(getClass().getName(),"----------------------------------");
+//            this.getXStream().fromXML(oresult.toString());
 
             return ret;
            
           } catch(Exception E) {
+        	  E.printStackTrace();
             throw E;
           }
 	}
@@ -80,7 +142,7 @@ public class SoapHelper implements THHelper{
         envelope.dotNet = true;
         envelope.setOutputSoapObject(request);
         
-        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport (URL_USER);
+        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport (URL+USER_SERVICE);
         
         try {
             androidHttpTransport.call(method, envelope);
@@ -121,7 +183,7 @@ public class SoapHelper implements THHelper{
         
 //      envelope.addMapping(ClienWS.NAMESPACE, ClienWS.METHOD_NAME, Perfil.class);
         
-        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport (URL_GAME);
+        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport (URL +GAME_SERVICE);
         
         try {
             androidHttpTransport.call(SOAP_ACTION, envelope);

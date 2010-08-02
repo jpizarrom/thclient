@@ -32,7 +32,7 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>java</name>
+			<name>src-lib</name>
 			<type>2</type>
 			<location>/mnt/disk/cursos/utal/memoria/memoria-src/thlib/src/main/java</location>
 		</link>

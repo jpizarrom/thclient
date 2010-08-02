@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="java"/>
+	<classpathentry kind="src" path="src-lib"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="lib/osmdroid-android-1.02.jar" sourcepath="/mnt/disk/projects/maps/src/client/osmdroid/osmdroid-android/src"/>
 	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
-	<classpathentry kind="lib" path="lib/ksoap2-android-assembly-2.4-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/jpizarro/.m2/repository/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/mnt/disk/cursos/utal/memoria/memoria-src/deps/ksoap2-android-assembly-2.5-SNAPSHOT-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

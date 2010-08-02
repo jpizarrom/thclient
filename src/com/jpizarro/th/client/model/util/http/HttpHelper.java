@@ -32,8 +32,8 @@ public class HttpHelper implements THHelper{
 //	private final String SERVER_HOST_IP = "cs01.doingit.cl";
 //	private final String SERVER_PORT = "8081";
 	
-//	private final String SERVER_HOST_IP = "192.168.42.100";
-	private final String SERVER_HOST_IP = "10.42.43.1";
+	private final String SERVER_HOST_IP = "192.168.42.100";
+//	private final String SERVER_HOST_IP = "10.42.43.1";
 //	private final String SERVER_HOST_IP = "192.168.1.70";
 	private final String SERVER_PORT = "8070";
 	private final String GAME_URL = "thserver";
