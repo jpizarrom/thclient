@@ -30,29 +30,29 @@ public class HttpGameServiceImpl implements GameService{
 	}
 
 	public GenericGameResponseTO updateLocation(int latitude, int longitude)
-			throws Exception {
+	throws Exception {
 		return HttpHelper.getInstance().updateLocation(latitude, longitude);
 	}
 
 	public GamesTO findGamesByCity(String city, int startIndex, int count)
-			throws Exception {
+	throws Exception {
 		// TODO Auto-generated method stub
 		return HttpHelper.getInstance().findGamesByCity(city, 
 				startIndex, count);
 	}
 
 	public GenericGameResponseTO startOrContinueGame(String username)
-			throws Exception {
+	throws Exception {
 		return HttpHelper.getInstance().startOrContinueGame(username);
 	}
 
 	public boolean sendMessage(String receiverUser, String body)
-			throws Exception {
+	throws Exception {
 		return HttpHelper.getInstance().sendMessage(receiverUser, body);
 	}
 
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
-			throws Exception {
+	throws Exception {
 		// TODO Auto-generated method stub
 		return HttpHelper.getInstance().findTeamsByGame(gameId, 
 				startIndex, count);

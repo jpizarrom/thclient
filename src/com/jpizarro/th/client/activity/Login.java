@@ -40,60 +40,60 @@ import android.widget.TextView;
  *
  */
 public class Login extends Activity {
-	
+
 	private static final int PLAYER_INFO_REQUEST_CODE = 0;
-	
+
 	private LoginTask loginTask;
 	private UserTO user = new UserTO();
 	private GameTO game = new GameTO();
 	private TeamTO team;
-	
+
 	private TextView loginErrorView, passwordErrorView;
-	
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        Button loginButton = (Button)findViewById(R.id.loginButton);
-        loginErrorView = (TextView)findViewById(R.id.username_msg);
-        passwordErrorView = (TextView)findViewById(R.id.password_msg);
-        
-        
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-            	EditText user = (EditText)findViewById(R.id.username);
-            	String s = user.getText().toString().trim();
-            	if(s.equals("")){
-            		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            		builder.setMessage(R.string.fillUserName);
-            		
-            		builder.setPositiveButton(R.string.accept, new OnClickListener() {
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login);
+		Button loginButton = (Button)findViewById(R.id.loginButton);
+		loginErrorView = (TextView)findViewById(R.id.username_msg);
+		passwordErrorView = (TextView)findViewById(R.id.password_msg);
+
+
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				EditText user = (EditText)findViewById(R.id.username);
+				String s = user.getText().toString().trim();
+				if(s.equals("")){
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(R.string.fillUserName);
+
+					builder.setPositiveButton(R.string.accept, new OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
 						}
-            		});
-            		
-            		builder.setCancelable(false);
-            		AlertDialog alert = builder.create();
-            		alert.show();
-            	}else{
-            		String username = s;
-            		String password = ((EditText)findViewById(R.id.password)).getText().toString().trim();
-            		login(username,password);
-            	}
-            }
-        });
-    }
-    
- 	public Context getContext(){
+					});
+
+					builder.setCancelable(false);
+					AlertDialog alert = builder.create();
+					alert.show();
+				}else{
+					String username = s;
+					String password = ((EditText)findViewById(R.id.password)).getText().toString().trim();
+					login(username,password);
+				}
+			}
+		});
+	}
+
+	public Context getContext(){
 		return this.getApplicationContext();
 	}
-	
+
 	public Activity getActivity(){
 		return this;
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		return CommonDialogs.createDialog(id, this);
@@ -111,17 +111,17 @@ public class Login extends Activity {
 	private void doLogin() {
 		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		Intent i = new Intent(Login.this, MainMenuActivity.class);
-    	i.putExtra("user", user);
-    	i.putExtra("game", game);
-    	i.putExtra("team", team);
-        startActivityForResult(i, PLAYER_INFO_REQUEST_CODE);
+		i.putExtra("user", user);
+		i.putExtra("game", game);
+		i.putExtra("team", team);
+		startActivityForResult(i, PLAYER_INFO_REQUEST_CODE);
 	}
-	
+
 	private class LoginTask implements Runnable {
 		String userName, password;
 		UserService userService;
 		GameService gameService;
-		
+
 		LoginTask(String userName, String password) {
 			this.userName = userName;
 			this.password = password;
@@ -135,10 +135,10 @@ public class Login extends Activity {
 			Message msg = new Message();
 			GameTO game;
 			TeamTO team;
-			
+
 			try {
 				UserTO user = userService.login(userName, password);
-//				user.setGameId(1);
+				//				user.setGameId(1);
 				data.putSerializable("user", user);
 				if ( user.getTeamId() != 0 ){
 					team = gameService.findTeam(user.getTeamId());
@@ -148,16 +148,16 @@ public class Login extends Activity {
 					game = gameService.findGame(user.getGameId());
 					data.putSerializable("game", game);
 				}
-//				data.putSerializable("user", user);
+				//				data.putSerializable("user", user);
 				msg.setData(data);
 				handler.sendMessage(msg);
 			} catch (Exception e) {
-	        	data.putSerializable("Exception", e);
-	        	msg.setData(data);
+				data.putSerializable("Exception", e);
+				msg.setData(data);
 				handler.sendMessage(msg);
-	        }
+			}
 		}
-		
+
 	}
 	private class LoginHandler extends Handler {
 
@@ -170,44 +170,44 @@ public class Login extends Activity {
 				(ServerException)msg.getData().getSerializable("ServerException");
 			if (sE	!= null) {
 				dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
-	        	CommonDialogs.errorMessage = sE.getMessage();
-	        	String message = new String();
-	        	switch(sE.getCode()) {
-	        	case ServerException.DUPLICATE_INSTANCE_CODE:
-	        		message = (String)getString(R.string.error_login_exists_message);
-	        		loginErrorView.setText(message);
-	        		break;
-	        	case ServerException.INCORRECT_PASSWORD_CODE:
-	        		message = (String)getString(R.string.error_incorrect_password_message);
-	        		passwordErrorView.setText(message);
-	        		break;
-	        	case ServerException.INSTANCE_NOT_FOUND_CODE:
-	        		message = (String)getString(R.string.error_instance_not_found_message);
-	        		loginErrorView.setText(message);
-	        		break;
-	        	case ServerException.SERVER_OFFLINE_CODE:
-	        		showDialog(CommonDialogs.SERVER_OFFLINE_DIALOG_ID);
-	        		break;
-	        	case ServerException.EXCEPTION_CODE:
-	        		showDialog(CommonDialogs.SERVER_ERROR_DIALOG_ID);
-	        		break;
-	        	}
-	        	return;
-	        }
-        	Exception e = 
-	        	(Exception)msg.getData().getSerializable("Exception");
-	        	if (e != null) {
-	        		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
-	        		CommonDialogs.errorMessage = e.getMessage();
-		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-		        	return;
-	        	}
+				CommonDialogs.errorMessage = sE.getMessage();
+				String message = new String();
+				switch(sE.getCode()) {
+				case ServerException.DUPLICATE_INSTANCE_CODE:
+					message = (String)getString(R.string.error_login_exists_message);
+					loginErrorView.setText(message);
+					break;
+				case ServerException.INCORRECT_PASSWORD_CODE:
+					message = (String)getString(R.string.error_incorrect_password_message);
+					passwordErrorView.setText(message);
+					break;
+				case ServerException.INSTANCE_NOT_FOUND_CODE:
+					message = (String)getString(R.string.error_instance_not_found_message);
+					loginErrorView.setText(message);
+					break;
+				case ServerException.SERVER_OFFLINE_CODE:
+					showDialog(CommonDialogs.SERVER_OFFLINE_DIALOG_ID);
+					break;
+				case ServerException.EXCEPTION_CODE:
+					showDialog(CommonDialogs.SERVER_ERROR_DIALOG_ID);
+					break;
+				}
+				return;
+			}
+			Exception e = 
+				(Exception)msg.getData().getSerializable("Exception");
+			if (e != null) {
+				dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+				CommonDialogs.errorMessage = e.getMessage();
+				showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+				return;
+			}
 			user = (UserTO)msg.getData().getSerializable("user");
 			game = (GameTO)msg.getData().getSerializable("game");
 			team = (TeamTO)msg.getData().getSerializable("team");
 			doLogin();
 		}
-		
+
 	}
 
 }
