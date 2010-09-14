@@ -132,7 +132,7 @@
 	<dependency>
 	  <groupId>org.andnav.osm</groupId>
 	  <artifactId>osmdroid-android</artifactId>
-	  <version>1.02</version>
+	  <version>1.06</version>
 	</dependency>
 	
 	<!--<dependency>
