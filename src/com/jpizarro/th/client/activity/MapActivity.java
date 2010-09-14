@@ -12,7 +12,8 @@ import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
@@ -124,7 +125,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
+        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererFactory.MAPNIK);
         this.mOsmv.setResourceProxy(mResourceProxy);
         this.mOsmv.setBuiltInZoomControls(true);
         this.mOsmv.setMultiTouchControls(true);
@@ -160,7 +161,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     @Override
     protected void onResume() {
     	super.onResume();
-    	mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
+    	final String rendererName = mPrefs.getString(PREFS_RENDERER, OpenStreetMapRendererFactory.DEFAULT_RENDERER.name());
+        // TODO this will go wrong if you use a renderer that the factory doesn't know about
+        final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
+    	mOsmv.setRenderer(renderer);
+    	
     	/* MyLocationOverlay */
         {
         	if(this.mLocationOverlay == null){

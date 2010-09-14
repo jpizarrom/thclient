@@ -3,9 +3,10 @@
 	<classpathentry including="**/*.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry including="**/*.java" kind="src" path="gen"/>
-	<classpathentry kind="var" path="M2_REPO/org/andnav/osm/osmdroid-android/1.02/osmdroid-android-1.02.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="/mnt/disk/cursos/utal/memoria/memoria-src/deps/ksoap2-android-assembly-2.4-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/osmdroid-android-1.06.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
