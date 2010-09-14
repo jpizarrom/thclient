@@ -145,7 +145,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     @Override
     protected void onPause() {
     	SharedPreferences.Editor edit = mPrefs.edit();
-    	edit.putInt(PREFS_RENDERER, mOsmv.getRenderer().ordinal());
+    	edit.putString(PREFS_RENDERER, mOsmv.getRenderer().name());
     	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
     	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
     	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
@@ -161,7 +161,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     @Override
     protected void onResume() {
     	super.onResume();
-    	final String rendererName = mPrefs.getString(PREFS_RENDERER, OpenStreetMapRendererFactory.DEFAULT_RENDERER.name());
+    	final String rendererName = mPrefs.getString(PREFS_RENDERER, OpenStreetMapRendererFactory.MAPNIK.name());
         // TODO this will go wrong if you use a renderer that the factory doesn't know about
         final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
     	mOsmv.setRenderer(renderer);
