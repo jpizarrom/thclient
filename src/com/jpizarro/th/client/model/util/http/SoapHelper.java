@@ -14,7 +14,7 @@ import com.jpizarro.th.lib.game.entity.TeamTO;
 import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.list.GamesTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
-import com.jpizarro.th.lib.util.xml.xstream.XStreamFactory;
+import com.jpizarro.th.lib.game.util.xml.xstream.XStreamFactory;
 import com.thoughtworks.xstream.XStream;
 
 import android.util.Log;
