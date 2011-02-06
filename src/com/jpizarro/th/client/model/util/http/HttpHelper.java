@@ -25,8 +25,8 @@ import org.apache.http.protocol.HTTP;
 import android.util.Log;
 
 import com.jpizarro.th.lib.game.entity.GameTO;
-import com.jpizarro.th.lib.game.entity.TeamTO;
-import com.jpizarro.th.lib.game.entity.UserTO;
+import com.jpizarro.th.lib.team.entity.TeamTO;
+import com.jpizarro.th.lib.user.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.list.CitiesTO;
 import com.jpizarro.th.lib.game.entity.list.GamesTO;
 import com.jpizarro.th.lib.game.entity.list.TeamsTO;

@@ -21,7 +21,7 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
 import com.jpizarro.th.lib.game.entity.GoalTO;
 import com.jpizarro.th.lib.game.entity.HintTO;
-import com.jpizarro.th.lib.game.entity.UserTO;
+import com.jpizarro.th.lib.user.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.entity.response.InGameUserInfoTO;
 

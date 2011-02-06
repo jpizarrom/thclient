@@ -1,7 +1,7 @@
 package com.jpizarro.th.client.model.service.user;
 
 import com.jpizarro.th.client.model.util.http.HttpHelper;
-import com.jpizarro.th.lib.game.entity.UserTO;
+import com.jpizarro.th.lib.user.entity.UserTO;
 
 public class HttpUserServiceImpl implements UserService{
 
