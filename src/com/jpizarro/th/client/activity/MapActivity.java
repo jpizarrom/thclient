@@ -18,12 +18,12 @@ import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
-import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.model.service.to.response.InGameUserInfoTO;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
 import com.jpizarro.th.lib.game.entity.GoalTO;
 import com.jpizarro.th.lib.game.entity.HintTO;
 import com.jpizarro.th.lib.game.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
+import com.jpizarro.th.lib.game.entity.response.InGameUserInfoTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 

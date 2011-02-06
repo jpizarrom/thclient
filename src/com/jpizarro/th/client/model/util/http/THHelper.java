@@ -2,11 +2,11 @@ package com.jpizarro.th.client.model.util.http;
 
 import java.util.List;
 
-import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.entity.GameTO;
 import com.jpizarro.th.lib.game.entity.TeamTO;
 import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.list.GamesTO;
+import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 
 public interface THHelper {
 	public UserTO login(String userName, String password) 
