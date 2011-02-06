@@ -4,9 +4,9 @@ import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.util.CustomResultCodes;
-import com.jpizarro.th.entity.GameTO;
-import com.jpizarro.th.entity.TeamTO;
-import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.GameTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 
 import android.app.Activity;

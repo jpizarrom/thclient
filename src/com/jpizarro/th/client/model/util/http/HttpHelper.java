@@ -25,12 +25,12 @@ import org.apache.http.protocol.HTTP;
 import android.util.Log;
 
 import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.entity.GameTO;
-import com.jpizarro.th.entity.TeamTO;
-import com.jpizarro.th.entity.UserTO;
-import com.jpizarro.th.entity.list.CitiesTO;
-import com.jpizarro.th.entity.list.GamesTO;
-import com.jpizarro.th.entity.list.TeamsTO;
+import com.jpizarro.th.lib.game.entity.GameTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.list.CitiesTO;
+import com.jpizarro.th.lib.game.entity.list.GamesTO;
+import com.jpizarro.th.lib.game.entity.list.TeamsTO;
 import com.jpizarro.th.util.xml.xstream.XStreamFactory;
 import com.thoughtworks.xstream.XStream;
 
@@ -47,10 +47,12 @@ public class HttpHelper implements THHelper{
 	//	private final String SERVER_HOST_IP = "cs01.doingit.cl";
 	//	private final String SERVER_PORT = "8081";
 
-	private final String SERVER_HOST_IP = "192.168.42.81";
+//	private final String SERVER_HOST_IP = "192.168.42.81";
+	private final String SERVER_HOST_IP = "office.doingit.cl";
 	//	private final String SERVER_HOST_IP = "10.42.43.1";
 	//	private final String SERVER_HOST_IP = "192.168.1.70";
-	private final String SERVER_PORT = "8070";
+//	private final String SERVER_PORT = "8070";
+	private final String SERVER_PORT = "8043";
 	private final String URL_SERVICE = "thserver";
 	//	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
 	//		SERVER_PORT + "/" + URL_SERVICE + "/";

@@ -5,9 +5,9 @@ import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.user.UserService;
 import com.jpizarro.th.client.util.CustomAPP;
-import com.jpizarro.th.entity.GameTO;
-import com.jpizarro.th.entity.TeamTO;
-import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.GameTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 

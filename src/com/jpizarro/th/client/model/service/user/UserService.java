@@ -1,6 +1,6 @@
 package com.jpizarro.th.client.model.service.user;
 
-import com.jpizarro.th.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 
 public interface UserService {

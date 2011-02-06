@@ -3,9 +3,9 @@ package com.jpizarro.th.client.model.service.game;
 import java.util.List;
 
 import com.jpizarro.th.model.service.to.response.GenericGameResponseTO;
-import com.jpizarro.th.entity.GameTO;
-import com.jpizarro.th.entity.TeamTO;
-import com.jpizarro.th.entity.list.GamesTO;
+import com.jpizarro.th.lib.game.entity.GameTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.list.GamesTO;
 
 public interface GameService {
 	public List<String> findCitiesWithGames() throws Exception;
