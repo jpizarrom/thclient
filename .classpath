@@ -1,17 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" path="src"/>
-	<classpathentry including="**/*.java" kind="src" path="gen"/>
-	<classpathentry kind="var" path="M2_REPO/org/andnav/osm/osmdroid-android/1.06/osmdroid-android-1.06.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT.jar"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="/mnt/disk/cursos/utal/memoria/memoria-src/deps/ksoap2-android-assembly-2.4-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/thlib-game"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/thlib-generic"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/thlib-message"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/thlib-place"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/thlib-team"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/thlib-user"/>
-	<classpathentry kind="output" path="bin/classes"/>
+  <classpathentry kind="src" path="src" including="**/*.java"/>
+  <classpathentry kind="src" path="bin/generated-sources/r" including="**/*.java"/>
+  <classpathentry kind="src" path="gen" including="**/*.java"/>
+  <classpathentry kind="output" path="bin/classes"/>
+  <classpathentry kind="var" path="M2_REPO/org/andnav/osm/osmdroid-android/1.06/osmdroid-android-1.06.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/android/spring-android-rest-template/1.0.0.M2/spring-android-rest-template-1.0.0.M2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/xpp3/xpp3/1.1.4c/xpp3-1.1.4c.jar"/>
+  <classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar" sourcepath="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT.jar" sourcepath="M2_REPO/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
