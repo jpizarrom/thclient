@@ -10,8 +10,8 @@ import org.ksoap2.transport.AndroidHttpTransport;
 import org.ksoap2.transport.HttpTransportSE;
 
 import com.jpizarro.th.lib.game.entity.GameTO;
-import com.jpizarro.th.lib.team.entity.TeamTO;
-import com.jpizarro.th.lib.user.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.list.GamesTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.util.xml.xstream.XStreamFactory;
@@ -162,11 +162,11 @@ public class SoapHelper implements THHelper{
             UserTO ret = new UserTO();
             
             ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
-            ret.setUsername(result.getProperty("username").toString());
+//            ret.setUsername(result.getProperty("username").toString());
             
             ret.setGameId( Long.parseLong(result.getProperty("gameId").toString()));
-            ret.setLatitude( Integer.parseInt(result.getProperty("latitude").toString()));
-            ret.setLatitude( Integer.parseInt(result.getProperty("longitude").toString()));
+//            ret.setLatitude( Integer.parseInt(result.getProperty("latitude").toString()));
+//            ret.setLatitude( Integer.parseInt(result.getProperty("longitude").toString()));
             
             Log.v(getClass().getName(),ret.toString());
             Log.v(getClass().getName(),envelope.bodyIn.toString());

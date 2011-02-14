@@ -5,8 +5,8 @@ import java.util.List;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
-import com.jpizarro.th.lib.team.entity.TeamTO;
-import com.jpizarro.th.lib.user.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -173,10 +173,10 @@ public class ViewTeamsActivity extends ListActivity {
             TeamTO team = this.getItem(position);
             if (team != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
-            	name.setText(team.getName());
+//            	name.setText(team.getName());
             	
             	TextView tt = (TextView) v.findViewById(R.id.game_city);
-            	tt.setText(team.getDescription());
+//            	tt.setText(team.getDescription());
             }
             
 			return v;
@@ -198,7 +198,8 @@ public class ViewTeamsActivity extends ListActivity {
 		TeamTO team = (TeamTO) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
-                team.getTeamId()+" "+team.getName()+" "+team.getDescription(),
+                String.valueOf(team.getTeamId()),
+//                +" "+team.getName()+" "+team.getDescription(),
                 Toast.LENGTH_LONG).show();
 		launchJoinTeamThread(gameId, team.getTeamId());
 	

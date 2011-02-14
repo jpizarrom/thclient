@@ -21,7 +21,7 @@ import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
 import com.jpizarro.th.lib.game.entity.GoalTO;
 import com.jpizarro.th.lib.game.entity.HintTO;
-import com.jpizarro.th.lib.user.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.entity.response.InGameUserInfoTO;
 
@@ -324,7 +324,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //		initLocation();
     }
 	private void launchStartGameThread() {
-		startGameTask.setLogin(user.getUsername());
+		startGameTask.setLogin(String.valueOf(user.getUserId()));
 		Thread startGameThread = new Thread(null, startGameTask, "StartGame");
 		startGameThread.start();
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
@@ -456,50 +456,50 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 		hints.clear();
 		
-		if (genericGameResponseTO.getGoal() != null) {
-			GoalTO in = genericGameResponseTO.getGoal() ;
-			GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-			int type = HintOverlayItem.ITEM_HIDE;
-			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-				type = HintOverlayItem.ITEM_USER_SEE;
-			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_TAKE )
-				type = HintOverlayItem.ITEM_GOAL;
-			hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-					g, type));
-		}
-
-		if (genericGameResponseTO.getHints().size() != 0) {
-			for( HintTO in : genericGameResponseTO.getHints() ){
-				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-						g, HintOverlayItem.ITEM_TEAM_HAVE));
-			}
-		}
-		
-		if (genericGameResponseTO.getHideHints().size() != 0) {
-			for( HintTO in : genericGameResponseTO.getHideHints() ){
-				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-				int type = HintOverlayItem.ITEM_HIDE;
-				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-					type = HintOverlayItem.ITEM_USER_SEE;
-				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
-			}
-		}
-		
-		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
-			for( HintTO in : genericGameResponseTO.getUserSeeHintTOList() ){
-				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_USER_SEE));
-			}
-		}
-		
-		if (genericGameResponseTO.getTeamSeeHintTOList().size() != 0) {
-			for( HintTO in : genericGameResponseTO.getTeamSeeHintTOList() ){
-				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_TEAM_SEE));
-			}
-		}
+//		if (genericGameResponseTO.getGoal() != null) {
+//			GoalTO in = genericGameResponseTO.getGoal() ;
+//			GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+//			int type = HintOverlayItem.ITEM_HIDE;
+//			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
+//				type = HintOverlayItem.ITEM_USER_SEE;
+//			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_TAKE )
+//				type = HintOverlayItem.ITEM_GOAL;
+//			hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+//					g, type));
+//		}
+//
+//		if (genericGameResponseTO.getHints().size() != 0) {
+//			for( HintTO in : genericGameResponseTO.getHints() ){
+//				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+//				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+//						g, HintOverlayItem.ITEM_TEAM_HAVE));
+//			}
+//		}
+//		
+//		if (genericGameResponseTO.getHideHints().size() != 0) {
+//			for( HintTO in : genericGameResponseTO.getHideHints() ){
+//				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+//				int type = HintOverlayItem.ITEM_HIDE;
+//				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
+//					type = HintOverlayItem.ITEM_USER_SEE;
+//				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+//						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
+//			}
+//		}
+//		
+//		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
+//			for( HintTO in : genericGameResponseTO.getUserSeeHintTOList() ){
+//				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+//						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_USER_SEE));
+//			}
+//		}
+//		
+//		if (genericGameResponseTO.getTeamSeeHintTOList().size() != 0) {
+//			for( HintTO in : genericGameResponseTO.getTeamSeeHintTOList() ){
+//				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+//						 new GeoPoint(in.getLatitude(), in.getLongitude()), HintOverlayItem.ITEM_TEAM_SEE));
+//			}
+//		}
 		
 //		checkIncomingMessages();
 		
@@ -586,10 +586,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private class SampleLocationListener implements LocationListener {
 
 		public void onLocationChanged(Location loc) {
-			user.setLatitude((new GeoPoint(loc)).getLatitudeE6() );
-			user.setLongitude((new GeoPoint(loc)).getLongitudeE6() );
-			launchUpdateLocationThread(user.getLatitude(),
-					user.getLongitude());
+//			user.setLatitude((new GeoPoint(loc)).getLatitudeE6() );
+//			user.setLongitude((new GeoPoint(loc)).getLongitudeE6() );
+//			launchUpdateLocationThread(user.getLatitude(),
+//					user.getLongitude());
 			
 		}
 

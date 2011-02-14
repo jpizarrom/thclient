@@ -5,9 +5,8 @@ import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.lib.game.entity.GameTO;
-import com.jpizarro.th.lib.team.entity.TeamTO;
-import com.jpizarro.th.lib.user.entity.UserTO;
-
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,7 +38,6 @@ public class MainMenuActivity extends Activity {
 	private UserTO user;
 	private GameTO game;
 	private TeamTO team;
-
 
 	private String city = null;
 
@@ -81,7 +79,7 @@ public class MainMenuActivity extends Activity {
 	}
 	private void fillTeamInfo() {
 		// TODO Auto-generated method stub
-		teamnameView.setText(team.getName());
+		teamnameView.setText(String.valueOf(team.getTeamId()));
 	}
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -123,7 +121,7 @@ public class MainMenuActivity extends Activity {
 	}
 
 	private void fillPersonalInfo() {
-		usernameView.setText(user.getUsername());
+		usernameView.setText(String.valueOf(user.getUserId()));
 	}
 
 	@Override
@@ -184,7 +182,7 @@ public class MainMenuActivity extends Activity {
 		}
 	}
 	private void doLogout() {
-		CommonActions.launchLogoutThread(user.getUsername(), this);		
+		CommonActions.launchLogoutThread(String.valueOf(user.getUserId()), this);		
 	}
 
 	public void doFindGames() {

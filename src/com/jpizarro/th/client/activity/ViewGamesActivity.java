@@ -5,7 +5,7 @@ import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.lib.game.entity.GameTO;
-import com.jpizarro.th.lib.user.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.list.GamesTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;

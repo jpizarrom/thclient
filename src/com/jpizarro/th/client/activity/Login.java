@@ -6,8 +6,8 @@ import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.user.UserService;
 import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.lib.game.entity.GameTO;
-import com.jpizarro.th.lib.team.entity.TeamTO;
-import com.jpizarro.th.lib.user.entity.UserTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
@@ -137,7 +137,7 @@ public class Login extends Activity {
 			TeamTO team;
 
 			try {
-				UserTO user = userService.login(userName, password);
+//				UserTO user = userService.login(userName, password);
 				//				user.setGameId(1);
 				data.putSerializable("user", user);
 				if ( user.getTeamId() != 0 ){
