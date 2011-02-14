@@ -21,6 +21,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
 import android.util.Log;
 
@@ -48,12 +50,14 @@ public class HttpHelper implements THHelper{
 	//	private final String SERVER_PORT = "8081";
 
 //	private final String SERVER_HOST_IP = "192.168.42.81";
-	private final String SERVER_HOST_IP = "office.doingit.cl";
+	private final String SERVER_HOST_IP = "192.168.2.103";
+//	private final String SERVER_HOST_IP = "office.doingit.cl";
 	//	private final String SERVER_HOST_IP = "10.42.43.1";
 	//	private final String SERVER_HOST_IP = "192.168.1.70";
 //	private final String SERVER_PORT = "8070";
-	private final String SERVER_PORT = "8043";
-	private final String URL_SERVICE = "thserver";
+	private final String SERVER_PORT = "8075";
+//	private final String SERVER_PORT = "8043";
+	private final String URL_SERVICE = "thserver-game/app/games";
 	//	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
 	//		SERVER_PORT + "/" + URL_SERVICE + "/";
 
@@ -62,7 +66,7 @@ public class HttpHelper implements THHelper{
 	private final String LOGIN_PARAMETER = "login";
 	private final String CLEAR_PASSWORD_PARAMETER = "password";
 
-	private final String FIND_CITIES_WITH_GAMES_URL = "findCitiesWithGames";
+	private final String FIND_CITIES_WITH_GAMES_URL = "CitiesWithGames";
 	private final String FIND_GAMES_BY_CITY_URL = "findGamesByCity";
 	private final String FIND_GAME_BY_ID_URL = "findGameById";
 
@@ -103,7 +107,7 @@ public class HttpHelper implements THHelper{
 	private String mClientVersion;
 
 	private String mApiBaseUrl = "http://" + SERVER_HOST_IP + ":" + 
-	SERVER_PORT + "/" + URL_SERVICE +"/"+"ws"+"/";
+	SERVER_PORT + "/" + URL_SERVICE + "/";
 
 	public HttpHelper() {
 		super();
@@ -223,7 +227,20 @@ public class HttpHelper implements THHelper{
 	public List<String> findCitiesWithGames() throws Exception {
 		request = createHttpGet(fullUrl(FIND_CITIES_WITH_GAMES_URL) //
 		);
-		return ((CitiesTO) executeHttpRequest(request, this.getXStream() )).getCities();		
+		List<String> r = null;
+		try{
+//		r = ((CitiesTO) executeHttpRequest(request, this.getXStream() )).getCities();
+		// Create a new RestTemplate instance
+		RestTemplate restTemplate = new RestTemplate();
+
+		// The HttpComponentsClientHttpRequestFactory uses the
+		// org.apache.http package to make network requests
+		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+		r = restTemplate.getForObject(fullUrl(FIND_CITIES_WITH_GAMES_URL), CitiesTO.class).getCities();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return r;		
 	}
 
 	public GameTO findGame(long gameId)  throws Exception {
