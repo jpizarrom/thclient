@@ -1,6 +1,6 @@
 package com.jpizarro.th.client.model.service.user;
 
-import com.jpizarro.th.client.model.util.http.HttpHelper;
+import com.jpizarro.th.client.model.util.http.GameRestHttpHelper;
 import com.jpizarro.th.client.model.util.http.SoapHelper;
 import com.jpizarro.th.lib.game.entity.UserTO;
 
@@ -18,21 +18,21 @@ public class Axis2UserServiceImpl implements UserService{
 	}
 
 	public void logout(String username) throws Exception {
-		HttpHelper.getInstance().logout(username);
+		GameRestHttpHelper.getInstance().logout(username);
 	}
 
 	public boolean changePassword(String oldPassword, String newPassword)
 			throws Exception {
-		return HttpHelper.getInstance().changePassword(oldPassword, newPassword);
+		return GameRestHttpHelper.getInstance().changePassword(oldPassword, newPassword);
 	}
 	
 	public boolean registerUser() throws Exception {
-		return HttpHelper.getInstance().registerUser();
+		return GameRestHttpHelper.getInstance().registerUser();
 	}
 
 	public boolean updateUser()
 			throws Exception {
-		return HttpHelper.getInstance().updateUser();
+		return GameRestHttpHelper.getInstance().updateUser();
 	}
 
 }

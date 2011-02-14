@@ -6,7 +6,7 @@ import com.jpizarro.th.lib.game.entity.GameTO;
 import com.jpizarro.th.lib.game.entity.TeamTO;
 import com.jpizarro.th.lib.game.entity.list.GamesTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
-import com.jpizarro.th.client.model.util.http.HttpHelper;
+import com.jpizarro.th.client.model.util.http.GameRestHttpHelper;
 
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -14,7 +14,7 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 public class Axis2GameServiceImpl implements GameService{
 
 	public List<String> findCitiesWithGames() throws Exception {
-		return HttpHelper.getInstance().findCitiesWithGames();
+		return GameRestHttpHelper.getInstance().findCitiesWithGames();
 	}
 
 	public boolean abandonGame(long gameId) throws Exception {
@@ -23,46 +23,46 @@ public class Axis2GameServiceImpl implements GameService{
 	}
 
 	public GameTO findGame(long gameId) throws Exception {
-		return HttpHelper.getInstance().findGame(gameId);
+		return GameRestHttpHelper.getInstance().findGame(gameId);
 	}
 
 	public boolean joinGame(long gameId, long teamId) throws Exception {
-		return HttpHelper.getInstance().joinGame(gameId, teamId);
+		return GameRestHttpHelper.getInstance().joinGame(gameId, teamId);
 	}
 
 	public GenericGameResponseTO updateLocation(int latitude, int longitude)
 			throws Exception {
-		return HttpHelper.getInstance().updateLocation(latitude, longitude);
+		return GameRestHttpHelper.getInstance().updateLocation(latitude, longitude);
 	}
 
 	public GamesTO findGamesByCity(String city, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return HttpHelper.getInstance().findGamesByCity(city, 
+		return GameRestHttpHelper.getInstance().findGamesByCity(city, 
 				startIndex, count);
 	}
 
 	public GenericGameResponseTO startOrContinueGame(String username)
 			throws Exception {
-		return HttpHelper.getInstance().startOrContinueGame(username);
+		return GameRestHttpHelper.getInstance().startOrContinueGame(username);
 	}
 
 	public boolean sendMessage(String receiverUser, String body)
 			throws Exception {
-		return HttpHelper.getInstance().sendMessage(receiverUser, body);
+		return GameRestHttpHelper.getInstance().sendMessage(receiverUser, body);
 	}
 
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return HttpHelper.getInstance().findTeamsByGame(gameId, 
+		return GameRestHttpHelper.getInstance().findTeamsByGame(gameId, 
 				startIndex, count);
 	}
 
 	public GenericGameResponseTO takePlace(long id, int latitude,
 			int longitude) throws Exception {
 		// TODO Auto-generated method stub
-		return HttpHelper.getInstance().takePlace(id, latitude, longitude);
+		return GameRestHttpHelper.getInstance().takePlace(id, latitude, longitude);
 	}
 
 	@Override
