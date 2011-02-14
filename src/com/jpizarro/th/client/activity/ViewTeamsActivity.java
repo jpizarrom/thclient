@@ -174,6 +174,7 @@ public class ViewTeamsActivity extends ListActivity {
             if (team != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
 //            	name.setText(team.getName());
+            	name.setText( String.valueOf(team.getTeamId()));
             	
             	TextView tt = (TextView) v.findViewById(R.id.game_city);
 //            	tt.setText(team.getDescription());
@@ -198,7 +199,7 @@ public class ViewTeamsActivity extends ListActivity {
 		TeamTO team = (TeamTO) l.getAdapter().getItem(position);
 		Toast.makeText(
                 getBaseContext(),
-                String.valueOf(team.getTeamId()),
+                String.valueOf(team.getTeamId())+" "+gameId,
 //                +" "+team.getName()+" "+team.getDescription(),
                 Toast.LENGTH_LONG).show();
 		launchJoinTeamThread(gameId, team.getTeamId());

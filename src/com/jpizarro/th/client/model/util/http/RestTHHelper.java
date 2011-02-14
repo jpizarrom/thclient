@@ -38,8 +38,8 @@ import com.thoughtworks.xstream.XStream;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
-public class HttpHelper implements THHelper{
-	protected static final Logger LOG = Logger.getLogger(HttpHelper.class.getCanonicalName());
+public class RestTHHelper implements THHelper{
+	protected static final Logger LOG = Logger.getLogger(RestTHHelper.class.getCanonicalName());
 
 
 	private static final boolean DEBUG = false;
@@ -67,7 +67,7 @@ public class HttpHelper implements THHelper{
 	private final String CLEAR_PASSWORD_PARAMETER = "password";
 
 	private final String FIND_CITIES_WITH_GAMES_URL = "CitiesWithGames";
-	private final String FIND_GAMES_BY_CITY_URL = "GamesByCity/{query}";
+	private final String FIND_GAMES_BY_CITY_URL = "findGamesByCity";
 	private final String FIND_GAME_BY_ID_URL = "findGameById";
 
 	private final String CITY_PARAMETER = "city";
@@ -88,7 +88,7 @@ public class HttpHelper implements THHelper{
 	private final String RECEIVER_USER_PARAMETER = "receiverUser";
 	private final String BODY_PARAMETER = "body";
 
-	private final String FIND_TEAMS_BY_GAME_URL = "{1}/teams";
+	private final String FIND_TEAMS_BY_GAME_URL = "findTeamsByGame";
 	private final String FIND_TEAM_BY_ID_URL = "findTeamById";
 	private final String JOIN_GAME_URL = "joinGame";
 
@@ -99,11 +99,9 @@ public class HttpHelper implements THHelper{
 	private static HttpClient client = new DefaultHttpClient();
 	private HttpRequestBase request;
 	private HttpResponse response;
-	private static HttpHelper instance;
+	private static RestTHHelper instance;
 	private XStream xstream;
 
-	// Create a new RestTemplate instance
-	RestTemplate restTemplate = new RestTemplate();
 
 	private static final String CLIENT_VERSION_HEADER = "User-Agent";
 	private String mClientVersion;
@@ -111,30 +109,27 @@ public class HttpHelper implements THHelper{
 	private String mApiBaseUrl = "http://" + SERVER_HOST_IP + ":" + 
 	SERVER_PORT + "/" + URL_SERVICE + "/";
 
-	public HttpHelper() {
+	public RestTHHelper() {
 		super();
 		mClientVersion = CLIENT_VERSION_HEADER;
-		// The HttpComponentsClientHttpRequestFactory uses the
-		// org.apache.http package to make network requests
-		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 	}
 	static {
-		instance = new HttpHelper();
+		instance = new RestTHHelper();
 
 	}
-	public static HttpHelper getInstance() {
+	public static RestTHHelper getInstance() {
 		return instance;
 	}
-//	protected XStream getXStream()
-//	{
-//
-//		if (xstream == null)
-//		{
-//			return XStreamFactory.createXStream();
-//		}
-//
-//		return xstream;
-//	}
+	protected XStream getXStream()
+	{
+
+		if (xstream == null)
+		{
+			return XStreamFactory.createXStream();
+		}
+
+		return xstream;
+	}
 
 	public HttpResponse executeHttpRequest(HttpRequestBase httpRequest) throws IOException {
 		if (DEBUG) LOG.log(Level.FINE, "executing HttpRequest for: "
@@ -233,12 +228,18 @@ public class HttpHelper implements THHelper{
 		request = createHttpGet(fullUrl(FIND_CITIES_WITH_GAMES_URL) //
 		);
 		List<String> r = null;
-//		try{
-//		r = ((CitiesTO) executeHttpRequest(request, this.getXStream() )).getCities();
-		r = restTemplate.getForObject(fullUrl(FIND_CITIES_WITH_GAMES_URL), CitiesTO.class).getCities();
-//		}catch (Exception e){
-//			e.printStackTrace();
-//		}
+		try{
+		r = ((CitiesTO) executeHttpRequest(request, this.getXStream() )).getCities();
+		// Create a new RestTemplate instance
+//		RestTemplate restTemplate = new RestTemplate();
+
+		// The HttpComponentsClientHttpRequestFactory uses the
+		// org.apache.http package to make network requests
+//		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+//		r = restTemplate.getForObject(fullUrl(FIND_CITIES_WITH_GAMES_URL), CitiesTO.class).getCities();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return r;		
 	}
 
@@ -251,12 +252,11 @@ public class HttpHelper implements THHelper{
 
 	public boolean joinGame(long gameId, long teamId) 
 	throws Exception {
-//		request = createHttpGet(fullUrl(JOIN_GAME_URL) //
-//				,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
-//		,new BasicNameValuePair(TEAM_ID_PARAMETER, String.valueOf(teamId)) //
-//		);
-//		return (Boolean) executeHttpRequest(request, this.getXStream());
-		return true;
+		request = createHttpGet(fullUrl(JOIN_GAME_URL) //
+				,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
+		,new BasicNameValuePair(TEAM_ID_PARAMETER, String.valueOf(teamId)) //
+		);
+		return (Boolean) executeHttpRequest(request, this.getXStream());
 	}
 
 
@@ -286,13 +286,12 @@ public class HttpHelper implements THHelper{
 
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception {
-		GamesTO r = null;
-		try{
-			r = restTemplate.getForObject(fullUrl(FIND_GAMES_BY_CITY_URL), GamesTO.class, city);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		return r;	
+		request = createHttpGet(fullUrl(FIND_GAMES_BY_CITY_URL) //
+				,new BasicNameValuePair(CITY_PARAMETER, city) //
+		,new BasicNameValuePair(START_INDEX_PARAMETER, String.valueOf(startIndex)) //
+		,new BasicNameValuePair(COUNT_PARAMETER, String.valueOf(count)) //
+		);
+		return (GamesTO) executeHttpRequest(request, this.getXStream());
 	}
 
 	public GenericGameResponseTO startOrContinueGame(String login) 
@@ -304,19 +303,12 @@ public class HttpHelper implements THHelper{
 
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception {
-//		request = createHttpGet(fullUrl(FIND_TEAMS_BY_GAME_URL) //
-//				,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
-//		,new BasicNameValuePair(START_INDEX_PARAMETER, String.valueOf(startIndex)) //
-//		,new BasicNameValuePair(COUNT_PARAMETER, String.valueOf(count)) //
-//		);
-//		return ((TeamsTO) executeHttpRequest(request, this.getXStream())).getTeams();
-		List<TeamTO> r = null;
-		try{
-			r = restTemplate.getForObject(fullUrl(FIND_TEAMS_BY_GAME_URL), TeamsTO.class, gameId).getTeams();
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		return r;	
+		request = createHttpGet(fullUrl(FIND_TEAMS_BY_GAME_URL) //
+				,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
+		,new BasicNameValuePair(START_INDEX_PARAMETER, String.valueOf(startIndex)) //
+		,new BasicNameValuePair(COUNT_PARAMETER, String.valueOf(count)) //
+		);
+		return ((TeamsTO) executeHttpRequest(request, this.getXStream())).getTeams();
 	}
 
 	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 

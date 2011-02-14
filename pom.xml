@@ -179,7 +179,7 @@
 <!--		<dependency>-->
 <!--			<groupId>org.jdom</groupId>-->
 <!--			<artifactId>jdom</artifactId>-->
-<!--			<version>1.1</version>-->
+<!--			<version>1.1.1-android-fork</version>-->
 <!--		</dependency>-->
 
 		<dependency> 
@@ -228,6 +228,12 @@
 			<name>googlecode-ksoap2-android</name>
 			<url>http://ksoap2-android.googlecode.com/svn/m2-repo</url>
 		</repository>
+        <!-- For developing with Android ROME Feed Reader -->
+        <repository>
+            <id>android-rome-feed-reader-repository</id>
+            <name>Android ROME Feed Reader Repository</name>
+            <url>https://android-rome-feed-reader.googlecode.com/svn/maven2/releases</url>
+        </repository>
 
 		<!-- For testing against latest Spring snapshots -->
 		<repository>
