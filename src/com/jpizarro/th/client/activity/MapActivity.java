@@ -4,16 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxyImpl;
-import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.views.OpenStreetMapView;
-import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.andnav.osm.views.overlay.MyLocationOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
-import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
-import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.MyLocationOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
@@ -81,7 +80,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	// ===========================================================
 	
 	private SharedPreferences mPrefs;
-	private OpenStreetMapView mOsmv;
+	private MapView mOsmv;
 	
 //	private TableLayout userTappedTable, userTappedPlaceTable;
 	
@@ -91,11 +90,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	// Overlays	
 	private MyLocationOverlay mLocationOverlay;
 	
-	private ArrayList<OpenStreetMapViewOverlayItem> users;
-	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> mUsersOverlay;
+	private ArrayList<OverlayItem> users;
+	private ItemizedOverlay<OverlayItem> mUsersOverlay;
 	
 	private List<HintOverlayItem> hints;
-	private OpenStreetMapViewItemizedOverlay<HintOverlayItem> mHintsOverlay;
+	private ItemizedOverlay<HintOverlayItem> mHintsOverlay;
 	private Drawable mMarker1, mMarker2, mMarker3, mMarker4;
 
 	
@@ -125,8 +124,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererFactory.MAPNIK);
-        this.mOsmv.setResourceProxy(mResourceProxy);
+        this.mOsmv = new MapView(this, 256, mResourceProxy);
+//        this.mOsmv.setResourceProxy(mResourceProxy);
         this.mOsmv.setBuiltInZoomControls(true);
         this.mOsmv.setMultiTouchControls(true);
         
@@ -145,7 +144,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     @Override
     protected void onPause() {
     	SharedPreferences.Editor edit = mPrefs.edit();
-    	edit.putString(PREFS_RENDERER, mOsmv.getRenderer().name());
+    	edit.putString(PREFS_RENDERER, mOsmv.getTileProvider().getTileSource().name());
     	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
     	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
     	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
@@ -154,6 +153,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	edit.commit();
 
     	this.mLocationOverlay.disableMyLocation();
+    	this.mLocationOverlay.disableCompass();
     	
     	super.onPause();
     }
@@ -161,29 +161,37 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     @Override
     protected void onResume() {
     	super.onResume();
-    	final String rendererName = mPrefs.getString(PREFS_RENDERER, OpenStreetMapRendererFactory.MAPNIK.name());
-        // TODO this will go wrong if you use a renderer that the factory doesn't know about
-        final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
-    	mOsmv.setRenderer(renderer);
+    	final String tileSourceName = mPrefs.getString(PREFS_RENDERER, TileSourceFactory.DEFAULT_TILE_SOURCE.name());
+		try {
+			final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
+			mOsmv.setTileSource(tileSource);
+		} catch (final IllegalArgumentException ignore) {
+		}
+		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
+			this.mLocationOverlay.enableMyLocation();
+		}
+		if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
+			this.mLocationOverlay.enableCompass();
+		}
     	
     	/* MyLocationOverlay */
         {
         	if(this.mLocationOverlay == null){
 		        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy)
 		        {
-		        	@Override
-		        	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
-		        		if(getMyLocation() != null) {
-		        			final OpenStreetMapViewProjection pj = osmv.getProjection();
-		        			Point mMapCoords = new Point();
-		        			pj.toMapPixels(getMyLocation(), mMapCoords);
-		        			final float radius = pj.metersToEquatorPixels(METERS_TO_SEE);
-		        			
-		        			this.mCirclePaint.setAlpha(50);
-		        			this.mCirclePaint.setStyle(Style.STROKE);
-		        			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
-		        		}
-		        	}
+//		        	@Override
+//		        	protected void onDrawFinished(Canvas c, MapView osmv) {
+//		        		if(getMyLocation() != null) {
+//		        			final OpenStreetMapViewProjection pj = osmv.getProjection();
+//		        			Point mMapCoords = new Point();
+//		        			pj.toMapPixels(getMyLocation(), mMapCoords);
+//		        			final float radius = pj.metersToEquatorPixels(METERS_TO_SEE);
+//		        			
+//		        			this.mCirclePaint.setAlpha(50);
+//		        			this.mCirclePaint.setStyle(Style.STROKE);
+//		        			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
+//		        		}
+//		        	}
 		        };
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
         	}
@@ -195,7 +203,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
 	    }
         // register location listener
-		initLocation();
+//		initLocation();
     	
     	user = (UserTO)getIntent().getExtras().getSerializable("user");
 
@@ -216,107 +224,136 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	if ( this.mMarker4 == null )
     		this.mMarker4 = this.getResources().getDrawable(R.drawable.marker_blue);
     	
-        {
-        	if( this.users == null )
-	        	users = new ArrayList<OpenStreetMapViewOverlayItem>();
-        	
-        	if( this.mUsersOverlay == null ){
-		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mUsersOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, users, 
-		        	this.getResources().getDrawable(R.drawable.person_red),
-		        	null,
-		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
-
-						public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-//							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
-							try {
-								tappedUser = item.mTitle;
-								showDialog(USER_TAPPED_USER_DIALOG_ID);
-							} catch (Exception e) {
-								CommonDialogs.errorMessage = e.getLocalizedMessage();
-								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-							}
-							return true;
-						}
-			        }, 
-			        mResourceProxy);
-		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
-	        }
-        }
+//        {
+//        	if( this.users == null )
+//	        	users = new ArrayList<OverlayItem>();
+//        	
+//        	if( this.mUsersOverlay == null ){
+//		        /* OnTapListener for the Markers, shows a simple Toast. */
+//		        this.mUsersOverlay = new ItemizedOverlay<OverlayItem>(this, users, 
+////		        	this.getResources().getDrawable(R.drawable.person_red),
+//		        	null,
+//		        	null,
+//		        	new ItemizedOverlay.OnItemGestureListener<OverlayItem>(){
+//
+//						public boolean onItemTap(int index, OverlayItem item) {
+////							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+//							try {
+//								tappedUser = item.mTitle;
+//								showDialog(USER_TAPPED_USER_DIALOG_ID);
+//							} catch (Exception e) {
+//								CommonDialogs.errorMessage = e.getLocalizedMessage();
+//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+//							}
+//							return true;
+//						}
+//
+//						@Override
+//						public boolean onItemLongPress(int arg0,
+//								OverlayItem arg1) {
+//							// TODO Auto-generated method stub
+//							return false;
+//						}
+//
+//						@Override
+//						public boolean onItemSingleTapUp(int arg0,
+//								OverlayItem arg1) {
+//							// TODO Auto-generated method stub
+//							return false;
+//						}
+//			        }, 
+//			        mResourceProxy);
+//		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
+//	        }
+//        }
         
-        {
-        	if( this.hints == null )
-        		hints = new ArrayList<HintOverlayItem>();
-        	
-        	if( this.mHintsOverlay == null ){
-		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mHintsOverlay = new OpenStreetMapViewItemizedOverlay<HintOverlayItem>(this, hints,
-		        	null,
-		        	null,
-		        	new OpenStreetMapViewItemizedOverlay.OnItemTapListener<HintOverlayItem>(){
-
-						public boolean onItemTap(int index, HintOverlayItem item) {
-							try {
-								tappedIdx = index;
-								switch(item.type){
-								case HintOverlayItem.ITEM_TEAM_HAVE:
-									showDialog(USER_TAPPED_HINT_DIALOG_ID);
-									break;
-								case HintOverlayItem.ITEM_TEAM_SEE:
-									showDialog(MapActivity.USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
-									break;
-								case HintOverlayItem.ITEM_USER_SEE:
-									showDialog(MapActivity.USER_TAPPED_USERSEEHINT_DIALOG_ID);
-									break;
-								case HintOverlayItem.ITEM_GOAL:
-									break;
-								case HintOverlayItem.ITEM_HIDE:
-								default:
-//									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
-								}
-								
-							} catch (Exception e) {
-								CommonDialogs.errorMessage = e.getLocalizedMessage();
-								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-							}
-							return true;
-						}
-		        	}, 
-		        	mResourceProxy){
-		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
-		        		Drawable m = this.mMarker;
-		        		final int left = curScreenCoords.x - this.mMarkerHotSpot.x;
-		        		final int right = left + this.mMarkerWidth;
-		        		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
-		        		final int bottom = top + this.mMarkerHeight;
-		        		
-		        		HintOverlayItem item = mItemList.get(index);
-		        		switch(item.type){
-						case HintOverlayItem.ITEM_TEAM_HAVE:
-							m = mMarker1;
-							break;
-						case HintOverlayItem.ITEM_TEAM_SEE:
-							m = mMarker2;
-							break;
-						case HintOverlayItem.ITEM_USER_SEE:
-							m = mMarker3;
-							break;
-						case HintOverlayItem.ITEM_GOAL:
-							m = mMarker4;
-							break;
-						case HintOverlayItem.ITEM_HIDE:
-//							return;
-						default:
-							m = this.mMarker;
-						}
-
-		        		m.setBounds(left, top, right, bottom);
-		        		m.draw(c);
-		        	}
-		        };
-		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
-	        }
-        }
+//        {
+//        	if( this.hints == null )
+//        		hints = new ArrayList<HintOverlayItem>();
+//        	
+//        	if( this.mHintsOverlay == null ){
+//		        /* OnTapListener for the Markers, shows a simple Toast. */
+//		        this.mHintsOverlay = new ItemizedOverlay<HintOverlayItem>(this, hints,
+//		        	null,
+//		        	null,
+//		        	new ItemizedOverlay.OnItemGestureListener<HintOverlayItem>(){
+//
+//						public boolean onItemTap(int index, HintOverlayItem item) {
+//							try {
+//								tappedIdx = index;
+//								switch(item.type){
+//								case HintOverlayItem.ITEM_TEAM_HAVE:
+//									showDialog(USER_TAPPED_HINT_DIALOG_ID);
+//									break;
+//								case HintOverlayItem.ITEM_TEAM_SEE:
+//									showDialog(MapActivity.USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
+//									break;
+//								case HintOverlayItem.ITEM_USER_SEE:
+//									showDialog(MapActivity.USER_TAPPED_USERSEEHINT_DIALOG_ID);
+//									break;
+//								case HintOverlayItem.ITEM_GOAL:
+//									break;
+//								case HintOverlayItem.ITEM_HIDE:
+//								default:
+////									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
+//								}
+//								
+//							} catch (Exception e) {
+//								CommonDialogs.errorMessage = e.getLocalizedMessage();
+//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+//							}
+//							return true;
+//						}
+//
+//						@Override
+//						public boolean onItemLongPress(int arg0,
+//								HintOverlayItem arg1) {
+//							// TODO Auto-generated method stub
+//							return false;
+//						}
+//
+//						@Override
+//						public boolean onItemSingleTapUp(int arg0,
+//								HintOverlayItem arg1) {
+//							// TODO Auto-generated method stub
+//							return false;
+//						}
+//		        	}, 
+//		        	mResourceProxy){
+//		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
+//		        		OverlayItem m = this.mDefaultItem;
+////		        		final int left = curScreenCoords.x - this.mMarkerHotSpot.x;
+////		        		final int right = left + this.mMarkerWidth;
+////		        		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
+////		        		final int bottom = top + this.mMarkerHeight;
+//		        		
+//		        		HintOverlayItem item = mItemList.get(index);
+//		        		switch(item.type){
+////						case HintOverlayItem.ITEM_TEAM_HAVE:
+////							m = mMarker1;
+////							break;
+////						case HintOverlayItem.ITEM_TEAM_SEE:
+////							m = mMarker2;
+////							break;
+////						case HintOverlayItem.ITEM_USER_SEE:
+////							m = mMarker3;
+////							break;
+////						case HintOverlayItem.ITEM_GOAL:
+////							m = mMarker4;
+////							break;
+////						case HintOverlayItem.ITEM_HIDE:
+////							return;
+////						default:
+////							m = this.mDefaultMarker;
+//						}
+//
+////		        		m.setBounds(left, top, right, bottom);
+//		        		m.getDrawable().draw(c);
+//		        	}
+//		        };
+//		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
+//	        }
+//        }
         
         update();
         
@@ -450,7 +487,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private void update() {
 		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
 			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
-				 users.add(new OpenStreetMapViewOverlayItem( in.getUsername(), "SampleDescription", 
+				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
@@ -610,7 +647,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		
 	}
 	
-	private class HintOverlayItem extends OpenStreetMapViewOverlayItem implements Serializable{
+	private class HintOverlayItem extends OverlayItem implements Serializable{
 		/**
 		 * 
 		 */

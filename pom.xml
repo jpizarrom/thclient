@@ -191,7 +191,7 @@
 		<dependency>
 			<groupId>org.andnav.osm</groupId>
 			<artifactId>osmdroid-android</artifactId>
-			<version>1.06</version>
+			<version>3.0.2</version>
 		</dependency>
 
 <!--		<dependency> -->
@@ -217,11 +217,11 @@
 <!--			<version>1.0-SNAPSHOT</version>-->
 <!--  		</dependency>-->
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${org.slf4j.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>${org.slf4j.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-android</artifactId>
