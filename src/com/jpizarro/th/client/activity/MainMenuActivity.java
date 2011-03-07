@@ -33,7 +33,7 @@ public class MainMenuActivity extends Activity {
 
 	private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 
-	private TextView usernameView, gamenameView, teamnameView;
+	private TextView usernameView, gamenameView, teamnameView, citynameView;
 
 	private UserTO user;
 	private GameTO game;
@@ -50,6 +50,7 @@ public class MainMenuActivity extends Activity {
 		usernameView = (TextView)findViewById(R.id.username);
 		gamenameView = (TextView)findViewById(R.id.gamename);
 		teamnameView = (TextView)findViewById(R.id.mm_teamname);
+		citynameView = (TextView)findViewById(R.id.mm_cityname);
 	}
 	@Override
 	protected void onResume() {
@@ -75,7 +76,8 @@ public class MainMenuActivity extends Activity {
 
 	private void fillGameInfo() {
 		// TODO Auto-generated method stub
-		gamenameView.setText(game.getName());
+		gamenameView.setText(game.getGameId()+"");
+		citynameView.setText(game.getCity());
 	}
 	private void fillTeamInfo() {
 		// TODO Auto-generated method stub

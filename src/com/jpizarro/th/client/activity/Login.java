@@ -137,7 +137,7 @@ public class Login extends Activity {
 			TeamTO team;
 
 			try {
-//				UserTO user = userService.login(userName, password);
+				UserTO user = userService.login(userName, password);
 				//				user.setGameId(1);
 				data.putSerializable("user", user);
 				if ( user.getTeamId() != 0 ){
@@ -204,7 +204,7 @@ public class Login extends Activity {
 			}
 			user = (UserTO)msg.getData().getSerializable("user");
 			game = (GameTO)msg.getData().getSerializable("game");
-			team = (TeamTO)msg.getData().getSerializable("team");
+//			team = (TeamTO)msg.getData().getSerializable("team");
 			doLogin();
 		}
 

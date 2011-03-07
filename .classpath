@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry including="**/*.java" kind="src" path="src"/>
-	<classpathentry kind="var" path="M2_REPO/org/jdom/jdom/1.1.1-android-fork/jdom-1.1.1-android-fork.jar"/>
 	<classpathentry kind="var" path="M2_REPO/net/sourceforge/kobjects/kobjects-j2me/0.0-SNAPSHOT-20040926-2/kobjects-j2me-0.0-SNAPSHOT-20040926-2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/ksoap2-android/ksoap2-android/2.4/ksoap2-android-2.4.jar" sourcepath="M2_REPO/com/google/code/ksoap2-android/ksoap2-android/2.4/ksoap2-android-2.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/ksoap2-android/ksoap2-base/2.4/ksoap2-base-2.4.jar" sourcepath="M2_REPO/com/google/code/ksoap2-android/ksoap2-base/2.4/ksoap2-base-2.4-sources.jar"/>
@@ -10,12 +9,12 @@
 	<classpathentry kind="var" path="M2_REPO/org/andnav/osm/osmdroid-android/1.06/osmdroid-android-1.06.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/simpleframework/simple-xml/2.4.1/simple-xml-2.4.1.jar" sourcepath="M2_REPO/org/simpleframework/simple-xml/2.4.1/simple-xml-2.4.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/android/spring-android-rest-template/1.0.0.M2/spring-android-rest-template-1.0.0.M2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/xmlpull/xmlpull/1.1.3.3/xmlpull-1.1.3.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar" sourcepath="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT.jar" sourcepath="M2_REPO/com/thoughtworks/xstream/xstream/1.4-SNAPSHOT/xstream-1.4-SNAPSHOT-sources.jar"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-game"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-generic"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-user"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

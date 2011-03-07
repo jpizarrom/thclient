@@ -37,6 +37,7 @@ import com.jpizarro.th.lib.game.entity.list.TeamsTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.util.GameRestURL;
 import com.jpizarro.th.lib.game.util.xml.xstream.XStreamFactory;
+import com.jpizarro.th.lib.user.util.UserRestURL;
 import com.thoughtworks.xstream.XStream;
 
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
@@ -51,6 +52,8 @@ public class GameRestHttpHelper implements THHelper{
 	public static final String SERVER_HOST_IP = "192.168.2.103";
 	public static final String SERVER_PORT = "8075";
 	public static final String SERVICE = "thserver-game/app";
+	public static final String URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
+	SERVER_PORT + "/" + SERVICE;
 	public static final String URL = "http://" + SERVER_HOST_IP + ":" + 
 	SERVER_PORT + "/" + SERVICE + "/" + GameRestURL.ENTITY;
 
@@ -91,7 +94,11 @@ public class GameRestHttpHelper implements THHelper{
 
 	public UserTO login(String userName, String password) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		UserTO r = null;
+		r = restTemplate.getForObject(this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.LOGIN+"?username={username}&password={password}", UserTO.class,
+				userName, password);
+		return r;	
+//		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
 	}
 
 	public void logout(String login) 
