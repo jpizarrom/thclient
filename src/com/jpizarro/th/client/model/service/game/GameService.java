@@ -18,6 +18,9 @@ public interface GameService {
 
 	public boolean joinGame(long gameId, long teamId) 
 	throws Exception;
+	
+	public boolean joinGame(long gameId, long teamId, long userId) 
+	throws Exception;
 
 	public boolean abandonGame(long gameId) 
 	throws Exception;

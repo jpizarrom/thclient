@@ -43,6 +43,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -65,6 +66,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
 	private static final int MENU_ABANDON = MENU_ABOUT + 1;
 	private static final int MENU_UPDATE = MENU_ABANDON + 1;
+	private static final int MENU_LAST_ID = MENU_UPDATE + 1; // Always set to last unused id
 	
 	private static final int USER_TAPPED_USER_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	private static final int USER_TAPPED_HINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 1;
@@ -167,12 +169,6 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			mOsmv.setTileSource(tileSource);
 		} catch (final IllegalArgumentException ignore) {
 		}
-		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
-			this.mLocationOverlay.enableMyLocation();
-		}
-		if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
-			this.mLocationOverlay.enableCompass();
-		}
     	
     	/* MyLocationOverlay */
         {
@@ -196,6 +192,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
         	}
         }
+		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
+			this.mLocationOverlay.enableMyLocation();
+		}
+		if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
+			this.mLocationOverlay.enableCompass();
+		}
     	if ( this.mLocationOverlay != null ){
 	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
 	    		this.mLocationOverlay.enableMyLocation();
@@ -372,7 +374,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		menu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location);
 		menu.add(0, MENU_ABANDON, Menu.NONE, R.string.abandon_game);
 		menu.add(0, MENU_UPDATE, Menu.NONE, R.string.update);
+		// Put overlay items next
+		mOsmv.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mOsmv);
 		return true;
+	}
+	@Override
+	public boolean onPrepareOptionsMenu(final Menu pMenu) {
+		mOsmv.getOverlayManager().onPrepareOptionsMenu(pMenu, MENU_LAST_ID, mOsmv);
+		return super.onPrepareOptionsMenu(pMenu);
 	}
 
 	@Override
@@ -388,8 +397,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		case MENU_UPDATE:
 			this.launchStartGameThread();
 			return true;
+		default:
+			return mOsmv.getOverlayManager().onMenuItemSelected(featureId, item, MENU_LAST_ID,
+					mOsmv);
 		}
-		return false;
 	}
 
 
@@ -461,7 +472,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			break;
 		}
 	}
-
+	@Override
+	public boolean onTrackballEvent(final MotionEvent event) {
+		return this.mOsmv.onTrackballEvent(event);
+	}
 	private LocationManager getLocationManager() {
 		if(this.mLocationManager == null)
 			this.mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

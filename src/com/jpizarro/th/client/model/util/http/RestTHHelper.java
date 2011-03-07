@@ -328,5 +328,11 @@ public class RestTHHelper implements THHelper{
 		);
 		return (TeamTO) executeHttpRequest(request, this.getXStream());
 	}
+	@Override
+	public boolean joinGame(long gameId, long teamId, long userId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

@@ -30,8 +30,8 @@ public class HttpGameServiceImpl implements GameService{
 		return instance.findGame(gameId);
 	}
 
-	public boolean joinGame(long gameId, long teamId) throws Exception {
-		return instance.joinGame(gameId, teamId);
+	public boolean joinGame(long gameId, long teamId, long userId) throws Exception {
+		return instance.joinGame(gameId, teamId, userId);
 	}
 
 	public GenericGameResponseTO updateLocation(int latitude, int longitude)
@@ -72,6 +72,12 @@ public class HttpGameServiceImpl implements GameService{
 	@Override
 	public TeamTO findTeam(long teamId) throws Exception {
 		return instance.findTeam(teamId);
+	}
+
+	@Override
+	public boolean joinGame(long gameId, long teamId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

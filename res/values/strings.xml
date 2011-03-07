@@ -48,4 +48,6 @@
 <string name="country">Country</string>
 <string name="phone">Phone</string>
 <string name="surname">Surname</string>
+<string name="preferences">preferencias</string>
+<string name="prefs_general">General</string>
 </resources>

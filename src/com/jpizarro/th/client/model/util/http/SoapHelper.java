@@ -286,4 +286,11 @@ public class SoapHelper implements THHelper{
 		return null;
 	}
 
+	@Override
+	public boolean joinGame(long gameId, long teamId, long userId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

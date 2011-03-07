@@ -71,4 +71,11 @@ public class Axis2GameServiceImpl implements GameService{
 		return null;
 	}
 
+	@Override
+	public boolean joinGame(long gameId, long teamId, long userId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

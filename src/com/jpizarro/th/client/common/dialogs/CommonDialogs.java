@@ -51,36 +51,46 @@ public class CommonDialogs {
     	case SERVER_ERROR_DIALOG_ID:
     		return new AlertDialog.Builder(activity)
 //            .setIcon(R.drawable.alert_dialog_icon)
-            .setTitle(activity.getResources().getString(R.string.error_server_error_message) + 
-            		" : " + errorMessage)
+            .setTitle(activity.getResources().getString(R.string.error_server_error_message) 
+//            		+ " : " + errorMessage
+            		)
+            .setMessage(errorMessage)
             .setPositiveButton(R.string.ok, null)
            .create();
         case CLIENT_ERROR_DIALOG_ID:
         	return new AlertDialog.Builder(activity)
 //            .setIcon(R.drawable.alert_dialog_icon)
-            .setTitle(activity.getResources().getString(R.string.error_client_exception) + 
-            		" : " + errorMessage)
+            .setTitle(activity.getResources().getString(R.string.error_client_exception) 
+//            		+ " : " + errorMessage
+            		)
+            .setMessage(errorMessage)
             .setPositiveButton(R.string.ok, null)
            .create();
         case SQLITE_ERROR_DIALOG_ID:
         	return new AlertDialog.Builder(activity)
 //            .setIcon(R.drawable.alert_dialog_icon)
-            .setTitle(activity.getResources().getString(R.string.sqlite_error) + 
-            		" : " + errorMessage)
+            .setTitle(activity.getResources().getString(R.string.sqlite_error) 
+//            		+ " : " + errorMessage
+            		)
+            .setMessage(errorMessage)
             .setPositiveButton(R.string.ok, null)
            .create();
         case SERVER_OFFLINE_DIALOG_ID:
         	return new AlertDialog.Builder(activity)
 //            .setIcon(R.drawable.alert_dialog_icon)
-            .setTitle(activity.getResources().getString(R.string.server_offline) + 
-            		" : " + errorMessage)
+            .setTitle(activity.getResources().getString(R.string.server_offline) 
+//            		+ " : " + errorMessage
+            		)
+            .setMessage(errorMessage)
             .setPositiveButton(R.string.ok, null)
            .create();
         case CONNECTION_LOST_DIALOG_ID:
         	return new AlertDialog.Builder(activity)
 //            .setIcon(R.drawable.alert_dialog_icon)
-            .setTitle(activity.getResources().getString(R.string.connection_lost) + 
-            		" : " + errorMessage)
+            .setTitle(activity.getResources().getString(R.string.connection_lost) 
+//            		+ " : " + errorMessage
+            		)
+            .setMessage(errorMessage)
             .setPositiveButton(R.string.ok, null)
            .create();
         case CONNECTING_TO_SERVER_DIALOG_ID:

@@ -274,7 +274,7 @@ public class ViewTeamsActivity extends ListActivity {
 			Message msg = new Message();
 			try {
 				boolean result = 
-					gameService.joinGame(gameId, teamId);
+					gameService.joinGame(gameId, teamId, user.getUserId());
 				data.putBoolean("result", result);
 				data.putLong("gameId", gameId);
 				data.putLong("teamId", teamId);

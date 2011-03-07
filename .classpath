@@ -17,5 +17,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-generic"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-user"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/thlib-team"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

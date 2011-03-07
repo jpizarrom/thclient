@@ -37,6 +37,7 @@ import com.jpizarro.th.lib.game.entity.list.TeamsTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.util.GameRestURL;
 import com.jpizarro.th.lib.game.util.xml.xstream.XStreamFactory;
+import com.jpizarro.th.lib.team.util.TeamRestURL;
 import com.jpizarro.th.lib.user.util.UserRestURL;
 import com.thoughtworks.xstream.XStream;
 
@@ -98,7 +99,6 @@ public class GameRestHttpHelper implements THHelper{
 		r = restTemplate.getForObject(this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.LOGIN+"?username={username}&password={password}", UserTO.class,
 				userName, password);
 		return r;	
-//		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
 	}
 
 	public void logout(String login) 
@@ -129,23 +129,27 @@ public class GameRestHttpHelper implements THHelper{
 	public GameTO findGame(long gameId)  throws Exception {
 		GameTO r = null;
 		r = restTemplate.getForObject(fullUrl(GameRestURL.ENTITY_ID), GameTO.class, gameId);
-		return r;	
+		return r;
 	}
 
-	public boolean joinGame(long gameId, long teamId) 
+	public boolean joinGame(long gameId, long teamId, long userId) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" changePassword");
+		boolean r = false;
+		com.jpizarro.th.lib.team.entity.TeamTO t = restTemplate.getForObject(this.URL_BASE+"/test"+"/"+TeamRestURL.ENTITY+TeamRestURL.ADD_USER_TO_TEAM, com.jpizarro.th.lib.team.entity.TeamTO.class, teamId, userId);
+		if (t!=null)
+			r = true;
+		return r;
 	}
 
 
 	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
 	}
 
 	public boolean sendMessage(String receiverLogin, String body) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
 	}
 
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 
@@ -157,7 +161,7 @@ public class GameRestHttpHelper implements THHelper{
 
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" startOrContinueGame");
 	}
 
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
@@ -173,12 +177,17 @@ public class GameRestHttpHelper implements THHelper{
 
 	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
 	throws Exception{
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" takePlace");
 	}
 
 	@Override
 	public TeamTO findTeam(long teamId) throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" findTeam");
+	}
+
+	@Override
+	public boolean joinGame(long gameId, long teamId) throws Exception {
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" joinGame(long gameId, long teamId)");
 	}
 
 }

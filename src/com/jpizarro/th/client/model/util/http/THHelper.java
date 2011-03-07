@@ -31,6 +31,9 @@ public interface THHelper {
 	public boolean joinGame(long gameId, long teamId) 
 	throws Exception;
 	
+	public boolean joinGame(long gameId, long teamId, long userId) 
+	throws Exception;
+	
 	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
 	throws Exception;
 	

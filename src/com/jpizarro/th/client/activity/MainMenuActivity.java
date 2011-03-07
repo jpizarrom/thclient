@@ -13,19 +13,24 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainMenuActivity extends Activity {
+public class MainMenuActivity extends Activity implements OnSharedPreferenceChangeListener{
 	private static final int CHANGE_PASSWORD_ID = Menu.FIRST;
 	private static final int UPDATE_ID = CHANGE_PASSWORD_ID + 1;
 	private static final int VIEW_HISTORY_ID = UPDATE_ID + 1;
 	private static final int FIND_GAMES_ID = VIEW_HISTORY_ID + 1;
 	private static final int LOGOUT_ID = FIND_GAMES_ID + 1;
 	private static final int PLAY_ID = LOGOUT_ID + 1;
+	private static final int MENU_PREFERENCES = PLAY_ID + 1;
+	
 
 
 	private static final int FIND_GAMES_REQUEST_CODE = 0;
@@ -34,6 +39,7 @@ public class MainMenuActivity extends Activity {
 	private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 
 	private TextView usernameView, gamenameView, teamnameView, citynameView;
+	protected SharedPreferences prefs;
 
 	private UserTO user;
 	private GameTO game;
@@ -46,6 +52,9 @@ public class MainMenuActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_info_page);
+		
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
 
 		usernameView = (TextView)findViewById(R.id.username);
 		gamenameView = (TextView)findViewById(R.id.gamename);
@@ -140,6 +149,8 @@ public class MainMenuActivity extends Activity {
 		menu.add(0, PLAY_ID, 0, R.string.play_game)
 		//    	.setIcon(R.drawable.find)
 		;
+		menu.add(0, MENU_PREFERENCES, Menu.NONE,
+				R.string.preferences);
 		return true;
 	}
 	@Override
@@ -163,6 +174,11 @@ public class MainMenuActivity extends Activity {
 		case PLAY_ID:
 			doPlayGame();
 			break;
+		case MENU_PREFERENCES:
+			Intent intent = new Intent(this, ConfigurationActivity.class);
+			startActivityForResult(intent, MENU_PREFERENCES);
+
+			return true;
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -218,6 +234,11 @@ public class MainMenuActivity extends Activity {
 	private void showToast(String message, int length) {
 		Toast.makeText(this, message,
 				length).show();
+	}
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
