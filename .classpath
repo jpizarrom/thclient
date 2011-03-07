@@ -16,5 +16,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-game"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-generic"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/thlib-user"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
