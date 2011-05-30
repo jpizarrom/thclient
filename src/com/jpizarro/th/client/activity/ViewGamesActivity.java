@@ -40,6 +40,7 @@ public class ViewGamesActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		this.setTitle("ViewGamesActivity");
 		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		city = getIntent().getExtras().getString("city");
 		if (city != null) {
@@ -170,7 +171,7 @@ public class ViewGamesActivity extends ListActivity {
             GameTO g = this.getItem(position);
             if (g != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
-            	name.setText(g.getName());
+            	name.setText(String.valueOf(g.getGameId()));
             	
             	TextView tt = (TextView) v.findViewById(R.id.game_city);
             	tt.setText(g.getCity());

@@ -41,6 +41,7 @@ public class ViewTeamsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		this.setTitle("ViewTeamsActivity");
 		
 		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		gameId = getIntent().getExtras().getLong("gameId");

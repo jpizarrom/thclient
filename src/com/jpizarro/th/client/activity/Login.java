@@ -141,7 +141,9 @@ public class Login extends Activity {
 				//				user.setGameId(1);
 				data.putSerializable("user", user);
 				if ( user.getTeamId() != 0 ){
-					team = gameService.findTeam(user.getTeamId());
+					team = (new TeamTO());
+					team.setTeamId(user.getTeamId());
+//					team = gameService.findTeam(user.getTeamId());
 					data.putSerializable("team", team);
 				}
 				if ( user.getGameId() != 0 ){
@@ -204,7 +206,7 @@ public class Login extends Activity {
 			}
 			user = (UserTO)msg.getData().getSerializable("user");
 			game = (GameTO)msg.getData().getSerializable("game");
-//			team = (TeamTO)msg.getData().getSerializable("team");
+			team = (TeamTO)msg.getData().getSerializable("team");
 			doLogin();
 		}
 

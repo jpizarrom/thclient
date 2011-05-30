@@ -50,8 +50,8 @@ public class GameRestHttpHelper implements THHelper{
 
 	private String TAG = "HttpHelper";
 	
-	public static final String SERVER_HOST_IP = "192.168.2.103";
-	public static final String SERVER_PORT = "8075";
+	public static final String SERVER_HOST_IP = "192.168.16.135";
+	public static final String SERVER_PORT = "8070";
 	public static final String SERVICE = "thserver-game/app";
 	public static final String URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
 	SERVER_PORT + "/" + SERVICE;
@@ -96,8 +96,16 @@ public class GameRestHttpHelper implements THHelper{
 	public UserTO login(String userName, String password) 
 	throws Exception {
 		UserTO r = null;
-		r = restTemplate.getForObject(this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.LOGIN+"?username={username}&password={password}", UserTO.class,
+		com.jpizarro.th.lib.user.entity.UserTO t = null;
+		t = restTemplate.getForObject(
+				this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.LOGIN+"?username={username}&password={password}", com.jpizarro.th.lib.user.entity.UserTO.class,
 				userName, password);
+		r = restTemplate.getForObject(
+				this.URL_BASE+"/"+com.jpizarro.th.lib.game.util.UserRestURL.ENTITY+com.jpizarro.th.lib.game.util.UserRestURL.ENTITY_ID, UserTO.class, t.getUserId());
+//		r = new UserTO();
+//		r.setUserId(t.getUserId());
+//		r.setGameId(gameId)
+		
 		return r;	
 	}
 
