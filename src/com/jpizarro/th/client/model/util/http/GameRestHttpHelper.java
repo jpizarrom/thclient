@@ -111,7 +111,7 @@ public class GameRestHttpHelper implements THHelper{
 
 	public void logout(String login) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
+		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" logout");
 	}
 
 	public boolean registerUser() 
@@ -170,6 +170,13 @@ public class GameRestHttpHelper implements THHelper{
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" startOrContinueGame");
+	}
+	public GenericGameResponseTO startOrContinueGame(long gameId, long userId, long teamId) 
+	throws Exception {
+		GenericGameResponseTO r = null;
+		r = restTemplate.getForObject(fullUrl(GameRestURL.START_OR_CONTINUEGAME_URL+"?userId={userId}&teamId={teamId}"), 
+				GenericGameResponseTO.class, gameId, userId, teamId);
+		return r;	
 	}
 
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 

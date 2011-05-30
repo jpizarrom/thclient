@@ -50,6 +50,11 @@ public class HttpGameServiceImpl implements GameService{
 	throws Exception {
 		return instance.startOrContinueGame(username);
 	}
+	public GenericGameResponseTO startOrContinueGame(long gameId, long userId, long teamId) 
+	throws Exception {
+		return instance.startOrContinueGame(gameId, userId, teamId) ;
+	}
+	
 
 	public boolean sendMessage(String receiverUser, String body)
 	throws Exception {

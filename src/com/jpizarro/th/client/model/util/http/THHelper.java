@@ -46,6 +46,9 @@ public interface THHelper {
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception;
 	
+	public GenericGameResponseTO startOrContinueGame(long gameId, long userId, long teamId)
+	throws Exception;
+	
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception;
 	

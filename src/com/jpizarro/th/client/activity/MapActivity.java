@@ -3,6 +3,7 @@ package com.jpizarro.th.client.activity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.andnav.osm.ResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
@@ -52,6 +53,7 @@ import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class MapActivity extends Activity  implements OpenStreetMapConstants{
+	protected static final Logger LOG = Logger.getLogger(GenericGameResponseTO.class.getCanonicalName());
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -270,17 +272,17 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //        }
         
 //        {
-//        	if( this.hints == null )
-//        		hints = new ArrayList<HintOverlayItem>();
+        	if( this.hints == null )
+        		hints = new ArrayList<HintOverlayItem>();
 //        	
-//        	if( this.mHintsOverlay == null ){
-//		        /* OnTapListener for the Markers, shows a simple Toast. */
-//		        this.mHintsOverlay = new ItemizedOverlay<HintOverlayItem>(this, hints,
-//		        	null,
-//		        	null,
-//		        	new ItemizedOverlay.OnItemGestureListener<HintOverlayItem>(){
+        	if( this.mHintsOverlay == null ){
+		        /* OnTapListener for the Markers, shows a simple Toast. */
+		        this.mHintsOverlay = new ItemizedOverlay<HintOverlayItem>(this, hints,
+		        	null,
+		        	null,
+		        	new ItemizedOverlay.OnItemGestureListener<HintOverlayItem>(){
 //
-//						public boolean onItemTap(int index, HintOverlayItem item) {
+						public boolean onItemTap(int index, HintOverlayItem item) {
 //							try {
 //								tappedIdx = index;
 //								switch(item.type){
@@ -304,24 +306,24 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //								CommonDialogs.errorMessage = e.getLocalizedMessage();
 //								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
 //							}
-//							return true;
-//						}
-//
-//						@Override
-//						public boolean onItemLongPress(int arg0,
-//								HintOverlayItem arg1) {
-//							// TODO Auto-generated method stub
-//							return false;
-//						}
-//
-//						@Override
-//						public boolean onItemSingleTapUp(int arg0,
-//								HintOverlayItem arg1) {
-//							// TODO Auto-generated method stub
-//							return false;
-//						}
-//		        	}, 
-//		        	mResourceProxy){
+							return true;
+						}
+
+						@Override
+						public boolean onItemLongPress(int arg0,
+								HintOverlayItem arg1) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+
+						@Override
+						public boolean onItemSingleTapUp(int arg0,
+								HintOverlayItem arg1) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+		        	}, 
+		        	mResourceProxy){
 //		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
 //		        		OverlayItem m = this.mDefaultItem;
 ////		        		final int left = curScreenCoords.x - this.mMarkerHotSpot.x;
@@ -352,9 +354,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 ////		        		m.setBounds(left, top, right, bottom);
 //		        		m.getDrawable().draw(c);
 //		        	}
-//		        };
-//		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
-//	        }
+		        };
+		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
+	        }
 //        }
         
         update();
@@ -499,6 +501,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	}
 	
 	private void update() {
+		LOG.info("-----------------------------");
 		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
 			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
 				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
@@ -519,24 +522,24 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //					g, type));
 //		}
 //
-//		if (genericGameResponseTO.getHints().size() != 0) {
-//			for( HintTO in : genericGameResponseTO.getHints() ){
-//				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-//				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-//						g, HintOverlayItem.ITEM_TEAM_HAVE));
-//			}
-//		}
-//		
-//		if (genericGameResponseTO.getHideHints().size() != 0) {
-//			for( HintTO in : genericGameResponseTO.getHideHints() ){
-//				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-//				int type = HintOverlayItem.ITEM_HIDE;
+		if (genericGameResponseTO.getHints().size() != 0) {
+			for( HintTO in : genericGameResponseTO.getHints() ){
+				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+						g, HintOverlayItem.ITEM_TEAM_HAVE));
+			}
+		}
+		System.out.println("genericGameResponseTO.getHideHints().size(): "+genericGameResponseTO.getHideHints().size());
+		if (genericGameResponseTO.getHideHints().size() != 0) {
+			for( HintTO in : genericGameResponseTO.getHideHints() ){
+				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+				int type = HintOverlayItem.ITEM_HIDE;
 //				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-//					type = HintOverlayItem.ITEM_USER_SEE;
-//				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-//						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
-//			}
-//		}
+					type = HintOverlayItem.ITEM_USER_SEE;
+				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
+			}
+		}
 //		
 //		if (genericGameResponseTO.getUserSeeHintTOList().size() != 0) {
 //			for( HintTO in : genericGameResponseTO.getUserSeeHintTOList() ){
@@ -767,7 +770,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			android.os.Message msg = new android.os.Message();
 			try {
 				GenericGameResponseTO sOCGRTO = 
-					gameService.startOrContinueGame(login);
+//					gameService.startOrContinueGame(login);
+					gameService.startOrContinueGame(user.getGameId(),user.getUserId(), user.getTeamId());
 				data.putSerializable("sOCGRTO", sOCGRTO);
 				msg.setData(data);
 				handler.sendMessage(msg);

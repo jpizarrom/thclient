@@ -222,6 +222,7 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 	private void doPlayGame() {
 		Intent i = new Intent(this, MapActivity.class);
 		i.putExtra("user", user);
+		i.putExtra("team", team);
 		i.putExtra("game", game);
 		startActivityForResult(i, PLAY_REQUEST_CODE);
 
