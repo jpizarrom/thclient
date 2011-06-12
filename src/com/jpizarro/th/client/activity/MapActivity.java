@@ -282,10 +282,11 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        	null,
 		        	new ItemizedOverlay.OnItemGestureListener<HintOverlayItem>(){
 //
-						public boolean onItemTap(int index, HintOverlayItem item) {
-//							try {
-//								tappedIdx = index;
-//								switch(item.type){
+		        		@Override
+						public boolean onItemSingleTapUp(int index, HintOverlayItem item) {
+							try {
+								tappedIdx = index;
+								switch(item.type){
 //								case HintOverlayItem.ITEM_TEAM_HAVE:
 //									showDialog(USER_TAPPED_HINT_DIALOG_ID);
 //									break;
@@ -297,31 +298,24 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //									break;
 //								case HintOverlayItem.ITEM_GOAL:
 //									break;
-//								case HintOverlayItem.ITEM_HIDE:
-//								default:
-////									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
-//								}
+								case HintOverlayItem.ITEM_HIDE:
+								default:
+									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
+								}
 //								
-//							} catch (Exception e) {
-//								CommonDialogs.errorMessage = e.getLocalizedMessage();
-//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-//							}
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
 							return true;
 						}
 
 						@Override
-						public boolean onItemLongPress(int arg0,
-								HintOverlayItem arg1) {
+						public boolean onItemLongPress(int index, HintOverlayItem item) {
 							// TODO Auto-generated method stub
 							return false;
 						}
 
-						@Override
-						public boolean onItemSingleTapUp(int arg0,
-								HintOverlayItem arg1) {
-							// TODO Auto-generated method stub
-							return false;
-						}
 		        	}, 
 		        	mResourceProxy){
 //		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
@@ -522,6 +516,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //					g, type));
 //		}
 //
+		System.out.println("genericGameResponseTO.getHints().size(): "+genericGameResponseTO.getHints().size());
 		if (genericGameResponseTO.getHints().size() != 0) {
 			for( HintTO in : genericGameResponseTO.getHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
@@ -535,9 +530,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 				int type = HintOverlayItem.ITEM_HIDE;
 //				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-					type = HintOverlayItem.ITEM_USER_SEE;
+//					type = HintOverlayItem.ITEM_USER_SEE;
+				GeoPoint point = new GeoPoint(in.getLatitude(), in.getLongitude());
+				System.out.println("point: "+point);
 				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-						 new GeoPoint(in.getLatitude(), in.getLongitude()), type));
+						point, type));
+				
 			}
 		}
 //		
