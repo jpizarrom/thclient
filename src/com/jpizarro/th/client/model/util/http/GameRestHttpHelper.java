@@ -152,8 +152,15 @@ public class GameRestHttpHelper implements THHelper{
 
 	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude) 
 	throws Exception {
-//		com.jpizarro.th.lib.team.entity.TeamTO t = restTemplate.getForObject(this.URL_BASE+"/test"+"/"+TeamRestURL.ENTITY+TeamRestURL.ADD_USER_TO_TEAM, com.jpizarro.th.lib.team.entity.TeamTO.class, teamId, userId);
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
+		try{
+		boolean t = restTemplate.getForObject(
+				this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.ENTITY_ID+UserRestURL.UPDATE_LOCATION+"?latitude={latitude}&longitude={longitude}", 
+				Boolean.class, userId, latitude, longitude);
+		}catch(Exception e){
+			
+		}
+//		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
+		return null;
 	}
 
 	public boolean sendMessage(long userId, String receiverLogin, String body) 

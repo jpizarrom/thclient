@@ -158,6 +158,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
     	edit.commit();
 
+    	disableLocation();
     	this.mLocationOverlay.disableMyLocation();
     	this.mLocationOverlay.disableCompass();
     	
@@ -223,10 +224,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 //	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
 	    }
+   	
+    	user = (UserTO)getIntent().getExtras().getSerializable("user");
+    	
         // register location listener
 //		initLocation();
-    	
-    	user = (UserTO)getIntent().getExtras().getSerializable("user");
+    	enableLocation();
 
     	launchStartGameThread();
     }
@@ -495,9 +498,16 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		return this.mLocationManager; 
 	}
 
-	private void initLocation() {
+	private void enableLocation() {
+//		mMyLocationEnabled = true;
 		this.mLocationListener = new SampleLocationListener();
-		getLocationManager().requestLocationUpdates(PROVIDER_NAME, 2000, 20, this.mLocationListener);
+		getLocationManager().requestLocationUpdates(PROVIDER_NAME, 6000, 10, this.mLocationListener);
+	}
+	private void disableLocation() {
+//		mMyLocationEnabled = false;
+		if (this.mLocationListener!=null)
+			getLocationManager().removeUpdates(this.mLocationListener);
+		
 	}
 	
 	private void doUpdateLocation() {
@@ -505,6 +515,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	}
 	
 	private void launchUpdateLocationThread(int latitude, int longitude) {
+		LOG.info("launchUpdateLocationThread");
 		if (!updateLocationTask.onUpdate){
 			updateLocationTask.onUpdate = true;
 			updateLocationTask.setLatitude(latitude);
@@ -660,8 +671,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		public void onLocationChanged(Location loc) {
 //			user.setLatitude((new GeoPoint(loc)).getLatitudeE6() );
 //			user.setLongitude((new GeoPoint(loc)).getLongitudeE6() );
-//			launchUpdateLocationThread(user.getLatitude(),
-//					user.getLongitude());
+			launchUpdateLocationThread((new GeoPoint(loc)).getLatitudeE6() ,
+					(new GeoPoint(loc)).getLongitudeE6());
 			
 		}
 
@@ -834,8 +845,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        	}
 	        GenericGameResponseTO gGRTO2 = 
 				(GenericGameResponseTO)msg.getData().getSerializable("gGRTO");
+	        updateLocationTask.onUpdate = false;
 			if (gGRTO2 != null) {
-				genericGameResponseTO = gGRTO2;
+//				genericGameResponseTO = gGRTO2;
 				doUpdateLocation();
 			}
 		}
