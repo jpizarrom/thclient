@@ -11,9 +11,12 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MyLocationOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
@@ -98,7 +101,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private ItemizedOverlay<OverlayItem> mUsersOverlay;
 	
 	private List<HintOverlayItem> hints;
-	private ItemizedOverlay<HintOverlayItem> mHintsOverlay;
+	private ItemizedIconOverlay<HintOverlayItem> mHintsOverlay;
 	private Drawable mMarker1, mMarker2, mMarker3, mMarker4;
 
 	
@@ -155,7 +158,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
     	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
     	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-    	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
+    	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isFollowLocationEnabled());
     	edit.commit();
 
     	disableLocation();
@@ -297,13 +300,16 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //        	
         	if( this.mHintsOverlay == null ){
 		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mHintsOverlay = new ItemizedOverlay<HintOverlayItem>(this, hints,
-		        	null,
-		        	null,
-		        	new ItemizedOverlay.OnItemGestureListener<HintOverlayItem>(){
+		        this.mHintsOverlay = new ItemizedIconOverlay<HintOverlayItem>(
+//		        	this,
+		        	hints,
+//		        	null,
+//		        	null,
+		        	new ItemizedIconOverlay.OnItemGestureListener<HintOverlayItem>(){
 //
 		        		@Override
 						public boolean onItemSingleTapUp(int index, HintOverlayItem item) {
+		        			LOG.info("onItemSingleTapUp "+item.type);
 							try {
 								tappedIdx = index;
 								switch(item.type){
@@ -338,36 +344,43 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 		        	}, 
 		        	mResourceProxy){
-//		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
-//		        		OverlayItem m = this.mDefaultItem;
-////		        		final int left = curScreenCoords.x - this.mMarkerHotSpot.x;
+//		        	@Override
+////		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
+//		        	protected void onDrawItem(final Canvas canvas, final HintOverlayItem item, final Point curScreenCoords) {
+//		        		final HotspotPlace hotspot = item.getMarkerHotspot();
+//		        		Drawable m;
+////		        		final HotspotPlace hotspot = item.getMarkerHotspot();
+////		        		final int left = curScreenCoords.x - this..mMarkerHotSpot.x;
 ////		        		final int right = left + this.mMarkerWidth;
 ////		        		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
 ////		        		final int bottom = top + this.mMarkerHeight;
-//		        		
-//		        		HintOverlayItem item = mItemList.get(index);
+////		        		
+////		        		HintOverlayItem item = mItemList.get(index);
 //		        		switch(item.type){
-////						case HintOverlayItem.ITEM_TEAM_HAVE:
-////							m = mMarker1;
-////							break;
-////						case HintOverlayItem.ITEM_TEAM_SEE:
-////							m = mMarker2;
-////							break;
-////						case HintOverlayItem.ITEM_USER_SEE:
-////							m = mMarker3;
-////							break;
-////						case HintOverlayItem.ITEM_GOAL:
-////							m = mMarker4;
-////							break;
-////						case HintOverlayItem.ITEM_HIDE:
-////							return;
-////						default:
-////							m = this.mDefaultMarker;
+//						case HintOverlayItem.ITEM_TEAM_HAVE:
+//							m = mMarker1;
+//							break;
+//						case HintOverlayItem.ITEM_TEAM_SEE:
+//							m = mMarker2;
+//							break;
+//						case HintOverlayItem.ITEM_USER_SEE:
+//							m = mMarker3;
+//							break;
+//						case HintOverlayItem.ITEM_GOAL:
+//							m = mMarker4;
+//							break;
+//						case HintOverlayItem.ITEM_HIDE:
+//							return;
+//						default:
+//							m = this.mDefaultMarker;
 //						}
-//
-////		        		m.setBounds(left, top, right, bottom);
-//		        		m.getDrawable().draw(c);
+//		        		boundToHotspot(m, hotspot);
+//////		        		m.setBounds(left, top, right, bottom);
+////		        		m..getDrawable().draw(canvas);
+//		        		// draw it
+//		                Overlay.drawAt(canvas, m, curScreenCoords.x, curScreenCoords.y, false);
 //		        	}
+
 		        };
 		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
 	        }
@@ -414,8 +427,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			this.launchStartGameThread();
 			return true;
 		default:
-			return mOsmv.getOverlayManager().onMenuItemSelected(featureId, item, MENU_LAST_ID,
+			return mOsmv.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID,
 					mOsmv);
+//			return false;
 		}
 	}
 
@@ -533,25 +547,27 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
-		hints.clear();
+//		hints.clear();
+//		this.mHintsOverlay.
 		
-//		if (genericGameResponseTO.getGoal() != null) {
-//			GoalTO in = genericGameResponseTO.getGoal() ;
-//			GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-//			int type = HintOverlayItem.ITEM_HIDE;
-//			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-//				type = HintOverlayItem.ITEM_USER_SEE;
-//			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_TAKE )
-//				type = HintOverlayItem.ITEM_GOAL;
-//			hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
-//					g, type));
-//		}
+		if (genericGameResponseTO.getGoals() != null && genericGameResponseTO.getGoals().size() > 0) {
+			for( GoalTO in : genericGameResponseTO.getGoals() ){
+				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
+				int type = HintOverlayItem.ITEM_HIDE;
+	//			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
+	//				type = HintOverlayItem.ITEM_USER_SEE;
+	//			if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_TAKE )
+					type = HintOverlayItem.ITEM_GOAL;
+				this.mHintsOverlay.addItem(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+						g, type));
+			}
+		}
 //
 		System.out.println("genericGameResponseTO.getHints().size(): "+genericGameResponseTO.getHints().size());
 		if (genericGameResponseTO.getHints().size() != 0) {
 			for( HintTO in : genericGameResponseTO.getHints() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
-				 hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+				this.mHintsOverlay.addItem(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						g, HintOverlayItem.ITEM_TEAM_HAVE));
 			}
 		}
@@ -561,10 +577,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
 				int type = HintOverlayItem.ITEM_HIDE;
 //				if ( g.distanceTo(new GeoPoint(user.getLatitude(), user.getLongitude())) < METERS_TO_SEE )
-//					type = HintOverlayItem.ITEM_USER_SEE;
+					type = HintOverlayItem.ITEM_USER_SEE;
 				GeoPoint point = new GeoPoint(in.getLatitude(), in.getLongitude());
 				System.out.println("point: "+point);
-				hints.add(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
+				this.mHintsOverlay.addItem(new HintOverlayItem(in.getPlaceId(), in.getName(), in.getDescription(), 
 						point, type));
 				
 			}

@@ -7,7 +7,7 @@
 	<classpathentry kind="var" path="M2_REPO/com/google/code/ksoap2-android/ksoap2-base/2.4/ksoap2-base-2.4.jar" sourcepath="M2_REPO/com/google/code/ksoap2-android/ksoap2-base/2.4/ksoap2-base-2.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/ksoap2-android/ksoap2-j2se/2.4/ksoap2-j2se-2.4.jar" sourcepath="M2_REPO/com/google/code/ksoap2-android/ksoap2-j2se/2.4/ksoap2-j2se-2.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/net/sourceforge/kxml/kxml/2.2.4/kxml-2.2.4.jar" sourcepath="M2_REPO/net/sourceforge/kxml/kxml/2.2.4/kxml-2.2.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/andnav/osm/osmdroid-android/3.0.2/osmdroid-android-3.0.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/andnav/osm/osmdroid-android/3.0.4/osmdroid-android-3.0.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/simpleframework/simple-xml/2.4.1/simple-xml-2.4.1.jar" sourcepath="M2_REPO/org/simpleframework/simple-xml/2.4.1/simple-xml-2.4.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-android/1.6.1-RC1/slf4j-android-1.6.1-RC1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/android/spring-android-rest-template/1.0.0.M2/spring-android-rest-template-1.0.0.M2.jar"/>
