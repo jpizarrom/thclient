@@ -193,6 +193,7 @@ public class RestTHHelper implements THHelper{
 		return mApiBaseUrl   + url;
 	}
 
+	@Override
 	public UserTO login(String userName, String password) 
 	throws Exception {
 		request = createHttpGet(fullUrl(LOGIN_URL) //
@@ -202,6 +203,7 @@ public class RestTHHelper implements THHelper{
 		return (UserTO) executeHttpRequest(request, this.getXStream() );
 	}
 
+	@Override
 	public void logout(String login) 
 	throws Exception {
 		request = createHttpGet(fullUrl(LOGOUT_URL) //
@@ -210,20 +212,25 @@ public class RestTHHelper implements THHelper{
 		executeHttpRequest(request, this.getXStream());
 	}
 
+	@Override
 	public boolean registerUser() 
 	throws Exception {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" registerUser");
 	}
+	
+	@Override
 	public boolean updateUser() 
 	throws Exception {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateUser");
 	}
 
-	public boolean changePassword(String oldPassword, String newPassword) 
+	@Override
+	public boolean changePassword(long userId, String oldPassword, String newPassword) 
 	throws Exception {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" changePassword");
 	}
 
+	@Override
 	public List<String> findCitiesWithGames() throws Exception {
 		request = createHttpGet(fullUrl(FIND_CITIES_WITH_GAMES_URL) //
 		);
@@ -243,6 +250,7 @@ public class RestTHHelper implements THHelper{
 		return r;		
 	}
 
+	@Override
 	public GameTO findGame(long gameId)  throws Exception {
 		request = createHttpGet(fullUrl(FIND_GAME_BY_ID_URL) //
 				,new BasicNameValuePair(GAME_ID_PARAMETER, String.valueOf(gameId)) //
@@ -250,6 +258,7 @@ public class RestTHHelper implements THHelper{
 		return (GameTO) executeHttpRequest(request, this.getXStream());
 	}
 
+	@Override
 	public boolean joinGame(long gameId, long teamId) 
 	throws Exception {
 		request = createHttpGet(fullUrl(JOIN_GAME_URL) //
@@ -259,8 +268,8 @@ public class RestTHHelper implements THHelper{
 		return (Boolean) executeHttpRequest(request, this.getXStream());
 	}
 
-
-	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
+	@Override
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude) 
 	throws Exception {
 		request = createHttpGet(fullUrl(UPDATE_LOCATION_URL) //
 				,new BasicNameValuePair(LATITUDE_PARAMETER, String.valueOf(latitude)) //
@@ -269,7 +278,8 @@ public class RestTHHelper implements THHelper{
 		return (GenericGameResponseTO) executeHttpRequest(request, this.getXStream());
 	}
 
-	public boolean sendMessage(String receiverLogin, String body) 
+	@Override
+	public boolean sendMessage(long userId, String receiverLogin, String body) 
 	throws Exception {
 		if (receiverLogin != null) 
 			request = createHttpGet(fullUrl(SEND_MESSAGE_URL) //
@@ -284,6 +294,7 @@ public class RestTHHelper implements THHelper{
 		return (Boolean) executeHttpRequest(request, this.getXStream());
 	}
 
+	@Override
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 
 	throws Exception {
 		request = createHttpGet(fullUrl(FIND_GAMES_BY_CITY_URL) //
@@ -294,6 +305,7 @@ public class RestTHHelper implements THHelper{
 		return (GamesTO) executeHttpRequest(request, this.getXStream());
 	}
 
+	@Override
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception {
 		request = createHttpGet(fullUrl(START_OR_CONTINUEGAME_URL) //
@@ -301,6 +313,7 @@ public class RestTHHelper implements THHelper{
 		return (GenericGameResponseTO) executeHttpRequest(request, this.getXStream());
 	}
 
+	@Override
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count) 
 	throws Exception {
 		request = createHttpGet(fullUrl(FIND_TEAMS_BY_GAME_URL) //
@@ -311,6 +324,7 @@ public class RestTHHelper implements THHelper{
 		return ((TeamsTO) executeHttpRequest(request, this.getXStream())).getTeams();
 	}
 
+	@Override
 	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
 	throws Exception{
 		request = createHttpGet(fullUrl(TAKE_PLACE_URL) //

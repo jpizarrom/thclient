@@ -123,7 +123,7 @@ public class GameRestHttpHelper implements THHelper{
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateUser");
 	}
 
-	public boolean changePassword(String oldPassword, String newPassword) 
+	public boolean changePassword(long userId, String oldPassword, String newPassword) 
 	throws Exception {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" changePassword");
 	}
@@ -150,12 +150,13 @@ public class GameRestHttpHelper implements THHelper{
 	}
 
 
-	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude) 
 	throws Exception {
+//		com.jpizarro.th.lib.team.entity.TeamTO t = restTemplate.getForObject(this.URL_BASE+"/test"+"/"+TeamRestURL.ENTITY+TeamRestURL.ADD_USER_TO_TEAM, com.jpizarro.th.lib.team.entity.TeamTO.class, teamId, userId);
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
 	}
 
-	public boolean sendMessage(String receiverLogin, String body) 
+	public boolean sendMessage(long userId, String receiverLogin, String body) 
 	throws Exception {
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
 	}

@@ -83,6 +83,8 @@ public class SoapHelper implements THHelper{
 //		envelope.dotNet = true;
 //		envelope.setOutputSoapObject(rpc);
 	}
+	
+	@Override
 	public UserTO login(String userName, String password) 
 	throws Exception {
 		prepareCall(USER_SERVICE,SoapHelper.METHOD_LOGIN);
@@ -143,6 +145,7 @@ public class SoapHelper implements THHelper{
           }
 	}
 	
+//	@Override
 	public UserTO findUserById(long gameId)  throws Exception {
 		String method = SoapHelper.FIND_USER_BY_ID;
 		SoapObject request = new SoapObject(NAMESPACE,method);
@@ -178,6 +181,7 @@ public class SoapHelper implements THHelper{
           }
 	}
 	
+	@Override
     public boolean joinGame(long gameId, long teamId) 
     throws Exception {
     	boolean r = false;
@@ -213,67 +217,79 @@ public class SoapHelper implements THHelper{
           return r;
     }
 
+	@Override
 	public void logout(String login) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public boolean registerUser() throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean updateUser() throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean changePassword(String oldPassword, String newPassword)
+	@Override
+	public boolean changePassword(long userId, String oldPassword, String newPassword)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public List<String> findCitiesWithGames() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public GameTO findGame(long gameId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public GenericGameResponseTO updateLocation(int latitude, int longitude)
+	@Override
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean sendMessage(String receiverLogin, String body)
+	@Override
+	public boolean sendMessage(long userId, String receiverLogin, String body)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public GamesTO findGamesByCity(String city, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public GenericGameResponseTO startOrContinueGame(String login)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public GenericGameResponseTO takePlace(long id, int latitude, int longitude)
 			throws Exception {
 		// TODO Auto-generated method stub

@@ -16,29 +16,35 @@ public class HttpGameServiceImpl implements GameService{
 	static {
 		instance = GameRestHttpHelper.getInstance();
 	}
-
+	
+	@Override
 	public List<String> findCitiesWithGames() throws Exception {
 		return instance.findCitiesWithGames();
 	}
 
-	public boolean abandonGame(long gameId) throws Exception {
+	@Override
+	public boolean abandonGame(long userId, long gameId) throws Exception {
 		// TODO Auto-generated method stub
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl "+"abandonGame");
 	}
 
+	@Override
 	public GameTO findGame(long gameId) throws Exception {
 		return instance.findGame(gameId);
 	}
 
+	@Override
 	public boolean joinGame(long gameId, long teamId, long userId) throws Exception {
 		return instance.joinGame(gameId, teamId, userId);
 	}
 
-	public GenericGameResponseTO updateLocation(int latitude, int longitude)
+	@Override
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude)
 	throws Exception {
-		return instance.updateLocation(latitude, longitude);
+		return instance.updateLocation(userId, latitude, longitude);
 	}
 
+	@Override
 	public GamesTO findGamesByCity(String city, int startIndex, int count)
 	throws Exception {
 		// TODO Auto-generated method stub
@@ -46,21 +52,25 @@ public class HttpGameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
+	@Override
 	public GenericGameResponseTO startOrContinueGame(String username)
 	throws Exception {
 		return instance.startOrContinueGame(username);
 	}
+	
+//	@Override
 	public GenericGameResponseTO startOrContinueGame(long gameId, long userId, long teamId) 
 	throws Exception {
 		return instance.startOrContinueGame(gameId, userId, teamId) ;
 	}
 	
-
-	public boolean sendMessage(String receiverUser, String body)
+	@Override
+	public boolean sendMessage(long userId, String receiverUser, String body)
 	throws Exception {
-		return instance.sendMessage(receiverUser, body);
+		return instance.sendMessage(userId, receiverUser, body);
 	}
 
+	@Override
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
 	throws Exception {
 		// TODO Auto-generated method stub
@@ -68,7 +78,8 @@ public class HttpGameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
-	public GenericGameResponseTO takePlace(long id, int latitude,
+	@Override
+	public GenericGameResponseTO takePlace(long id, long placeId, int latitude,
 			int longitude) throws Exception {
 		// TODO Auto-generated method stub
 		return instance.takePlace(id, latitude, longitude);

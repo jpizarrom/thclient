@@ -10,7 +10,7 @@ public interface UserService {
 	public void logout(String username) 
 	throws Exception;
 	
-	public boolean changePassword(String oldPassword, String newPassword) 
+	public boolean changePassword(long userId, String oldPassword, String newPassword) 
 	throws Exception;
 
 }

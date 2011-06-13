@@ -22,13 +22,13 @@ public interface GameService {
 	public boolean joinGame(long gameId, long teamId, long userId) 
 	throws Exception;
 
-	public boolean abandonGame(long gameId) 
+	public boolean abandonGame(long userId, long gameId) 
 	throws Exception;
 
-	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude) 
 	throws Exception;
 
-	public GenericGameResponseTO takePlace(long placeId, int latitude, int longitude) 
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude, int longitude) 
 	throws Exception;
 
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 
@@ -40,6 +40,6 @@ public interface GameService {
 	public GenericGameResponseTO startOrContinueGame(String login) 
 	throws Exception;
 
-	public boolean sendMessage(String receiverUser, String body)
+	public boolean sendMessage(long userId, String receiverUser, String body)
 	throws Exception;
 }

@@ -114,7 +114,7 @@ public class Loader extends ListActivity {
 			UserTO user;
 			try {
 				user = userService.login("j", "j");
-				GenericGameResponseTO ggrTO = gameService.updateLocation(10, 10);
+				GenericGameResponseTO ggrTO = gameService.updateLocation(user.getUserId(), 10, 10);
 				
 				data.putSerializable("user", user);
 				data.putSerializable("ggrTO", ggrTO);

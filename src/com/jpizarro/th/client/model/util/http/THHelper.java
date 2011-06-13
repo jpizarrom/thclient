@@ -21,7 +21,7 @@ public interface THHelper {
 	public boolean updateUser() 
 	throws Exception;
 	
-	public boolean changePassword(String oldPassword, String newPassword) 
+	public boolean changePassword(long userId, String oldPassword, String newPassword) 
 	throws Exception;
 	
 	public List<String> findCitiesWithGames() throws Exception;
@@ -34,10 +34,10 @@ public interface THHelper {
 	public boolean joinGame(long gameId, long teamId, long userId) 
 	throws Exception;
 	
-	public GenericGameResponseTO updateLocation(int latitude, int longitude) 
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude) 
 	throws Exception;
 	
-	public boolean sendMessage(String receiverLogin, String body) 
+	public boolean sendMessage(long userId, String receiverLogin, String body) 
 	throws Exception;
 	
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 

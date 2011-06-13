@@ -147,6 +147,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
     @Override
     protected void onPause() {
+//    	getLocationManager().removeUpdates(mLocationListener);
+    	
     	SharedPreferences.Editor edit = mPrefs.edit();
     	edit.putString(PREFS_RENDERER, mOsmv.getTileProvider().getTileSource().name());
     	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
@@ -192,11 +194,26 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //		        	}
 		        };
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
+		        
+//		        final Handler handler = new Handler();
+//                mLocationOverlay.runOnFirstFix(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                                handler.post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                                Toast.makeText(getApplicationContext(),
+//                                                                "runOnFirstFix",
+//                                                                Toast.LENGTH_LONG).show();
+//                                        }
+//                                });
+//                        }
+//                });
         	}
         }
-		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
-			this.mLocationOverlay.enableMyLocation();
-		}
+//		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
+//			this.mLocationOverlay.enableMyLocation();
+//		}
 		if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
 			this.mLocationOverlay.enableCompass();
 		}
@@ -204,7 +221,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
 	    		this.mLocationOverlay.enableMyLocation();
 
-	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
+//	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
 	    }
         // register location listener
 //		initLocation();
@@ -287,17 +304,17 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 							try {
 								tappedIdx = index;
 								switch(item.type){
-//								case HintOverlayItem.ITEM_TEAM_HAVE:
-//									showDialog(USER_TAPPED_HINT_DIALOG_ID);
-//									break;
-//								case HintOverlayItem.ITEM_TEAM_SEE:
-//									showDialog(MapActivity.USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
-//									break;
-//								case HintOverlayItem.ITEM_USER_SEE:
-//									showDialog(MapActivity.USER_TAPPED_USERSEEHINT_DIALOG_ID);
-//									break;
-//								case HintOverlayItem.ITEM_GOAL:
-//									break;
+								case HintOverlayItem.ITEM_TEAM_HAVE:
+									showDialog(USER_TAPPED_HINT_DIALOG_ID);
+									break;
+								case HintOverlayItem.ITEM_TEAM_SEE:
+									showDialog(MapActivity.USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
+									break;
+								case HintOverlayItem.ITEM_USER_SEE:
+									showDialog(MapActivity.USER_TAPPED_USERSEEHINT_DIALOG_ID);
+									break;
+								case HintOverlayItem.ITEM_GOAL:
+									break;
 								case HintOverlayItem.ITEM_HIDE:
 								default:
 									showDialog(MapActivity.USER_TAPPED_HIDEHINT_DIALOG_ID);
@@ -488,10 +505,13 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	}
 	
 	private void launchUpdateLocationThread(int latitude, int longitude) {
-		updateLocationTask.setLatitude(latitude);
-		updateLocationTask.setLongitude(longitude);
-		Thread updateLocationThread = new Thread(null, updateLocationTask, "UpdateLocationGame");
-		updateLocationThread.start();
+		if (!updateLocationTask.onUpdate){
+			updateLocationTask.onUpdate = true;
+			updateLocationTask.setLatitude(latitude);
+			updateLocationTask.setLongitude(longitude);
+			Thread updateLocationThread = new Thread(null, updateLocationTask, "UpdateLocationGame");
+			updateLocationThread.start();
+		}
 	}
 	
 	private void update() {
@@ -824,6 +844,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private class UpdateLocationTask implements Runnable {
 
 		int latitude, longitude;
+		boolean onUpdate = false;
 		HttpGameServiceImpl gameService;
 		
 		public int getLatitude() {
@@ -855,6 +876,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			try {
 				GenericGameResponseTO gGRTO = 
 					gameService.updateLocation(
+							user.getUserId(),
 							latitude, longitude);
 				data.putSerializable("gGRTO", gGRTO);
 				msg.setData(data);
@@ -951,7 +973,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			android.os.Message msg = new android.os.Message();
 			try {
 				GenericGameResponseTO gGRTO = 
-					gameService.takePlace(placeId, latitude, longitude);
+					gameService.takePlace(user.getUserId(), placeId, latitude, longitude);
 				
 				data.putSerializable("gGRTO", gGRTO);
 				msg.setData(data);

@@ -139,6 +139,7 @@ public class SendMessageActivity extends Activity {
 	private class SendMessageTask implements Runnable {
 
 		String receiverUser, body;
+		long userId;
 		HttpGameServiceImpl gameService;
 		
 		public String getBody() {
@@ -157,6 +158,14 @@ public class SendMessageActivity extends Activity {
 			this.receiverUser = receiverUser;
 		}
 
+		public long getUserId() {
+			return userId;
+		}
+
+		public void setUserId(long userId) {
+			this.userId = userId;
+		}
+
 		SendMessageTask() {
 			gameService = new HttpGameServiceImpl();
 		}
@@ -167,7 +176,7 @@ public class SendMessageActivity extends Activity {
 			Bundle data = new Bundle();
 			android.os.Message msg = new android.os.Message();
 			try {
-				gameService.sendMessage(receiverUser, body);
+				gameService.sendMessage(userId, receiverUser, body);
 				data.putBoolean("result", true);
 				msg.setData(data);
 				handler.sendMessage(msg);

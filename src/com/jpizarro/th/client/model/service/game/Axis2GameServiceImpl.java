@@ -13,28 +13,34 @@ import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class Axis2GameServiceImpl implements GameService{
 
+	@Override
 	public List<String> findCitiesWithGames() throws Exception {
 		return GameRestHttpHelper.getInstance().findCitiesWithGames();
 	}
 
-	public boolean abandonGame(long gameId) throws Exception {
+	@Override
+	public boolean abandonGame(long userId, long gameId) throws Exception {
 		// TODO Auto-generated method stub
 		throw new ServerException(ServerException.NOT_IMPL, "Not Impl "+"abandonGame");
 	}
 
+	@Override
 	public GameTO findGame(long gameId) throws Exception {
 		return GameRestHttpHelper.getInstance().findGame(gameId);
 	}
 
+	@Override
 	public boolean joinGame(long gameId, long teamId) throws Exception {
 		return GameRestHttpHelper.getInstance().joinGame(gameId, teamId);
 	}
 
-	public GenericGameResponseTO updateLocation(int latitude, int longitude)
+	@Override
+	public GenericGameResponseTO updateLocation(long userId, int latitude, int longitude)
 			throws Exception {
-		return GameRestHttpHelper.getInstance().updateLocation(latitude, longitude);
+		return GameRestHttpHelper.getInstance().updateLocation(userId, latitude, longitude);
 	}
 
+	@Override
 	public GamesTO findGamesByCity(String city, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
@@ -42,16 +48,19 @@ public class Axis2GameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
+	@Override
 	public GenericGameResponseTO startOrContinueGame(String username)
 			throws Exception {
 		return GameRestHttpHelper.getInstance().startOrContinueGame(username);
 	}
 
-	public boolean sendMessage(String receiverUser, String body)
+	@Override
+	public boolean sendMessage(long userId, String receiverUser, String body)
 			throws Exception {
-		return GameRestHttpHelper.getInstance().sendMessage(receiverUser, body);
+		return GameRestHttpHelper.getInstance().sendMessage(userId, receiverUser, body);
 	}
 
+	@Override
 	public List<TeamTO> findTeamsByGame(long gameId, int startIndex, int count)
 			throws Exception {
 		// TODO Auto-generated method stub
@@ -59,10 +68,11 @@ public class Axis2GameServiceImpl implements GameService{
 				startIndex, count);
 	}
 
-	public GenericGameResponseTO takePlace(long id, int latitude,
+	@Override
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude,
 			int longitude) throws Exception {
 		// TODO Auto-generated method stub
-		return GameRestHttpHelper.getInstance().takePlace(id, latitude, longitude);
+		return GameRestHttpHelper.getInstance().takePlace(placeId, latitude, longitude);
 	}
 
 	@Override
