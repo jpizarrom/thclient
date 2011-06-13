@@ -325,10 +325,10 @@ public class RestTHHelper implements THHelper{
 	}
 
 	@Override
-	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude, int longitude, long gameId, long teamId) 
 	throws Exception{
 		request = createHttpGet(fullUrl(TAKE_PLACE_URL) //
-				,new BasicNameValuePair(PLACE_ID_PARAMETER, String.valueOf(id)) //
+				,new BasicNameValuePair(PLACE_ID_PARAMETER, String.valueOf(placeId)) //
 		,new BasicNameValuePair(LATITUDE_PARAMETER, String.valueOf(latitude)) //
 		,new BasicNameValuePair(LONGITUDE_PARAMETER, String.valueOf(longitude)) //
 		);

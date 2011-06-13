@@ -79,10 +79,12 @@ public class HttpGameServiceImpl implements GameService{
 	}
 
 	@Override
-	public GenericGameResponseTO takePlace(long id, long placeId, int latitude,
-			int longitude) throws Exception {
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude,
+			int longitude, long gameId, long teamId
+			) throws Exception {
 		// TODO Auto-generated method stub
-		return instance.takePlace(id, latitude, longitude);
+		return instance.takePlace(userId, placeId, latitude, longitude, gameId, teamId);
+//		return null;
 	}
 
 	@Override

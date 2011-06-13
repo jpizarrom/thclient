@@ -70,9 +70,10 @@ public class Axis2GameServiceImpl implements GameService{
 
 	@Override
 	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude,
-			int longitude) throws Exception {
+			int longitude, long gameId, long teamId) throws Exception {
 		// TODO Auto-generated method stub
-		return GameRestHttpHelper.getInstance().takePlace(placeId, latitude, longitude);
+//		return GameRestHttpHelper.getInstance().takePlace(userId, placeId, latitude, longitude);
+		return null;
 	}
 
 	@Override

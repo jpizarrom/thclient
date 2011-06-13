@@ -54,7 +54,6 @@ public interface THHelper {
 	
 	public TeamTO findTeam(long teamId)  throws Exception;
 	
-	
-	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude, int longitude, long gameId, long teamId) 
 	throws Exception;
 }

@@ -290,7 +290,7 @@ public class SoapHelper implements THHelper{
 	}
 
 	@Override
-	public GenericGameResponseTO takePlace(long id, int latitude, int longitude)
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude, int longitude, long gameId, long teamId)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;

@@ -101,7 +101,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private ItemizedOverlay<OverlayItem> mUsersOverlay;
 	
 	private List<HintOverlayItem> hints;
-	private ItemizedIconOverlay<HintOverlayItem> mHintsOverlay;
+	private THItemizedIconOverlay<HintOverlayItem> mHintsOverlay;
 	private Drawable mMarker1, mMarker2, mMarker3, mMarker4;
 
 	
@@ -300,7 +300,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //        	
         	if( this.mHintsOverlay == null ){
 		        /* OnTapListener for the Markers, shows a simple Toast. */
-		        this.mHintsOverlay = new ItemizedIconOverlay<HintOverlayItem>(
+		        this.mHintsOverlay = new THItemizedIconOverlay<HintOverlayItem>(
 //		        	this,
 		        	hints,
 //		        	mMarker4,
@@ -552,8 +552,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			}
 		}
 //		hints.clear();
-//		this.mHintsOverlay.
+		this.mHintsOverlay.removeAllItems();
 		
+		System.out.println("genericGameResponseTO.getGoals().size(): "+genericGameResponseTO.getGoals().size());
 		if (genericGameResponseTO.getGoals() != null && genericGameResponseTO.getGoals().size() > 0) {
 			for( GoalTO in : genericGameResponseTO.getGoals() ){
 				GeoPoint g = new GeoPoint(in.getLatitude(), in.getLongitude());
@@ -957,6 +958,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        	}
 	        	GenericGameResponseTO gGRTO2 = 
 					(GenericGameResponseTO)msg.getData().getSerializable("gGRTO");
+	        	if (gGRTO2 == null){
+	        		CommonDialogs.errorMessage = "gGRTO2 == null";
+		        	showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+		        	return;
+	        	}
+	        		
 				if (gGRTO2 != null) {
 					genericGameResponseTO = gGRTO2;
 					doTakePlace();
@@ -1005,7 +1012,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			android.os.Message msg = new android.os.Message();
 			try {
 				GenericGameResponseTO gGRTO = 
-					gameService.takePlace(user.getUserId(), placeId, latitude, longitude);
+					gameService.takePlace(user.getUserId(), placeId, latitude, longitude, user.getGameId(), user.getTeamId());
 				
 				data.putSerializable("gGRTO", gGRTO);
 				msg.setData(data);
@@ -1025,6 +1032,28 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	public void doTakePlace() {
 		// TODO Auto-generated method stub
 		update();
+		
+	}
+	
+	public class THItemizedIconOverlay<Item extends OverlayItem> extends ItemizedIconOverlay<Item> {
+
+		public THItemizedIconOverlay(
+				List<Item> pList,
+				org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
+				ResourceProxy pResourceProxy) {
+			super(pList, pOnItemGestureListener, pResourceProxy);
+			// TODO Auto-generated constructor stub
+		}
+        public void removeAllItems() {
+            removeAllItems(true);
+	    }
+	
+	    public void removeAllItems(boolean withPopulate) {
+	            mItemList.clear();
+	            if (withPopulate) {
+	                    populate();
+	            }
+	    }
 		
 	}
 }

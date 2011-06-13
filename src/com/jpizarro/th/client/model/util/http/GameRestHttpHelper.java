@@ -198,9 +198,15 @@ public class GameRestHttpHelper implements THHelper{
 		return r;	
 	}
 
-	public GenericGameResponseTO takePlace(long id, int latitude, int longitude) 
+	@Override
+	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude, int longitude, long gameId, long teamId) 
 	throws Exception{
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" takePlace");
+		GenericGameResponseTO r = null;
+			r = restTemplate.getForObject(
+					fullUrl(GameRestURL.ENTITY_ID+"/takePlace/{placeId}"+"?userId={userId}&teamId={teamId}"), 
+					GenericGameResponseTO.class, gameId, placeId, userId, teamId);
+//			throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" updateLocation");
+			return r;
 	}
 
 	@Override
