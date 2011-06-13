@@ -50,4 +50,7 @@
 <string name="surname">Surname</string>
 <string name="preferences">preferencias</string>
 <string name="prefs_general">General</string>
+<string name="info_hidehint">info_hidehint</string>
+<string name="info_hidegoal">info_hidegoal</string>
+<string name="info_goal">info_goal</string>
 </resources>
