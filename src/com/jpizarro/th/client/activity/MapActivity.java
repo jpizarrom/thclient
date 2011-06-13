@@ -303,6 +303,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		        this.mHintsOverlay = new ItemizedIconOverlay<HintOverlayItem>(
 //		        	this,
 		        	hints,
+//		        	mMarker4,
 //		        	null,
 //		        	null,
 		        	new ItemizedIconOverlay.OnItemGestureListener<HintOverlayItem>(){
@@ -344,19 +345,19 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 		        	}, 
 		        	mResourceProxy){
-//		        	@Override
-////		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
-//		        	protected void onDrawItem(final Canvas canvas, final HintOverlayItem item, final Point curScreenCoords) {
+		        	@Override
+//		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
+		        	protected void onDrawItem(final Canvas canvas, final HintOverlayItem item, final Point curScreenCoords) {
+		        		final HotspotPlace hotspot = item.getMarkerHotspot();
+		        		Drawable m;
 //		        		final HotspotPlace hotspot = item.getMarkerHotspot();
-//		        		Drawable m;
-////		        		final HotspotPlace hotspot = item.getMarkerHotspot();
-////		        		final int left = curScreenCoords.x - this..mMarkerHotSpot.x;
-////		        		final int right = left + this.mMarkerWidth;
-////		        		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
-////		        		final int bottom = top + this.mMarkerHeight;
-////		        		
-////		        		HintOverlayItem item = mItemList.get(index);
-//		        		switch(item.type){
+//		        		final int left = curScreenCoords.x - this..mMarkerHotSpot.x;
+//		        		final int right = left + this.mMarkerWidth;
+//		        		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
+//		        		final int bottom = top + this.mMarkerHeight;
+//		        		
+//		        		HintOverlayItem item = mItemList.get(index);
+		        		switch(item.type){
 //						case HintOverlayItem.ITEM_TEAM_HAVE:
 //							m = mMarker1;
 //							break;
@@ -371,15 +372,18 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //							break;
 //						case HintOverlayItem.ITEM_HIDE:
 //							return;
-//						default:
-//							m = this.mDefaultMarker;
-//						}
-//		        		boundToHotspot(m, hotspot);
+						default:
+							m = this.mDefaultMarker;
+						}
+//		        		super.onDrawItem(canvas, item, curScreenCoords);
+		        		m = boundToHotspot(m, hotspot);
 //////		        		m.setBounds(left, top, right, bottom);
 ////		        		m..getDrawable().draw(canvas);
 //		        		// draw it
 //		                Overlay.drawAt(canvas, m, curScreenCoords.x, curScreenCoords.y, false);
-//		        	}
+		        		drawAt(canvas, m, curScreenCoords.x, curScreenCoords.y, false);
+		        		
+		        	}
 
 		        };
 		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
@@ -543,8 +547,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		LOG.info("-----------------------------");
 		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
 			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
-				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
-						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+//				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
+//						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
 //		hints.clear();

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry including="**/*.java" kind="src" path="src"/>
-	<classpathentry including="**/*.java" kind="src" path="bin/generated-sources/r"/>
 	<classpathentry kind="var" path="M2_REPO/net/sourceforge/kobjects/kobjects-j2me/0.0-SNAPSHOT-20040926-2/kobjects-j2me-0.0-SNAPSHOT-20040926-2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/ksoap2-android/ksoap2-android/2.4/ksoap2-android-2.4.jar" sourcepath="M2_REPO/com/google/code/ksoap2-android/ksoap2-android/2.4/ksoap2-android-2.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/code/ksoap2-android/ksoap2-base/2.4/ksoap2-base-2.4.jar" sourcepath="M2_REPO/com/google/code/ksoap2-android/ksoap2-base/2.4/ksoap2-base-2.4-sources.jar"/>
@@ -17,7 +16,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-game"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-team"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-user"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/thlib-generic"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
