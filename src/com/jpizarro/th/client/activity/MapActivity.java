@@ -75,6 +75,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int MENU_LAST_ID = MENU_UPDATE + 1; // Always set to last unused id
 	
 	private static final int USER_TAPPED_USER_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
+	
 	private static final int USER_TAPPED_HINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 1;
 	private static final int USER_TAPPED_HIDEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 2;
 	private static final int USER_TAPPED_USERSEEHINT_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID + 3;
@@ -82,6 +83,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	
 	private static final int USER_TAPPED_HIDEGOAL_DIALOG_ID = USER_TAPPED_TEAMSEEHINT_DIALOG_ID + 1;
 	private static final int USER_TAPPED_USERSEEGOAL_DIALOG_ID = USER_TAPPED_HIDEGOAL_DIALOG_ID + 1;
+	private static final int USER_TAPPED_GOAL_DIALOG_ID = USER_TAPPED_USERSEEGOAL_DIALOG_ID + 1;
 	
 	private static final int METERS_TO_SEE = 150;
 	private static final int METERS_TO_TAKE = 50;
@@ -204,21 +206,24 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //		        	}
 		        };
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
+
 		        
-//		        final Handler handler = new Handler();
-//                mLocationOverlay.runOnFirstFix(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                                handler.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                                Toast.makeText(getApplicationContext(),
-//                                                                "runOnFirstFix",
-//                                                                Toast.LENGTH_LONG).show();
-//                                        }
-//                                });
-//                        }
-//                });
+		        final Handler handler = new Handler();
+                mLocationOverlay.runOnFirstFix(new Runnable() {
+                        @Override
+                        public void run() {
+                                handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                                Toast.makeText(getApplicationContext(),
+                                                                "runOnFirstFix ",
+                                                                Toast.LENGTH_LONG).show();
+                                                curLoc = MapActivity.this.mLocationOverlay.getLastFix();
+                                                launchStartGameThread();
+                                        }
+                                });
+                        }
+                });
         	}
         }
 //		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
@@ -228,8 +233,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			this.mLocationOverlay.enableCompass();
 		}
     	if ( this.mLocationOverlay != null ){
-	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
+	    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)){
 	    		this.mLocationOverlay.enableMyLocation();
+	    	}
 
 //	    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
 	    }
@@ -392,8 +398,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //						case HintOverlayItem.ITEM_GOAL:
 //							m = mMarker4;
 //							break;
-						case HintOverlayItem.HIDE:
-							return;
+//						case HintOverlayItem.HIDE:
+//							return;
 						default:
 							m = this.mDefaultMarker;
 						}
@@ -469,7 +475,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         	fillTappedUserTable(dialog);
 //        	dialog.setContentView(userTappedTable);
         	return;
+		case USER_TAPPED_GOAL_DIALOG_ID:
 		case USER_TAPPED_USERSEEGOAL_DIALOG_ID:
+			
 		case USER_TAPPED_HINT_DIALOG_ID:
 		case USER_TAPPED_USERSEEHINT_DIALOG_ID:
 //			userTappedPlaceTable = new TableLayout(this);
@@ -491,7 +499,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        	d.setTitle(R.string.info_user);
 	        	d.setCanceledOnTouchOutside(true);
 	        	return d;
-	        	
+	        
+			case USER_TAPPED_GOAL_DIALOG_ID:
 			case USER_TAPPED_HINT_DIALOG_ID:
 	        	d = new Dialog(this);
 	        	d.setTitle(R.string.info_hint);
@@ -568,6 +577,18 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		update();
 	}
 	
+	private void launchUpdateLocationThread() {
+		launchUpdateLocationThread(
+				(new GeoPoint(curLoc)).getLatitudeE6() ,
+				(new GeoPoint(curLoc)).getLongitudeE6()
+				);
+		
+	}
+	private void launchUpdateLocationThread(Location loc) {
+		curLoc = loc;
+		launchUpdateLocationThread();
+		
+	}
 	private void launchUpdateLocationThread(int latitude, int longitude) {
 		LOG.info("launchUpdateLocationThread");
 		if (!updateLocationTask.onUpdate){
@@ -602,10 +623,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				LOG.info("distanceTo" +distanceTo);
 				
 				int type = HintOverlayItem.HIDE;
-				if ( distanceTo < METERS_TO_SEE )
+//				if ( distanceTo < METERS_TO_SEE )
 					type = HintOverlayItem.USER_SEE;
-				if ( distanceTo < METERS_TO_TAKE )
-					type = HintOverlayItem.USER_SEE;
+//				if ( distanceTo < METERS_TO_TAKE )
+//					type = HintOverlayItem.USER_SEE;
 				this.mHintsOverlay.addItem(new HintOverlayItem(in, type));
 			}
 		}
@@ -625,7 +646,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				LOG.info("distanceTo" +distanceTo);
 				
 				int type = HintOverlayItem.HIDE;
-				if ( distanceTo < METERS_TO_SEE )
+//				if ( distanceTo < METERS_TO_SEE )
 					type = HintOverlayItem.USER_SEE;
 //				GeoPoint point = new GeoPoint(in.getLatitude(), in.getLongitude());
 //				System.out.println("point: "+point);
@@ -692,15 +713,19 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //		InGameUserInfoTO p = genericGameResponseTO.getInGamePlayerInfoTO(
 //				tappedUser);
 		switch(userTappedHintDialogId){
+		case USER_TAPPED_GOAL_DIALOG_ID:
 		case USER_TAPPED_HINT_DIALOG_ID:
 			d.setContentView(R.layout.dialog_show_hint);
-			HintOverlayItem h = this.hints.get(tappedIdx);
-			
-			tv = (TextView) d.findViewById(R.id.dsh_name);
-			tv.setText(h.mTitle );
-			
-			tv = (TextView) d.findViewById(R.id.dsh_desc);
-			tv.setText(h.mDescription );
+			if( tappedIdx < this.hints.size()  ){
+				HintOverlayItem h = this.hints.get(tappedIdx);
+				
+				tv = (TextView) d.findViewById(R.id.dsh_name);
+				tv.setText(h.mTitle );
+				tv.setText( String.valueOf(h.getPlace().getPlaceId()) );
+				
+				tv = (TextView) d.findViewById(R.id.dsh_desc);
+				tv.setText(h.mDescription );
+			}
 			break;
 
 		case USER_TAPPED_USERSEEGOAL_DIALOG_ID:
@@ -708,6 +733,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			d.setContentView(R.layout.dialog_take_hint);
 			Button bAct;
 			bAct = (Button)d.findViewById(R.id.dth_bt_take);
+//			if (userTappedHintDialogId == USER_TAPPED_USERSEEHINT_DIALOG_ID)
+			
+//			else
+				bAct.setText(text);
+			
+			
 			bAct.setOnClickListener(new android.view.View.OnClickListener() {
 
 				public void onClick(View v) {
@@ -734,11 +765,12 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private class SampleLocationListener implements LocationListener {
 
 		public void onLocationChanged(Location loc) {
-			curLoc = loc;
+			launchUpdateLocationThread(loc);
+//			curLoc = loc;
 //			user.setLatitude((new GeoPoint(loc)).getLatitudeE6() );
 //			user.setLongitude((new GeoPoint(loc)).getLongitudeE6() );
-			launchUpdateLocationThread((new GeoPoint(loc)).getLatitudeE6() ,
-					(new GeoPoint(loc)).getLongitudeE6());
+//			launchUpdateLocationThread((new GeoPoint(loc)).getLatitudeE6() ,
+//					(new GeoPoint(loc)).getLongitudeE6());
 			
 		}
 
@@ -928,6 +960,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        GenericGameResponseTO gGRTO2 = 
 				(GenericGameResponseTO)msg.getData().getSerializable("gGRTO");
 	        updateLocationTask.onUpdate = false;
+	        launchStartGameThread();
 			if (gGRTO2 != null) {
 //				genericGameResponseTO = gGRTO2;
 				doUpdateLocation();

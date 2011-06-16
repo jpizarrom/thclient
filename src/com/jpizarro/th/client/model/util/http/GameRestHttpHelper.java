@@ -50,7 +50,8 @@ public class GameRestHttpHelper implements THHelper{
 
 	private String TAG = "HttpHelper";
 	
-	public static final String SERVER_HOST_IP = "192.168.16.135";
+//	public static final String SERVER_HOST_IP = "192.168.16.135";
+	public static final String SERVER_HOST_IP = "192.168.1.71";
 	public static final String SERVER_PORT = "8070";
 	public static final String SERVICE = "thserver-game/app";
 	public static final String URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
