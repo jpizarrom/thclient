@@ -91,6 +91,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	
 	private int METERS_TO_SEE = 100;
 	private int METERS_TO_TAKE = 50;
+	private boolean SHOW_HIDE = false;
 	
 	// ===========================================================
 	// Fields
@@ -140,6 +141,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
         SharedPreferences settings = PreferenceManager
 		.getDefaultSharedPreferences(getApplicationContext());
         METERS_TO_SEE = Integer.valueOf(settings.getString("meters_to_see", "100"));
+        SHOW_HIDE = settings.getBoolean("show_hide", false);
+
         
     	startGameTask = new StartGameTask();
     	updateLocationTask = new UpdateLocationTask();
@@ -420,7 +423,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 //							m = mMarker4;
 //							break;
 						case HintOverlayItem.HIDE:
-							return;
+							if (!SHOW_HIDE)
+								return;
 						default:
 							m = this.mDefaultMarker;
 						}
@@ -750,7 +754,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 				
 				tv = (TextView) d.findViewById(R.id.dsh_name);
 				tv.setText(h.mTitle );
-				tv.setText( String.valueOf(h.getPlace().getPlaceId()) );
+				tv.setText( String.valueOf(h.getPlace().getPlaceId()) +" : "+h.mTitle);
 				
 				tv = (TextView) d.findViewById(R.id.dsh_desc);
 				tv.setText(h.mDescription );
