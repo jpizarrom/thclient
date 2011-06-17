@@ -60,7 +60,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class MapActivity extends Activity  implements OpenStreetMapConstants{
+public class MapActivity extends Activity implements OpenStreetMapConstants{
 	protected static final Logger LOG = Logger.getLogger(GenericGameResponseTO.class.getCanonicalName());
 	// ===========================================================
 	// Constants
@@ -121,9 +121,9 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 	private GenericGameResponseTO genericGameResponseTO;
 	
-	private StartGameTask startGameTask = new StartGameTask();
-	private UpdateLocationTask updateLocationTask = new UpdateLocationTask();
-	private TakePlaceTask takePlaceTask = new TakePlaceTask();
+	private StartGameTask startGameTask;
+	private UpdateLocationTask updateLocationTask;
+	private TakePlaceTask takePlaceTask;
 	
 	private UserTO user;
 	Location curLoc = null;
@@ -140,6 +140,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         SharedPreferences settings = PreferenceManager
 		.getDefaultSharedPreferences(getApplicationContext());
         METERS_TO_SEE = Integer.valueOf(settings.getString("meters_to_see", "100"));
+        
+    	startGameTask = new StartGameTask();
+    	updateLocationTask = new UpdateLocationTask();
+    	takePlaceTask = new TakePlaceTask();
 
         mResourceProxy = new ResourceProxyImpl(getApplicationContext());
         
@@ -955,7 +959,6 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	        }
 		}
 	}
-
 	
 	private class UpdateLocationHandler extends Handler {
 
@@ -992,7 +995,6 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			}
 		}
 	}
-	
 	private class UpdateLocationTask implements Runnable {
 
 		int latitude, longitude;
