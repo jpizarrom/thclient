@@ -331,7 +331,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 									if (item.getPlace().getType().equals(HintTO.TYPE))
 										showDialog(MapActivity.USER_TAPPED_HINT_DIALOG_ID);
 									else
-										showDialog(MapActivity.USER_TAPPED_HINT_DIALOG_ID);
+										showDialog(MapActivity.USER_TAPPED_GOAL_DIALOG_ID);
 									break;
 								case HintOverlayItem.TEAM_SEE:
 //									showDialog(MapActivity.USER_TAPPED_TEAMSEEHINT_DIALOG_ID);
@@ -603,6 +603,14 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private void update() {
 		if (curLoc == null)
 			return;
+		if ( genericGameResponseTO.isHasFinished() ){
+			Toast.makeText(getApplicationContext(),
+                    "genericGameResponseTO.isHasFinished()",
+                    Toast.LENGTH_LONG).show();
+			this.disableLocation();
+			return;
+			}
+
 		GeoPoint gp = new GeoPoint(curLoc);
 		
 		LOG.info("-----------------------------");
@@ -704,7 +712,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         
 	}
 	
-	private void fillTappedPlaceTable(Dialog d, int userTappedHintDialogId) {
+	private void fillTappedPlaceTable(Dialog d, final int userTappedHintDialogId) {
 		// TODO Auto-generated method stub
 		TextView tv;
 		
@@ -733,10 +741,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 			d.setContentView(R.layout.dialog_take_hint);
 			Button bAct;
 			bAct = (Button)d.findViewById(R.id.dth_bt_take);
-//			if (userTappedHintDialogId == USER_TAPPED_USERSEEHINT_DIALOG_ID)
-			
-//			else
-				bAct.setText(text);
+			if (userTappedHintDialogId == USER_TAPPED_USERSEEHINT_DIALOG_ID)
+				bAct.setText(R.string.take_hint);
+			else
+				bAct.setText(R.string.take_goal);
 			
 			
 			bAct.setOnClickListener(new android.view.View.OnClickListener() {
@@ -744,7 +752,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				public void onClick(View v) {
 					try {
 						launchTakePlaceThread(tappedIdx);
-						dismissDialog(USER_TAPPED_USERSEEHINT_DIALOG_ID);
+						dismissDialog(userTappedHintDialogId);
 					} catch (Exception e) {}
 				}
 			});
