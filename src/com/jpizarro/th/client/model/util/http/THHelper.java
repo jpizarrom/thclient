@@ -56,4 +56,6 @@ public interface THHelper {
 	
 	public GenericGameResponseTO takePlace(long userId, long placeId, int latitude, int longitude, long gameId, long teamId) 
 	throws Exception;
+
+	void setServer(String server);
 }

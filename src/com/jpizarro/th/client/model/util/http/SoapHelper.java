@@ -316,4 +316,10 @@ public class SoapHelper implements THHelper{
 		return null;
 	}
 
+	@Override
+	public void setServer(String server) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

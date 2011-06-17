@@ -3,8 +3,10 @@ package com.jpizarro.th.client.activity;
 import java.util.ArrayList;
 
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.model.service.user.HttpUserServiceImpl;
+import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.entity.response.InGameUserInfoTO;
@@ -99,11 +101,11 @@ public class Loader extends ListActivity {
 		
 	private class TestTask implements Runnable {
 		HttpUserServiceImpl userService;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		TestTask() {
 			userService = new HttpUserServiceImpl();
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(Loader.this.getApplicationContext());
 		}
 
 		public void run() {

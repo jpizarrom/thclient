@@ -126,7 +126,7 @@ public class Login extends Activity {
 			this.userName = userName;
 			this.password = password;
 			userService = CustomAPP.getUserService();
-			gameService = CustomAPP.getGameService();
+			gameService = CustomAPP.getGameService(Login.this.getApplicationContext());
 		}
 
 		public void run() {

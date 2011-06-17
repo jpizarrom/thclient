@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
+import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.lib.game.entity.TeamTO;
 import com.jpizarro.th.lib.game.entity.UserTO;
 
@@ -77,11 +79,11 @@ public class ViewTeamsActivity extends ListActivity {
 	private class FindTeamsTask implements Runnable {
 
 		long gameId;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		FindTeamsTask(long gameId) {
 			this.gameId = gameId;
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(ViewTeamsActivity.this.getApplicationContext());
 		}
 				
 		public void run() {
@@ -260,12 +262,12 @@ public class ViewTeamsActivity extends ListActivity {
 	private class JoinTeamTask implements Runnable {
 
 		long gameId, teamId;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		JoinTeamTask(long gameId, long teamId) {
 			this.gameId = gameId;
 			this.teamId = teamId;
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(ViewTeamsActivity.this.getApplicationContext());
 		}
 		
 		public void run() {

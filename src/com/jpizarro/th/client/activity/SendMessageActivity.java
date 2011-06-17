@@ -23,7 +23,9 @@ package com.jpizarro.th.client.activity;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
+import com.jpizarro.th.client.util.CustomAPP;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -140,7 +142,7 @@ public class SendMessageActivity extends Activity {
 
 		String receiverUser, body;
 		long userId;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		public String getBody() {
 			return body;
@@ -167,7 +169,7 @@ public class SendMessageActivity extends Activity {
 		}
 
 		SendMessageTask() {
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(SendMessageActivity.this.getApplicationContext());
 		}
 		
 		public void run() {

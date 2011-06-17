@@ -42,4 +42,9 @@ public interface GameService {
 
 	public boolean sendMessage(long userId, String receiverUser, String body)
 	throws Exception;
+
+	GenericGameResponseTO startOrContinueGame(long gameId, long userId,
+			long teamId) throws Exception;
+
+	void setServer(String server);
 }

@@ -2,6 +2,10 @@ package com.jpizarro.th.client.model.service.game;
 
 import java.util.List;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.jpizarro.th.client.model.util.http.GameRestHttpHelper;
 import com.jpizarro.th.client.model.util.http.THHelper;
 import com.jpizarro.th.lib.game.entity.GameTO;
@@ -12,11 +16,30 @@ import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 public class HttpGameServiceImpl implements GameService{
+	
 	private static THHelper instance;
 	static {
 		instance = GameRestHttpHelper.getInstance();
 	}
-	
+
+	public HttpGameServiceImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+//	public HttpGameServiceImpl(Context applicationContext) {
+//		// TODO Auto-generated constructor stub
+//		SharedPreferences settings = PreferenceManager
+//		.getDefaultSharedPreferences(applicationContext);
+//		
+//        String server = settings.getString("game_server", "192.168.1.70");
+//        instance.setServer(server);
+//	}
+	@Override
+	public void setServer(String server){
+		instance.setServer(server);
+	}
+
 	@Override
 	public List<String> findCitiesWithGames() throws Exception {
 		return instance.findCitiesWithGames();
@@ -58,7 +81,7 @@ public class HttpGameServiceImpl implements GameService{
 		return instance.startOrContinueGame(username);
 	}
 	
-//	@Override
+	@Override
 	public GenericGameResponseTO startOrContinueGame(long gameId, long userId, long teamId) 
 	throws Exception {
 		return instance.startOrContinueGame(gameId, userId, teamId) ;

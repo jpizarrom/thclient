@@ -89,4 +89,17 @@ public class Axis2GameServiceImpl implements GameService{
 		return false;
 	}
 
+	@Override
+	public GenericGameResponseTO startOrContinueGame(long gameId, long userId,
+			long teamId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setServer(String server) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

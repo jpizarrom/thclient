@@ -2,7 +2,9 @@ package com.jpizarro.th.client.activity;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
+import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.lib.game.entity.GameTO;
 import com.jpizarro.th.lib.game.entity.UserTO;
@@ -75,11 +77,11 @@ public class ViewGamesActivity extends ListActivity {
 	private class FindGamesTask implements Runnable {
 
 		String city = null;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		FindGamesTask(String city) {
 			this.city = city;
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(ViewGamesActivity.this.getApplicationContext());
 		}
 				
 		public void run() {

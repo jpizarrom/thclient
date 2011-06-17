@@ -11,6 +11,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MyLocationOverlay;
@@ -20,8 +21,10 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.osm.OpenStreetMapConstants;
+import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.lib.game.entity.GoalTO;
 import com.jpizarro.th.lib.game.entity.HintTO;
 import com.jpizarro.th.lib.game.entity.PlaceTO;
@@ -46,6 +49,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -85,8 +89,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private static final int USER_TAPPED_USERSEEGOAL_DIALOG_ID = USER_TAPPED_HIDEGOAL_DIALOG_ID + 1;
 	private static final int USER_TAPPED_GOAL_DIALOG_ID = USER_TAPPED_USERSEEGOAL_DIALOG_ID + 1;
 	
-	private static final int METERS_TO_SEE = 150;
-	private static final int METERS_TO_TAKE = 50;
+	private int METERS_TO_SEE = 100;
+	private int METERS_TO_TAKE = 50;
 	
 	// ===========================================================
 	// Fields
@@ -132,6 +136,10 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        SharedPreferences settings = PreferenceManager
+		.getDefaultSharedPreferences(getApplicationContext());
+        METERS_TO_SEE = Integer.valueOf(settings.getString("meters_to_see", "100"));
 
         mResourceProxy = new ResourceProxyImpl(getApplicationContext());
         
@@ -191,19 +199,28 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
         	if(this.mLocationOverlay == null){
 		        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy)
 		        {
-//		        	@Override
-//		        	protected void onDrawFinished(Canvas c, MapView osmv) {
-//		        		if(getMyLocation() != null) {
-//		        			final OpenStreetMapViewProjection pj = osmv.getProjection();
-//		        			Point mMapCoords = new Point();
-//		        			pj.toMapPixels(getMyLocation(), mMapCoords);
-//		        			final float radius = pj.metersToEquatorPixels(METERS_TO_SEE);
-//		        			
-//		        			this.mCirclePaint.setAlpha(50);
-//		        			this.mCirclePaint.setStyle(Style.STROKE);
-//		        			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
-//		        		}
-//		        	}
+		        	private static final boolean DEBUGMODE = true;
+		        	
+		        	@Override
+					public void draw(Canvas c, MapView osmv, boolean arg2) {
+						// TODO Auto-generated method stub
+						super.draw(c, osmv, arg2);
+						onDrawFinished(c, osmv);
+					}
+
+//					@Override
+		        	protected void onDrawFinished(Canvas c, MapView osmv) {
+		        		if(getMyLocation() != null) {
+	                        final Projection pj = osmv.getProjection();
+		        			Point mMapCoords = new Point();
+		        			pj.toMapPixels(getMyLocation(), mMapCoords);
+		        			final float radius = pj.metersToEquatorPixels(METERS_TO_SEE);
+	        			
+		        			this.mCirclePaint.setAlpha(50);
+		        			this.mCirclePaint.setStyle(Style.STROKE);
+		        			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
+		        		}
+		        	}
 		        };
 		        this.mOsmv.getOverlays().add(this.mLocationOverlay);
 
@@ -398,8 +415,8 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 //						case HintOverlayItem.ITEM_GOAL:
 //							m = mMarker4;
 //							break;
-//						case HintOverlayItem.HIDE:
-//							return;
+						case HintOverlayItem.HIDE:
+							return;
 						default:
 							m = this.mDefaultMarker;
 						}
@@ -631,7 +648,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				LOG.info("distanceTo" +distanceTo);
 				
 				int type = HintOverlayItem.HIDE;
-//				if ( distanceTo < METERS_TO_SEE )
+				if ( distanceTo < METERS_TO_SEE )
 					type = HintOverlayItem.USER_SEE;
 //				if ( distanceTo < METERS_TO_TAKE )
 //					type = HintOverlayItem.USER_SEE;
@@ -654,7 +671,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 				LOG.info("distanceTo" +distanceTo);
 				
 				int type = HintOverlayItem.HIDE;
-//				if ( distanceTo < METERS_TO_SEE )
+				if ( distanceTo < METERS_TO_SEE )
 					type = HintOverlayItem.USER_SEE;
 //				GeoPoint point = new GeoPoint(in.getLatitude(), in.getLongitude());
 //				System.out.println("point: "+point);
@@ -900,7 +917,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 	private class StartGameTask implements Runnable {
 
 		String login;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		public String getLogin() {
 			return login;
@@ -911,7 +928,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 
 		StartGameTask() {
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(MapActivity.this.getApplicationContext());
 		}
 		
 		public void run() {
@@ -980,7 +997,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 		int latitude, longitude;
 		boolean onUpdate = false;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		public int getLatitude() {
 			return latitude;
@@ -999,7 +1016,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 
 		UpdateLocationTask() {
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(MapActivity.this.getApplicationContext());
 		}
 
 		public void run() {
@@ -1076,7 +1093,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 
 		long placeId;
 		int latitude, longitude;
-		HttpGameServiceImpl gameService;
+		GameService gameService;
 		
 		public long getPlaceId() {
 			return placeId;
@@ -1103,7 +1120,7 @@ public class MapActivity extends Activity  implements OpenStreetMapConstants{
 		}
 
 		TakePlaceTask() {
-			gameService = new HttpGameServiceImpl();
+			gameService = CustomAPP.getGameService(MapActivity.this.getApplicationContext());
 		}
 
 		public void run() {

@@ -51,12 +51,13 @@ public class GameRestHttpHelper implements THHelper{
 	private String TAG = "HttpHelper";
 	
 //	public static final String SERVER_HOST_IP = "192.168.16.135";
-	public static final String SERVER_HOST_IP = "192.168.1.71";
-	public static final String SERVER_PORT = "8070";
-	public static final String SERVICE = "thserver-game/app";
-	public static final String URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
+//	public static final String SERVER_HOST_IP = "192.168.1.71";
+	public String SERVER_HOST_IP = "192.168.1.70";
+	public String SERVER_PORT = "8070";
+	public String SERVICE = "thserver-game/app";
+	public String URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
 	SERVER_PORT + "/" + SERVICE;
-	public static final String URL = "http://" + SERVER_HOST_IP + ":" + 
+	public String URL = "http://" + SERVER_HOST_IP + ":" + 
 	SERVER_PORT + "/" + SERVICE + "/" + GameRestURL.ENTITY;
 
 	private static GameRestHttpHelper instance;
@@ -77,6 +78,15 @@ public class GameRestHttpHelper implements THHelper{
 	}
 	public static GameRestHttpHelper getInstance() {
 		return instance;
+	}
+	
+	@Override
+	public void setServer(String server){
+		SERVER_HOST_IP = server;
+		URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
+		SERVER_PORT + "/" + SERVICE;
+		URL = "http://" + SERVER_HOST_IP + ":" + 
+		SERVER_PORT + "/" + SERVICE + "/" + GameRestURL.ENTITY;
 	}
 
 	private List<NameValuePair> stripNulls(NameValuePair... nameValuePairs) {

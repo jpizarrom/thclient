@@ -354,5 +354,10 @@ public class RestTHHelper implements THHelper{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void setServer(String server) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

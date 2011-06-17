@@ -5,7 +5,9 @@ import java.util.List;
 import com.jpizarro.th.R;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
+import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
+import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.client.util.CustomResultCodes;
 import com.jpizarro.th.lib.game.entity.UserTO;
 
@@ -182,8 +184,8 @@ public class FindGamesActivity extends Activity {
 			Bundle data = new Bundle();
 			Message msg = new Message();
 			try {
-				HttpGameServiceImpl gameService = 
-					new HttpGameServiceImpl();
+				GameService gameService = 
+					CustomAPP.getGameService(FindGamesActivity.this.getApplicationContext());
 				List<String> citiesList = 
 					gameService.findCitiesWithGames();
 				data.putSerializable("cities", citiesList.toArray(new String [0]));
