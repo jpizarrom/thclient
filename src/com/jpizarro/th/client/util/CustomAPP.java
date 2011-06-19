@@ -25,7 +25,7 @@ public class CustomAPP {
 		SharedPreferences settings = PreferenceManager
 		.getDefaultSharedPreferences(applicationContext);
 //		
-        String server = settings.getString("game_server", "192.168.1.70");
+        String server = settings.getString("game_server", "192.168.17.18");
 //        instance.setServer(server);
         GameService gs = new HttpGameServiceImpl();
         gs.setServer(server);

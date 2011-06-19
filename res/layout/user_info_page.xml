@@ -104,7 +104,10 @@
 						android:id="@+id/mm_cityname"></TextView>
 				</TableRow>
 			</TableLayout>
+			<Spinner android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/uip_teams"></Spinner>
 		</LinearLayout>
+	
 	</ScrollView>
+	
 
 </LinearLayout>

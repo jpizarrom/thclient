@@ -1,6 +1,9 @@
 package com.jpizarro.th.client.activity;
 
+import java.util.List;
+
 import com.jpizarro.th.R;
+import com.jpizarro.th.client.activity.ViewGamesActivity.TAdapter;
 import com.jpizarro.th.client.common.actions.CommonActions;
 import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.util.CustomResultCodes;
@@ -11,14 +14,20 @@ import com.jpizarro.th.lib.game.entity.UserTO;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +48,7 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 	private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 
 	private TextView usernameView, gamenameView, teamnameView, citynameView;
+	private Spinner teamsSpinner;
 	protected SharedPreferences prefs;
 
 	private UserTO user;
@@ -60,6 +70,7 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 		gamenameView = (TextView)findViewById(R.id.gamename);
 		teamnameView = (TextView)findViewById(R.id.mm_teamname);
 		citynameView = (TextView)findViewById(R.id.mm_cityname);
+		teamsSpinner = (Spinner) findViewById(R.id.uip_teams);
 	}
 	@Override
 	protected void onResume() {
@@ -68,6 +79,11 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 
 		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		fillPersonalInfo();
+		
+//		TAdapter myAdapter = new TAdapter(this, android.R.layout.simple_spinner_item, user.getTeams());
+		TAdapter myAdapter = new TAdapter(this, R.layout.row_team_list, user.getTeams());
+//		myAdapter.setDropDownViewResource(R.layout.row_team_list);
+		teamsSpinner.setAdapter(myAdapter);
 
 		if ( user.getTeamId() > 0 )
 			team = (TeamTO)getIntent().getExtras().getSerializable("team");
@@ -176,7 +192,7 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 			break;
 		case MENU_PREFERENCES:
 			Intent intent = new Intent(this, ConfigurationActivity.class);
-			startActivityForResult(intent, MENU_PREFERENCES);
+			startActivity(intent);
 
 			return true;
 		}
@@ -242,5 +258,64 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 		
 	}
 
+	private class TAdapter extends ArrayAdapter<TeamTO>{
 
+		public TAdapter(Context context, int resource, int textViewResourceId) {
+			super(context, resource, textViewResourceId);
+			// TODO Auto-generated constructor stub
+		}
+
+		public TAdapter(Context context, int textViewResourceId) {
+			super(context, textViewResourceId);
+			// TODO Auto-generated constructor stub
+		}
+
+		public TAdapter(Context context, int resource, int textViewResourceId,
+				List<TeamTO> objects) {
+			super(context, resource, textViewResourceId, objects);
+			// TODO Auto-generated constructor stub
+		}
+
+		public TAdapter(Context context, int textViewResourceId,
+				List<TeamTO> objects) {
+			super(context, textViewResourceId, objects);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public View getDropDownView(int position, View convertView,
+				ViewGroup parent) {
+			// TODO Auto-generated method stub
+			return getCustomView(position, convertView, parent);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			return getCustomView(position, convertView, parent);
+		}
+		public View getCustomView(int position, View convertView, ViewGroup parent) {
+//			return super.getView(position, convertView, parent);
+
+			View v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(R.layout.row_team_list, parent, false);
+            }
+//			TextView label=(TextView)row.findViewById(R.id.weekofday);
+//			label.setText(DayOfWeek[position]);
+//
+//			ImageView icon=(ImageView)row.findViewById(R.id.icon);
+//
+//			if (DayOfWeek[position]=="Sunday"){
+//			icon.setImageResource(R.drawable.icon);
+//			}
+//			else{
+//			icon.setImageResource(R.drawable.icongray);
+//			}
+//
+			return v;
+		}
+		
+	}
 }

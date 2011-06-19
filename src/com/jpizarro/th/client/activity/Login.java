@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +44,7 @@ import android.widget.TextView;
 public class Login extends Activity {
 
 	private static final int PLAYER_INFO_REQUEST_CODE = 0;
+	private static final int MENU_PREFERENCES = Menu.FIRST;
 
 	private LoginTask loginTask;
 	private UserTO user = new UserTO();
@@ -49,6 +52,7 @@ public class Login extends Activity {
 	private TeamTO team;
 
 	private TextView loginErrorView, passwordErrorView;
+	private EditText usernameText, passwdText;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,12 +62,17 @@ public class Login extends Activity {
 		Button loginButton = (Button)findViewById(R.id.loginButton);
 		loginErrorView = (TextView)findViewById(R.id.username_msg);
 		passwordErrorView = (TextView)findViewById(R.id.password_msg);
-
-
+		
+		usernameText = (EditText)findViewById(R.id.username);
+		passwdText = ((EditText)findViewById(R.id.password));
+		
+		usernameText.setText("asd");
+		passwdText.setText("asd");
+		
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				EditText user = (EditText)findViewById(R.id.username);
-				String s = user.getText().toString().trim();
+//				EditText user = (EditText)findViewById(R.id.username);
+				String s = usernameText.getText().toString().trim();
 				if(s.equals("")){
 					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 					builder.setMessage(R.string.fillUserName);
@@ -79,7 +88,7 @@ public class Login extends Activity {
 					alert.show();
 				}else{
 					String username = s;
-					String password = ((EditText)findViewById(R.id.password)).getText().toString().trim();
+					String password = passwdText.getText().toString().trim();
 					login(username,password);
 				}
 			}
@@ -97,6 +106,29 @@ public class Login extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		return CommonDialogs.createDialog(id, this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu);
+		
+		menu.add(0, MENU_PREFERENCES, Menu.NONE,
+				R.string.preferences);
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()) {
+		case MENU_PREFERENCES:
+			Intent intent = new Intent(this, ConfigurationActivity.class);
+			startActivity(intent);
+
+			return true;
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	/*
