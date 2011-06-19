@@ -167,7 +167,7 @@ public class SoapHelper implements THHelper{
             ret.setUserId(Long.parseLong(result.getProperty("userId").toString()));
 //            ret.setUsername(result.getProperty("username").toString());
             
-            ret.setGameId( Long.parseLong(result.getProperty("gameId").toString()));
+//            ret.setGameId( Long.parseLong(result.getProperty("gameId").toString()));
 //            ret.setLatitude( Integer.parseInt(result.getProperty("latitude").toString()));
 //            ret.setLatitude( Integer.parseInt(result.getProperty("longitude").toString()));
             

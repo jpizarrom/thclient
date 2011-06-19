@@ -243,7 +243,7 @@ public class ViewTeamsActivity extends ListActivity {
 				long gameId = msg.getData().getLong("gameId");
 				long teamId = msg.getData().getLong("teamId");
 				
-				user.setGameId(gameId);
+//				user.setGameId(gameId);
 				Toast.makeText(
 		                getBaseContext(),
 		                "Joined",

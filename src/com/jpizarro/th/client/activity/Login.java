@@ -165,23 +165,23 @@ public class Login extends Activity {
 			LoginHandler handler = new LoginHandler(Looper.getMainLooper());
 			Bundle data = new Bundle();
 			Message msg = new Message();
-			GameTO game;
-			TeamTO team;
+//			GameTO game;
+//			TeamTO team;
 
 			try {
 				UserTO user = userService.login(userName, password);
 				//				user.setGameId(1);
 				data.putSerializable("user", user);
-				if ( user.getTeamId() != 0 ){
-					team = (new TeamTO());
-					team.setTeamId(user.getTeamId());
-//					team = gameService.findTeam(user.getTeamId());
-					data.putSerializable("team", team);
-				}
-				if ( user.getGameId() != 0 ){
-					game = gameService.findGame(user.getGameId());
-					data.putSerializable("game", game);
-				}
+//				if ( user.getTeamId() != 0 ){
+//					team = (new TeamTO());
+//					team.setTeamId(user.getTeamId());
+////					team = gameService.findTeam(user.getTeamId());
+//					data.putSerializable("team", team);
+//				}
+//				if ( user.getGameId() != 0 ){
+//					game = gameService.findGame(user.getGameId());
+//					data.putSerializable("game", game);
+//				}
 				//				data.putSerializable("user", user);
 				msg.setData(data);
 				handler.sendMessage(msg);

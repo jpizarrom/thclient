@@ -52,7 +52,7 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 	protected SharedPreferences prefs;
 
 	private UserTO user;
-	private GameTO game;
+//	private GameTO game;
 	private TeamTO team;
 
 	private String city = null;
@@ -85,24 +85,24 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 //		myAdapter.setDropDownViewResource(R.layout.row_team_list);
 		teamsSpinner.setAdapter(myAdapter);
 
-		if ( user.getTeamId() > 0 )
-			team = (TeamTO)getIntent().getExtras().getSerializable("team");
-		if (team != null)
-			fillTeamInfo();
+//		if ( user.getTeamId() > 0 )
+//			team = (TeamTO)getIntent().getExtras().getSerializable("team");
+//		if (team != null)
+//			fillTeamInfo();
+//
+//		if ( user.getGameId() > 0 )
+//			game = (GameTO)getIntent().getExtras().getSerializable("game");
 
-		if ( user.getGameId() > 0 )
-			game = (GameTO)getIntent().getExtras().getSerializable("game");
-
-		if (game != null)
-			fillGameInfo();
+//		if (game != null)
+//			fillGameInfo();
 
 		dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 	}
 
 	private void fillGameInfo() {
 		// TODO Auto-generated method stub
-		gamenameView.setText(game.getGameId()+"");
-		citynameView.setText(game.getCity());
+//		gamenameView.setText(game.getGameId()+"");
+//		citynameView.setText(game.getCity());
 	}
 	private void fillTeamInfo() {
 		// TODO Auto-generated method stub
