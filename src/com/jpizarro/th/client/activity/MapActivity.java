@@ -28,6 +28,7 @@ import com.jpizarro.th.client.util.CustomAPP;
 import com.jpizarro.th.lib.game.entity.GoalTO;
 import com.jpizarro.th.lib.game.entity.HintTO;
 import com.jpizarro.th.lib.game.entity.PlaceTO;
+import com.jpizarro.th.lib.game.entity.TeamTO;
 import com.jpizarro.th.lib.game.entity.UserTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.entity.response.InGameUserInfoTO;
@@ -127,6 +128,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	private TakePlaceTask takePlaceTask;
 	
 	private UserTO user;
+	private TeamTO team;
 	Location curLoc = null;
 	Location selPlace = null;
 		
@@ -265,6 +267,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	    }
    	
     	user = (UserTO)getIntent().getExtras().getSerializable("user");
+    	team = (TeamTO)getIntent().getExtras().getSerializable("team");
     	
         // register location listener
 //		initLocation();
@@ -947,7 +950,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 			try {
 				GenericGameResponseTO sOCGRTO = 
 //					gameService.startOrContinueGame(login);
-					gameService.startOrContinueGame(user.getGameId(),user.getUserId(), user.getTeamId());
+					gameService.startOrContinueGame(team.getGameId(),user.getUserId(), team.getTeamId());
 				data.putSerializable("sOCGRTO", sOCGRTO);
 				msg.setData(data);
 				handler.sendMessage(msg);
@@ -1137,7 +1140,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 			android.os.Message msg = new android.os.Message();
 			try {
 				GenericGameResponseTO gGRTO = 
-					gameService.takePlace(user.getUserId(), placeId, latitude, longitude, user.getGameId(), user.getTeamId());
+					gameService.takePlace(user.getUserId(), placeId, latitude, longitude, team.getGameId(), team.getTeamId());
 				
 				data.putSerializable("gGRTO", gGRTO);
 				msg.setData(data);

@@ -237,9 +237,10 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 	}
 	private void doPlayGame() {
 		Intent i = new Intent(this, MapActivity.class);
+		TeamTO t = (TeamTO)teamsSpinner.getSelectedItem();
 		i.putExtra("user", user);
-		i.putExtra("team", team);
-		i.putExtra("game", game);
+		i.putExtra("team", t);
+//		i.putExtra("game", game);
 		startActivityForResult(i, PLAY_REQUEST_CODE);
 
 	}
@@ -302,18 +303,15 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.row_team_list, parent, false);
             }
-//			TextView label=(TextView)row.findViewById(R.id.weekofday);
-//			label.setText(DayOfWeek[position]);
-//
-//			ImageView icon=(ImageView)row.findViewById(R.id.icon);
-//
-//			if (DayOfWeek[position]=="Sunday"){
-//			icon.setImageResource(R.drawable.icon);
-//			}
-//			else{
-//			icon.setImageResource(R.drawable.icongray);
-//			}
-//
+            TeamTO t = this.getItem(position);
+            if (t!=null){
+            	TextView game=(TextView)v.findViewById(R.id.uip_game_name);
+            	TextView team=(TextView)v.findViewById(R.id.uip_team_name);
+            	
+            	game.setText(String.valueOf(t.getGameId()));
+            	team.setText(String.valueOf(t.getTeamId()));
+            }
+
 			return v;
 		}
 		
