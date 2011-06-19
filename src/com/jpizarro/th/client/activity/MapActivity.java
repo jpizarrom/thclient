@@ -752,7 +752,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		case USER_TAPPED_GOAL_DIALOG_ID:
 		case USER_TAPPED_HINT_DIALOG_ID:
 			d.setContentView(R.layout.dialog_show_hint);
-			if( tappedIdx < this.hints.size()  ){
+			if( this.hints !=null && tappedIdx < this.hints.size()  ){
 				HintOverlayItem h = this.hints.get(tappedIdx);
 				
 				tv = (TextView) d.findViewById(R.id.dsh_name);
