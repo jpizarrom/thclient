@@ -74,36 +74,7 @@
 
 
 			</TableLayout>
-			<TableLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:layout_margin="10dp"
-				android:background="#555">
-				<TableRow>
-					<TextView android:layout_width="wrap_content"
-						android:layout_height="wrap_content" android:text="@string/gamename"
-						android:layout_gravity="right|center"></TextView>
-					<TextView android:text="@string/sep"></TextView>
-					<TextView android:layout_height="wrap_content"
-						android:layout_marginLeft="10dp" android:layout_weight="1"
-						android:id="@+id/gamename"></TextView>
-				</TableRow>
-				<TableRow>
-					<TextView android:layout_width="wrap_content"
-						android:layout_height="wrap_content" android:text="@string/teamname"
-						android:layout_gravity="right|center"></TextView>
-					<TextView android:text="@string/sep"></TextView>
-					<TextView android:layout_height="wrap_content"
-						android:layout_marginLeft="10dp" android:layout_weight="1"
-						android:id="@+id/mm_teamname"></TextView>
-				</TableRow>
-				<TableRow>
-					<TextView android:layout_width="wrap_content"
-						android:layout_height="wrap_content" android:layout_gravity="right|center" android:text="@string/city"></TextView>
-					<TextView android:text="@string/sep"></TextView>
-					<TextView android:layout_height="wrap_content"
-						android:layout_marginLeft="10dp" android:layout_weight="1"
-						android:id="@+id/mm_cityname"></TextView>
-				</TableRow>
-			</TableLayout>
+
 			<Spinner android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/uip_teams"></Spinner>
 		</LinearLayout>
 	

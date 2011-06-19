@@ -47,7 +47,8 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 
 	private static final int FIND_GAMES_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 
-	private TextView usernameView, gamenameView, teamnameView, citynameView;
+	private TextView usernameView;
+//	private TextView gamenameView, teamnameView, citynameView;
 	private Spinner teamsSpinner;
 	protected SharedPreferences prefs;
 
@@ -67,9 +68,9 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 		prefs.registerOnSharedPreferenceChangeListener(this);
 
 		usernameView = (TextView)findViewById(R.id.username);
-		gamenameView = (TextView)findViewById(R.id.gamename);
-		teamnameView = (TextView)findViewById(R.id.mm_teamname);
-		citynameView = (TextView)findViewById(R.id.mm_cityname);
+//		gamenameView = (TextView)findViewById(R.id.gamename);
+//		teamnameView = (TextView)findViewById(R.id.mm_teamname);
+//		citynameView = (TextView)findViewById(R.id.mm_cityname);
 		teamsSpinner = (Spinner) findViewById(R.id.uip_teams);
 	}
 	@Override
@@ -106,7 +107,7 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
 	}
 	private void fillTeamInfo() {
 		// TODO Auto-generated method stub
-		teamnameView.setText(String.valueOf(team.getTeamId()));
+//		teamnameView.setText(String.valueOf(team.getTeamId()));
 	}
 	@Override
 	protected Dialog onCreateDialog(int id) {
