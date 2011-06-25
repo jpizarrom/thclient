@@ -51,7 +51,7 @@ public class SendMessageActivity extends Activity {
 
 	private String receiverUser;
 	
-	private SendMessageTask sendMessageTask = new SendMessageTask();
+	private SendMessageTask sendMessageTask;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,8 @@ public class SendMessageActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         receiverUser = getIntent().getExtras().getString("receiverUser");
+        
+        sendMessageTask = new SendMessageTask();
         
         bodyText = (EditText)findViewById(R.id.wm_body);
 

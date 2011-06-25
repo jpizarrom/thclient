@@ -69,7 +69,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	// Constants
 	// ===========================================================
 	
-	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
+	public static final OnlineTileSourceBase THTILE = new XYTileSource("Mapnik",
             ResourceProxy.string.mapnik, 0, 19, 256, ".png", "http://tile.openstreetmap.org/");
 	
 	protected static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
@@ -117,11 +117,12 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	private MyLocationOverlay mLocationOverlay;
 	
 	private ArrayList<OverlayItem> users;
-	private ItemizedOverlay<OverlayItem> mUsersOverlay;
+	private THItemizedIconOverlay<OverlayItem> mUsersOverlay;
 	
 	private List<HintOverlayItem> hints;
 	private THItemizedIconOverlay<HintOverlayItem> mHintsOverlay;
 	private Drawable mMarker1, mMarker2, mMarker3, mMarker4;
+	private Drawable mMarkerPartner;
 
 	
 	private ResourceProxy mResourceProxy;
@@ -209,7 +210,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		try {
 			final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
 //			mOsmv.setTileSource(tileSource);
-			mOsmv.setTileSource(this.MAPNIK);
+			mOsmv.setTileSource(this.THTILE);
 		} catch (final IllegalArgumentException ignore) {
 		}
     	
@@ -218,7 +219,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
         	if(this.mLocationOverlay == null){
 		        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy)
 		        {
-		        	private static final boolean DEBUGMODE = true;
+//		        	private static final boolean DEBUGMODE = true;
 		        	
 		        	@Override
 					public void draw(Canvas c, MapView osmv, boolean arg2) {
@@ -300,50 +301,46 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
     	if ( this.mMarker4 == null )
     		this.mMarker4 = this.getResources().getDrawable(R.drawable.marker_blue);
     	
-//        {
-//        	if( this.users == null )
-//	        	users = new ArrayList<OverlayItem>();
-//        	
-//        	if( this.mUsersOverlay == null ){
+        {
+        	if( this.users == null )
+	        	users = new ArrayList<OverlayItem>();
+        	
+        	if( this.mUsersOverlay == null ){
 //		        /* OnTapListener for the Markers, shows a simple Toast. */
-//		        this.mUsersOverlay = new ItemizedOverlay<OverlayItem>(this, users, 
-////		        	this.getResources().getDrawable(R.drawable.person_red),
+		        this.mUsersOverlay = new THItemizedIconOverlay<OverlayItem>(
+//		        		this,
+		        		users, 
+		        	this.getResources().getDrawable(R.drawable.person_red),
 //		        	null,
 //		        	null,
-//		        	new ItemizedOverlay.OnItemGestureListener<OverlayItem>(){
-//
-//						public boolean onItemTap(int index, OverlayItem item) {
-////							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
-//							try {
-//								tappedUser = item.mTitle;
-//								showDialog(USER_TAPPED_USER_DIALOG_ID);
-//							} catch (Exception e) {
-//								CommonDialogs.errorMessage = e.getLocalizedMessage();
-//								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
-//							}
-//							return true;
-//						}
-//
-//						@Override
-//						public boolean onItemLongPress(int arg0,
-//								OverlayItem arg1) {
-//							// TODO Auto-generated method stub
-//							return false;
-//						}
-//
-//						@Override
-//						public boolean onItemSingleTapUp(int arg0,
-//								OverlayItem arg1) {
-//							// TODO Auto-generated method stub
-//							return false;
-//						}
-//			        }, 
-//			        mResourceProxy);
-//		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
-//	        }
-//        }
+		        	new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>(){
+
+		        		@Override
+						public boolean onItemSingleTapUp(int index, OverlayItem item) {
+							Toast.makeText(MapActivity.this, "User '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+							try {
+								tappedUser = item.mTitle;
+								showDialog(USER_TAPPED_USER_DIALOG_ID);
+							} catch (Exception e) {
+								CommonDialogs.errorMessage = e.getLocalizedMessage();
+								showDialog(CommonDialogs.CLIENT_ERROR_DIALOG_ID);
+							}
+							return true;
+						}
+
+						@Override
+						public boolean onItemLongPress(int arg0,
+								OverlayItem arg1) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+			        }, 
+			        mResourceProxy);
+		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
+	        }
+        }
         
-//        {
+        {
         	if( this.hints == null )
         		hints = new ArrayList<HintOverlayItem>();
 //        	
@@ -454,7 +451,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		        };
 		        this.mOsmv.getOverlays().add(this.mHintsOverlay);
 	        }
-//        }
+        }
         
         update();
         
@@ -653,10 +650,13 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		GeoPoint gp = new GeoPoint(curLoc);
 		
 		LOG.info("-----------------------------");
+		this.mUsersOverlay.removeAllItems();
 		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
 			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
 //				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
 //						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+				this.mUsersOverlay.addItem(new OverlayItem( in.getUsername(), "SampleDescription", 
+						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
 		}
 //		hints.clear();
@@ -1183,7 +1183,25 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 			super(pList, pOnItemGestureListener, pResourceProxy);
 			// TODO Auto-generated constructor stub
 		}
-        public void removeAllItems() {
+		
+        public THItemizedIconOverlay(
+				Context pContext,
+				List<Item> pList,
+				org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener) {
+			super(pContext, pList, pOnItemGestureListener);
+			// TODO Auto-generated constructor stub
+		}
+
+		public THItemizedIconOverlay(
+				List<Item> pList,
+				Drawable pDefaultMarker,
+				org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
+				ResourceProxy pResourceProxy) {
+			super(pList, pDefaultMarker, pOnItemGestureListener, pResourceProxy);
+			// TODO Auto-generated constructor stub
+		}
+
+		public void removeAllItems() {
             removeAllItems(true);
 	    }
 	
