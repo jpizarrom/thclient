@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Master" x="228" y="43" measuredWidth="396" measuredHeight="790">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Phone"/>
+  </widgets>
+  <widgets xsi:type="model:List" x="266" y="178" width="320" height="490" text="From: asasd&#xA;From: asasd&#xA;From: asasd&#xA;From: aqeqwe&#xA;From: asasd&#xA;From: asasd" measuredWidth="320" measuredHeight="490" selection="3" value="43">
+    <font/>
+    <items x="0" y="2" width="320" height="23" text="From: asasd"/>
+    <items x="0" y="25" width="320" height="23" text="From: asasd"/>
+    <items x="0" y="48" width="320" height="23" text="From: asasd"/>
+    <items x="0" y="71" width="320" height="23" text="From: aqeqwe"/>
+    <items x="0" y="94" width="320" height="23" text="From: asasd"/>
+    <items x="0" y="117" width="320" height="23" text="From: asasd"/>
+  </widgets>
+  <widgets xsi:type="model:Master" x="266" y="159" measuredWidth="320" measuredHeight="20">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Banner"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" x="312" y="307" width="217" height="222" measuredWidth="217" measuredHeight="222"/>
+  <widgets xsi:type="model:Label" x="325" y="327" text="From" measuredWidth="37" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="325" y="351" text="Message" measuredWidth="62" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextArea" x="325" y="383" width="188" height="93" text="A *paragraph* of text&#xA;A _second_ row of text" measuredWidth="188" measuredHeight="93">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="439" y="492" text="Respond" measuredWidth="74" measuredHeight="27">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="396" y="327" text="asdasdasd" measuredWidth="74" measuredHeight="25">
+    <font underline="true"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>

@@ -18,7 +18,7 @@
   <widgets xsi:type="model:Image" x="379" y="552" measuredWidth="48" measuredHeight="48" src="../res/drawable/person_red.png"/>
   <widgets xsi:type="model:Image" x="192" y="488" measuredWidth="48" measuredHeight="48" src="../res/drawable/person_red.png"/>
   <widgets xsi:type="model:Image" x="379" y="376" measuredWidth="48" measuredHeight="48" src="../res/drawable/person_red.png"/>
-  <widgets xsi:type="model:Panel" x="158" y="286" width="222" height="155" measuredWidth="222" measuredHeight="155"/>
+  <widgets xsi:type="model:Panel" x="158" y="286" width="243" height="155" measuredWidth="243" measuredHeight="155"/>
   <widgets xsi:type="model:Label" x="168" y="293" text="User Info" measuredWidth="62" measuredHeight="25">
     <font/>
   </widgets>
@@ -38,7 +38,10 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:HLine" x="158" y="318" width="222" measuredWidth="222" measuredHeight="6"/>
-  <widgets xsi:type="model:Button" x="213" y="404" text="Send Message" measuredWidth="114" measuredHeight="27">
+  <widgets xsi:type="model:Button" x="275" y="404" text="Send Message" measuredWidth="114" measuredHeight="27">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="168" y="404" text="Show on Map" measuredWidth="105" measuredHeight="27">
     <font/>
   </widgets>
   <hRuler/>

@@ -21,4 +21,7 @@
   <panels x="675" y="375">
     <screen href="user-sendmsg.screen#/"/>
   </panels>
+  <panels x="975" y="375">
+    <screen href="user-msg-shows.screen#/"/>
+  </panels>
 </story:Storyboard>
