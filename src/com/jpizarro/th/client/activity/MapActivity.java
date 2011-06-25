@@ -653,6 +653,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		this.mUsersOverlay.removeAllItems();
 		if (genericGameResponseTO.getInGameUserInfoTOs().size() != 0) {
 			for( InGameUserInfoTO in : genericGameResponseTO.getInGameUserInfoTOs() ){
+				// TODO check current user
+//				if( user.getUserId() != in.getUsername() )
 //				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
 //						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 				this.mUsersOverlay.addItem(new OverlayItem( in.getUsername(), "SampleDescription", 
