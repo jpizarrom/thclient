@@ -92,7 +92,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	
 	private int METERS_TO_SEE = 100;
 	private int METERS_TO_TAKE = 50;
+	private int MIN_DISTANCE = 5;
 	private boolean SHOW_HIDE = false;
+	private boolean SHOW_LOAD_DIALOG = false;
 	
 	// ===========================================================
 	// Fields
@@ -144,6 +146,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		.getDefaultSharedPreferences(getApplicationContext());
         METERS_TO_SEE = Integer.valueOf(settings.getString("meters_to_see", "100"));
         SHOW_HIDE = settings.getBoolean("show_hide", false);
+        MIN_DISTANCE = Integer.valueOf(settings.getString("min_distance", "5"));
+        SHOW_LOAD_DIALOG = settings.getBoolean("show_load_dialog", false);
 
         
     	startGameTask = new StartGameTask();
@@ -273,7 +277,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 //		initLocation();
     	enableLocation();
 
-    	launchStartGameThread();
+//    	launchStartGameThread();
     }
     
     private void doStartGame() {
@@ -452,10 +456,11 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 //		initLocation();
     }
 	private void launchStartGameThread() {
+		if (SHOW_LOAD_DIALOG)
+			showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		startGameTask.setLogin(String.valueOf(user.getUserId()));
 		Thread startGameThread = new Thread(null, startGameTask, "StartGame");
 		startGameThread.start();
-		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 	}
 
 	@Override
@@ -592,7 +597,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	private void enableLocation() {
 //		mMyLocationEnabled = true;
 		this.mLocationListener = new SampleLocationListener();
-		getLocationManager().requestLocationUpdates(PROVIDER_NAME, 6000, 10, this.mLocationListener);
+		getLocationManager().requestLocationUpdates(PROVIDER_NAME, 3000, MIN_DISTANCE, this.mLocationListener);
 	}
 	private void disableLocation() {
 //		mMyLocationEnabled = false;
@@ -779,8 +784,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 
 				public void onClick(View v) {
 					try {
-						launchTakePlaceThread(tappedIdx);
 						dismissDialog(userTappedHintDialogId);
+						launchTakePlaceThread(tappedIdx);
 					} catch (Exception e) {}
 				}
 			});
@@ -791,11 +796,11 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	
 	private void launchTakePlaceThread(int tappedIdx2) {
 		// TODO Auto-generated method stub
+//		if (SHOW_LOAD_DIALOG)
+		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 		takePlaceTask.setPlaceId(hints.get(tappedIdx2).id);
 		Thread takePlaceThread = new Thread(null, takePlaceTask, "StartGame");
-		takePlaceThread.start();
-		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
-		
+		takePlaceThread.start();		
 	}
 
 	private class SampleLocationListener implements LocationListener {
@@ -895,7 +900,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		@Override
 		public void handleMessage(android.os.Message msg) {
 			try {
-				dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+				if (SHOW_LOAD_DIALOG) dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
 			} catch (Exception e) {
 				
 			}

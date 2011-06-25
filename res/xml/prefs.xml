@@ -4,6 +4,7 @@
     <PreferenceCategory android:title="@string/prefs_general">
         <EditTextPreference android:key="meters_to_see" android:defaultValue="100" android:title="meters_to_see"></EditTextPreference>
         <EditTextPreference android:title="game_server" android:key="game_server" android:defaultValue="192.168.1.70"></EditTextPreference>
-        <CheckBoxPreference android:title="show_hide" android:key="show_hide" android:defaultValue="true"></CheckBoxPreference>
+        <CheckBoxPreference android:title="show_hide" android:key="show_hide" android:defaultValue="true"></CheckBoxPreference><CheckBoxPreference android:title="show_load_dialog" android:key="show_load_dialog" android:defaultValue="false"></CheckBoxPreference>
+        <EditTextPreference android:key="min_distance" android:title="min_distance" android:defaultValue="5"></EditTextPreference>
     </PreferenceCategory>
 </PreferenceScreen>
