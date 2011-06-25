@@ -357,6 +357,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		        		@Override
 						public boolean onItemSingleTapUp(int index, HintOverlayItem item) {
 		        			LOG.info("onItemSingleTapUp "+item.type);
+		        			Toast.makeText(MapActivity.this,"onItemSingleTapUp "+item.type, Toast.LENGTH_LONG);
 							try {
 								tappedIdx = index;
 								switch(item.type){
@@ -411,19 +412,15 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 //		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
 		        	protected void onDrawItem(final Canvas canvas, final HintOverlayItem item, final Point curScreenCoords) {
 		        		final HotspotPlace hotspot = item.getMarkerHotspot();
-		        		Drawable m;
-//		        		final HotspotPlace hotspot = item.getMarkerHotspot();
-//		        		final int left = curScreenCoords.x - this..mMarkerHotSpot.x;
-//		        		final int right = left + this.mMarkerWidth;
-//		        		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
-//		        		final int bottom = top + this.mMarkerHeight;
-//		        		
+		        		Drawable m = this.mDefaultMarker;
+
 //		        		HintOverlayItem item = mItemList.get(index);
 		        		switch(item.type){
 						case HintOverlayItem.TEAM_HAVE:
 							m = mMarker1;
 							break;
-						case HintOverlayItem.TEAM_SEE:
+//						case HintOverlayItem.TEAM_SEE:
+						case HintOverlayItem.USER_SEE:
 							if (item.getPlace().getType().equals(HintTO.TYPE))
 								m = mMarker2;
 							else
@@ -435,13 +432,19 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 						case HintOverlayItem.HIDE:
 							if (!SHOW_HIDE)
 								return;
-						default:
-							if (item.getPlace().getType().equals(HintTO.TYPE))
-								m = this.mDefaultMarker;
 							else
-								m = mMarker4;
-//							m = this.mDefaultMarker;
+								if (item.getPlace().getType().equals(HintTO.TYPE))
+									m = mMarker4;
+							break;
+						default:
+							return;
+//							if (item.getPlace().getType().equals(HintTO.TYPE))
+//								m = this.mDefaultMarker;
+//							else
+//								m = mMarker4;
+////							m = this.mDefaultMarker;
 						}
+		        		item.setMarker(m);
 //		        		super.onDrawItem(canvas, item, curScreenCoords);
 		        		m = boundToHotspot(m, hotspot);
 //////		        		m.setBounds(left, top, right, bottom);
