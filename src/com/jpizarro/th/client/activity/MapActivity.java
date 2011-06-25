@@ -420,23 +420,27 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 //		        		
 //		        		HintOverlayItem item = mItemList.get(index);
 		        		switch(item.type){
-//						case HintOverlayItem.ITEM_TEAM_HAVE:
-//							m = mMarker1;
-//							break;
-//						case HintOverlayItem.ITEM_TEAM_SEE:
-//							m = mMarker2;
-//							break;
-//						case HintOverlayItem.ITEM_USER_SEE:
-//							m = mMarker3;
-//							break;
-//						case HintOverlayItem.ITEM_GOAL:
+						case HintOverlayItem.TEAM_HAVE:
+							m = mMarker1;
+							break;
+						case HintOverlayItem.TEAM_SEE:
+							if (item.getPlace().getType().equals(HintTO.TYPE))
+								m = mMarker2;
+							else
+								m = mMarker3;
+							break;
+//						case HintOverlayItem.:
 //							m = mMarker4;
 //							break;
 						case HintOverlayItem.HIDE:
 							if (!SHOW_HIDE)
 								return;
 						default:
-							m = this.mDefaultMarker;
+							if (item.getPlace().getType().equals(HintTO.TYPE))
+								m = this.mDefaultMarker;
+							else
+								m = mMarker4;
+//							m = this.mDefaultMarker;
 						}
 //		        		super.onDrawItem(canvas, item, curScreenCoords);
 		        		m = boundToHotspot(m, hotspot);
