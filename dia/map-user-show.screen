@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Master" x="72" measuredWidth="396" measuredHeight="790">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Phone"/>
+  </widgets>
+  <widgets xsi:type="model:Master" x="110" y="116" measuredWidth="320" measuredHeight="20">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Banner"/>
+  </widgets>
+  <widgets xsi:type="model:Map" x="110" y="135" width="320" height="490" measuredWidth="320" measuredHeight="490"/>
+  <widgets xsi:type="model:Image" x="313" y="168" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_default.png"/>
+  <widgets xsi:type="model:Image" x="313" y="272" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_default.png"/>
+  <widgets xsi:type="model:Image" x="313" y="215" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_default.png"/>
+  <widgets xsi:type="model:Image" x="213" y="356" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_red.png"/>
+  <widgets xsi:type="model:Image" x="342" y="190" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_red.png"/>
+  <widgets xsi:type="model:Image" x="305" y="416" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_yellow.png"/>
+  <widgets xsi:type="model:Image" x="296" y="480" measuredWidth="27" measuredHeight="48" src="../res/drawable/marker_yellow.png"/>
+  <widgets xsi:type="model:Image" x="296" y="356" measuredWidth="48" measuredHeight="48" src="../res/drawable/person.png"/>
+  <widgets xsi:type="model:Image" x="379" y="552" measuredWidth="48" measuredHeight="48" src="../res/drawable/person_red.png"/>
+  <widgets xsi:type="model:Image" x="192" y="488" measuredWidth="48" measuredHeight="48" src="../res/drawable/person_red.png"/>
+  <widgets xsi:type="model:Image" x="379" y="376" measuredWidth="48" measuredHeight="48" src="../res/drawable/person_red.png"/>
+  <widgets xsi:type="model:Panel" x="158" y="286" width="222" height="155" measuredWidth="222" measuredHeight="155"/>
+  <widgets xsi:type="model:Label" x="168" y="293" text="User Info" measuredWidth="62" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="168" y="332" text="name" measuredWidth="42" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="168" y="356" text="Desc" measuredWidth="37" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="225" y="332" text="asdasd" measuredWidth="51" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="225" y="356" text="qeqwe  asd asd asd a" measuredWidth="143" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="225" y="376" text="asdgdfg dfg sfsdf sdf" measuredWidth="137" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" x="158" y="318" width="222" measuredWidth="222" measuredHeight="6"/>
+  <widgets xsi:type="model:Button" x="213" y="404" text="Send Message" measuredWidth="114" measuredHeight="27">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>

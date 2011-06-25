@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Master" x="73" y="39" measuredWidth="396" measuredHeight="790">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Phone"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="144" y="224" width="177" text="asd" measuredWidth="177" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="144" y="280" width="177" text="*********" measuredWidth="177" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="144" y="200" width="121" text="Username" measuredWidth="121" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="227" y="400" width="94" text="Login" measuredWidth="94" measuredHeight="27">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Checkbox" x="144" y="368" text="Remember Password" measuredWidth="154" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="144" y="256" text="Password" measuredWidth="64" measuredHeight="25">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>

@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Rectangle" x="24" y="8" width="2361" height="1337" locked="true"
+      measuredWidth="2361" measuredHeight="1337" background="#424242" foreground="#4d4d4d"
+      border="none">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="56" y="40" measuredWidth="996" measuredHeight="1276"
+      name="iPad">
+    <widgets xsi:type="model:WidgetGroup" measuredWidth="996" measuredHeight="1276">
+      <widgets xsi:type="model:Rectangle" y="48" width="996" height="1176" measuredWidth="996"
+          measuredHeight="1176" background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" measuredWidth="100" measuredHeight="100" background="#666666"
+          foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="896" measuredWidth="100" measuredHeight="100"
+          background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="896" y="1176" measuredWidth="100" measuredHeight="100"
+          background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" y="1176" measuredWidth="100" measuredHeight="100"
+          background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Rectangle" x="48" width="897" height="1276" measuredWidth="897"
+          measuredHeight="1276" background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="8" y="8" measuredWidth="980" measuredHeight="1260">
+      <widgets xsi:type="model:Rectangle" y="43" width="980" height="1173" measuredWidth="980"
+          measuredHeight="1173" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Rectangle" x="43" width="894" height="1260" measuredWidth="894"
+          measuredHeight="1260" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" width="90" height="90" measuredWidth="90" measuredHeight="90"
+          background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="890" width="90" height="90" measuredWidth="90"
+          measuredHeight="90" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" y="1170" width="90" height="90" measuredWidth="90"
+          measuredHeight="90" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="890" y="1170" width="90" height="90" measuredWidth="90"
+          measuredHeight="90" background="#000000">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Panel" x="114" y="126" width="768" height="1024" measuredWidth="768"
+        measuredHeight="1024" border="none"/>
+    <widgets xsi:type="model:WidgetGroup" x="463" y="1176" measuredWidth="70" measuredHeight="70">
+      <widgets xsi:type="model:Circle" width="70" height="70" measuredWidth="70" measuredHeight="70"
+          background="#4d4d4d">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Panel" x="26" y="26" width="17" height="17" measuredWidth="17"
+          measuredHeight="17" alpha="0" foreground="#ffffff"/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="1080" y="40" measuredWidth="1276" measuredHeight="996"
+      name="iPad Landscape">
+    <widgets xsi:type="model:WidgetGroup" measuredWidth="1276" measuredHeight="996">
+      <widgets xsi:type="model:Rectangle" y="48" width="1276" height="897" measuredWidth="1276"
+          measuredHeight="897" background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" measuredWidth="100" measuredHeight="100" background="#666666"
+          foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="1176" measuredWidth="100" measuredHeight="100"
+          background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="1176" y="896" measuredWidth="100" measuredHeight="100"
+          background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" y="896" measuredWidth="100" measuredHeight="100"
+          background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Rectangle" x="48" width="1176" height="996" measuredWidth="1176"
+          measuredHeight="996" background="#666666" foreground="#666666">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="8" y="8" measuredWidth="1260" measuredHeight="980">
+      <widgets xsi:type="model:Rectangle" y="43" width="1260" height="894" measuredWidth="1260"
+          measuredHeight="894" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Rectangle" x="43" width="1173" height="980" measuredWidth="1173"
+          measuredHeight="980" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" width="90" height="90" measuredWidth="90" measuredHeight="90"
+          background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="1170" width="90" height="90" measuredWidth="90"
+          measuredHeight="90" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" y="890" width="90" height="90" measuredWidth="90"
+          measuredHeight="90" background="#000000">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Circle" x="1170" y="890" width="90" height="90" measuredWidth="90"
+          measuredHeight="90" background="#000000">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Panel" x="126" y="114" width="1024" height="768" measuredWidth="1024"
+        measuredHeight="768" border="none"/>
+    <widgets xsi:type="model:WidgetGroup" x="1176" y="463" measuredWidth="70" measuredHeight="70">
+      <widgets xsi:type="model:Circle" width="70" height="70" measuredWidth="70" measuredHeight="70"
+          background="#4d4d4d">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Panel" x="26" y="26" width="17" height="17" measuredWidth="17"
+          measuredHeight="17" alpha="0" foreground="#ffffff"/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="1206" y="574" measuredWidth="1024" measuredHeight="348"
+      name="Keyboard Landscape">
+    <widgets xsi:type="model:Panel" width="1024" height="348" measuredWidth="1024"
+        measuredHeight="348" background="#808894" border="none"/>
+    <widgets xsi:type="model:WidgetGroup" x="5" y="7" width="1011" measuredWidth="1011"
+        measuredHeight="80">
+      <widgets xsi:type="model:Button" width="80" height="80" text="Q" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="90" width="80" height="80" text="W" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="181" width="80" height="80" text="E" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="272" width="80" height="80" text="R" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="362" width="80" height="80" text="T" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="453" width="80" height="80" text="Y" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="544" width="80" height="80" text="U" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="634" width="80" height="80" text="I" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="725" width="80" height="80" text="O" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="816" width="80" height="80" text="P" measuredWidth="80"
+          measuredHeight="80" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="906" width="104" height="80" measuredWidth="104"
+          measuredHeight="80" background="#e8e8eb" icon="backspace (medium)">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="45" y="90" width="971" measuredWidth="971"
+        measuredHeight="79">
+      <widgets xsi:type="model:Button" width="80" height="79" text="A" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="90" width="80" height="79" text="S" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="182" width="80" height="79" text="D" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="274" width="80" height="79" text="F" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="366" width="80" height="79" text="G" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="458" width="80" height="79" text="H" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="550" width="80" height="79" text="J" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="642" width="80" height="79" text="K" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="734" width="80" height="79" text="L" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="826" width="144" height="79" text="return"
+          measuredWidth="144" measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="5" y="259" width="1011" measuredWidth="1011"
+        measuredHeight="79">
+      <widgets xsi:type="model:Button" x="270" width="464" height="79" measuredWidth="464"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" width="256" height="79" text=".?123" measuredWidth="256"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="749" width="165" height="79" text=".?123"
+          measuredWidth="165" measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="930" width="80" height="79" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb" icon="filled-arrow-down (small)">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="5" y="174" width="1011" measuredWidth="1011"
+        measuredHeight="79">
+      <widgets xsi:type="model:Button" x="90" width="80" height="79" text="Z" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="181" width="80" height="79" text="X" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="272" width="80" height="79" text="C" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="362" width="80" height="79" text="V" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="454" width="80" height="79" text="B" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="544" width="80" height="79" text="N" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="635" width="80" height="79" text="M" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" width="80" height="79" measuredWidth="80" measuredHeight="79"
+          background="#e8e8eb" icon="arrow-up (medium)">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="726" width="80" height="79" text="!" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="816" width="80" height="79" text="?" measuredWidth="80"
+          measuredHeight="79" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="909" width="101" height="79" measuredWidth="101"
+          measuredHeight="79" background="#e8e8eb" icon="arrow-up (medium)">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="170" y="186" measuredWidth="768" measuredHeight="100"
+      name="Date Panel">
+    <widgets xsi:type="model:WidgetGroup" measuredWidth="768" measuredHeight="100">
+      <widgets xsi:type="model:Rectangle" width="768" height="49" measuredWidth="768"
+          measuredHeight="49" background="#7b7b7b" border="none">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Rectangle" y="49" width="768" height="51" measuredWidth="768"
+          measuredHeight="51" background="#232323" border="none">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Label" x="247" y="11" width="273" text="4:20" measuredWidth="273"
+        measuredHeight="65" textAlignment="Center" foreground="#ffffff">
+      <font size="36" bold="false" italic="false"/>
+    </widgets>
+    <widgets xsi:type="model:Label" x="220" y="69" width="327" text="Wednesday, June 17"
+        measuredWidth="327" measuredHeight="25" textAlignment="Center" foreground="#ffffff">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="170" y="166" measuredWidth="768" measuredHeight="21"
+      name="Status Bar (Locked)">
+    <widgets xsi:type="model:Panel" width="768" height="21" measuredWidth="768" measuredHeight="21"
+        background="#1a1a1a" border="none"/>
+    <widgets xsi:type="model:Icon" x="744" y="2" measuredWidth="16" measuredHeight="16"
+        foreground="#ffffff" icon="battery (small)"/>
+    <widgets xsi:type="model:Icon" x="376" y="2" measuredWidth="16" measuredHeight="16"
+        foreground="#ffffff" icon="secure (small)"/>
+    <widgets xsi:type="model:Icon" x="37" y="2" measuredWidth="16" measuredHeight="16"
+        foreground="#ffffff" icon="wifi (small)"/>
+    <widgets xsi:type="model:Label" x="4" text="iPad" measuredWidth="28" measuredHeight="21"
+        foreground="#ffffff">
+      <font size="8"/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="170" y="308" measuredWidth="768" measuredHeight="21"
+      name="Status Bar">
+    <widgets xsi:type="model:Panel" width="768" height="21" measuredWidth="768" measuredHeight="21"
+        background="#1a1a1a" border="none"/>
+    <widgets xsi:type="model:Icon" x="744" y="2" measuredWidth="16" measuredHeight="16"
+        foreground="#ffffff" icon="battery (small)"/>
+    <widgets xsi:type="model:Icon" x="37" y="2" measuredWidth="16" measuredHeight="16"
+        foreground="#ffffff" icon="wifi (small)"/>
+    <widgets xsi:type="model:Label" x="4" text="iPad" measuredWidth="28" measuredHeight="21"
+        foreground="#ffffff">
+      <font size="8"/>
+    </widgets>
+    <widgets xsi:type="model:Label" x="343" width="81" text="4:20 PM" measuredWidth="81"
+        measuredHeight="21" textAlignment="Center" foreground="#ffffff">
+      <font size="8" bold="true"/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="170" y="928" measuredWidth="768" measuredHeight="264"
+      name="Keyboard">
+    <widgets xsi:type="model:Panel" width="768" height="264" measuredWidth="768" measuredHeight="264"
+        background="#808894" border="none"/>
+    <widgets xsi:type="model:WidgetGroup" x="4" y="6" measuredWidth="758" measuredHeight="60">
+      <widgets xsi:type="model:Button" width="60" height="60" text="Q" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="68" width="60" height="60" text="W" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="136" width="60" height="60" text="E" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="204" width="60" height="60" text="R" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="272" width="60" height="60" text="T" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="340" width="60" height="60" text="Y" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="408" width="60" height="60" text="U" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="476" width="60" height="60" text="I" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="544" width="60" height="60" text="O" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="612" width="60" height="60" text="P" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="680" width="78" height="60" measuredWidth="78"
+          measuredHeight="60" background="#e8e8eb" icon="backspace (medium)">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="34" y="69" measuredWidth="728" measuredHeight="60">
+      <widgets xsi:type="model:Button" width="60" height="60" text="A" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="68" width="60" height="60" text="S" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="137" width="60" height="60" text="D" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="206" width="60" height="60" text="F" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="275" width="60" height="60" text="G" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="344" width="60" height="60" text="H" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="413" width="60" height="60" text="J" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="482" width="60" height="60" text="K" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="551" width="60" height="60" text="L" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="620" width="108" height="60" text="return"
+          measuredWidth="108" measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="4" y="197" measuredWidth="758" measuredHeight="60">
+      <widgets xsi:type="model:Button" x="203" width="348" height="60" measuredWidth="348"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" width="192" height="60" text=".?123" measuredWidth="192"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="562" width="124" height="60" text=".?123"
+          measuredWidth="124" measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="698" width="60" height="60" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb" icon="filled-arrow-down (small)">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="4" y="133" measuredWidth="758" measuredHeight="60">
+      <widgets xsi:type="model:Button" x="68" width="60" height="60" text="Z" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="136" width="60" height="60" text="X" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="204" width="60" height="60" text="C" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="272" width="60" height="60" text="V" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="341" width="60" height="60" text="B" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="409" width="60" height="60" text="N" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="477" width="60" height="60" text="M" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" width="60" height="60" measuredWidth="60" measuredHeight="60"
+          background="#e8e8eb" icon="arrow-up (medium)">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="545" width="60" height="60" text="!" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="613" width="60" height="60" text="?" measuredWidth="60"
+          measuredHeight="60" background="#e8e8eb">
+        <font bold="true"/>
+      </widgets>
+      <widgets xsi:type="model:Button" x="682" width="76" height="60" measuredWidth="76"
+          measuredHeight="60" background="#e8e8eb" icon="arrow-up (medium)">
+        <font bold="true"/>
+      </widgets>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="170" y="344" measuredWidth="768" measuredHeight="45"
+      name="Navbar">
+    <widgets xsi:type="model:Rectangle" width="768" height="45" text="Screen Name"
+        measuredWidth="768" measuredHeight="45" background="#93a6bd" border="none">
+      <font size="12" bold="true"/>
+    </widgets>
+    <widgets xsi:type="model:Button" x="712" y="8" height="30" text="Edit" measuredWidth="44"
+        measuredHeight="30" background="#5c80ac">
+      <font size="8" bold="true"/>
+    </widgets>
+    <widgets xsi:type="model:Button" x="8" y="8" width="65" height="30" text="Back"
+        measuredWidth="65" measuredHeight="30" background="#5c80ac" style="pointleft">
+      <font size="8" bold="true"/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" x="170" y="409" measuredWidth="768" measuredHeight="66"
+      name="Tabbar">
+    <widgets xsi:type="model:WidgetGroup" measuredWidth="768" measuredHeight="66">
+      <widgets xsi:type="model:Rectangle" width="768" height="32" measuredWidth="768"
+          measuredHeight="32" background="#282828" border="none">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Rectangle" y="32" width="768" height="34" measuredWidth="768"
+          measuredHeight="34" background="#000000" border="none">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Label" x="168" y="5" text="Label One" measuredWidth="58"
+        measuredHeight="56" textAlignment="Center" foreground="#7b7b7b" icon="calculator (large)"
+        iconPosition="top">
+      <font size="8"/>
+    </widgets>
+    <widgets xsi:type="model:Label" x="290" y="5" text="Label Two" measuredWidth="57"
+        measuredHeight="56" textAlignment="Center" foreground="#7b7b7b" icon="mobile (large)"
+        iconPosition="top">
+      <font size="8"/>
+    </widgets>
+    <widgets xsi:type="model:Label" x="411" y="5" text="Label Three" measuredWidth="68"
+        measuredHeight="56" textAlignment="Center" foreground="#7b7b7b" icon="cd (large)"
+        iconPosition="top">
+      <font size="8"/>
+    </widgets>
+    <widgets xsi:type="model:Rectangle" x="533" y="5" width="82" height="56" measuredWidth="82"
+        measuredHeight="56" alpha="64" foreground="#7f7f7f" border="solid-rounded">
+      <font/>
+    </widgets>
+    <widgets xsi:type="model:Label" x="544" y="5" text="Label Four" measuredWidth="60"
+        measuredHeight="56" textAlignment="Center" foreground="#ffffff" icon="computer (large)"
+        iconPosition="top">
+      <font size="8"/>
+    </widgets>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>

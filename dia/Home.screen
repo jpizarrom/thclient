@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Master" x="178" y="44" measuredWidth="396" measuredHeight="790">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Phone"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" x="226" y="192" width="300" height="249" measuredWidth="300" measuredHeight="249"/>
+  <widgets xsi:type="model:Label" x="246" y="202" text="Label" measuredWidth="39" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="246" y="242" text="Label" measuredWidth="39" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="246" y="283" text="Label" measuredWidth="39" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="246" y="323" text="Label" measuredWidth="39" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="246" y="364" text="Label" measuredWidth="39" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="246" y="405" text="Label" measuredWidth="39" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="322" y="202" text="Text field" measuredWidth="65" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="322" y="242" text="Text field" measuredWidth="65" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="322" y="283" text="Text field" measuredWidth="65" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="322" y="323" text="Text field" measuredWidth="65" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="322" y="364" text="Text field" measuredWidth="65" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="322" y="405" text="Text field" measuredWidth="65" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="226" y="481" width="300" text="Name&#xA;Team&#xA;City" measuredWidth="300" measuredHeight="71">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="226" y="457" text="Games" measuredWidth="51" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Master" x="216" y="162" measuredWidth="320" measuredHeight="20">
+    <screen xsi:type="model:WidgetGroup" href="../assets/NexusOne.screen#Banner"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="226" y="159" text="TH" measuredWidth="22" measuredHeight="25" foreground="#ffffff">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>
