@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 import org.andnav.osm.ResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
@@ -66,6 +68,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
+            ResourceProxy.string.mapnik, 0, 19, 256, ".png", "http://tile.openstreetmap.org/");
 	
 	protected static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
 	
@@ -203,7 +208,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
     	final String tileSourceName = mPrefs.getString(PREFS_RENDERER, TileSourceFactory.DEFAULT_TILE_SOURCE.name());
 		try {
 			final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
-			mOsmv.setTileSource(tileSource);
+//			mOsmv.setTileSource(tileSource);
+			mOsmv.setTileSource(this.MAPNIK);
 		} catch (final IllegalArgumentException ignore) {
 		}
     	
