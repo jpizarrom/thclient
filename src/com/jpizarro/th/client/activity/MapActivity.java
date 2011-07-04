@@ -207,6 +207,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
     
     @Override
     protected void onResume() {
+    	showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
     	super.onResume();
     	final String tileSourceName = mPrefs.getString(PREFS_RENDERER, TileSourceFactory.DEFAULT_TILE_SOURCE.name());
 		try {
@@ -337,7 +338,16 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 							return false;
 						}
 			        }, 
-			        mResourceProxy);
+			        mResourceProxy){
+		        	@Override
+		        	protected void onDrawItem(final Canvas canvas, final OverlayItem item, final Point curScreenCoords) {
+		        		if (item.mTitle.equals(String.valueOf(user.getUserId())))
+		        			return;
+		        		
+		        		super.onDrawItem(canvas, item, curScreenCoords);
+		        		
+		        	}
+		        };
 		        this.mOsmv.getOverlays().add(this.mUsersOverlay);
 	        }
         }
@@ -411,7 +421,6 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		        	}, 
 		        	mResourceProxy){
 		        	@Override
-//		        	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
 		        	protected void onDrawItem(final Canvas canvas, final HintOverlayItem item, final Point curScreenCoords) {
 		        		final HotspotPlace hotspot = item.getMarkerHotspot();
 		        		Drawable m = this.mDefaultMarker;
@@ -447,13 +456,13 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 ////							m = this.mDefaultMarker;
 						}
 		        		item.setMarker(m);
-//		        		super.onDrawItem(canvas, item, curScreenCoords);
-		        		m = boundToHotspot(m, hotspot);
+		        		super.onDrawItem(canvas, item, curScreenCoords);
+//		        		m = boundToHotspot(m, hotspot);
 //////		        		m.setBounds(left, top, right, bottom);
 ////		        		m..getDrawable().draw(canvas);
 //		        		// draw it
 //		                Overlay.drawAt(canvas, m, curScreenCoords.x, curScreenCoords.y, false);
-		        		drawAt(canvas, m, curScreenCoords.x, curScreenCoords.y, false);
+//		        		drawAt(canvas, m, curScreenCoords.x, curScreenCoords.y, false);
 		        		
 		        	}
 
@@ -819,9 +828,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		// TODO Auto-generated method stub
 //		if (SHOW_LOAD_DIALOG)
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
-//		takePlaceTask.setPlaceId(hints.get(tappedIdx2).id);
-//		Thread takePlaceThread = new Thread(null, takePlaceTask, "StartGame");
-//		takePlaceThread.start();		
+		takePlaceTask.setPlaceId(hints.get(tappedIdx2).id);
+		Thread takePlaceThread = new Thread(null, takePlaceTask, "StartGame");
+		takePlaceThread.start();		
 	}
 
 	private class SampleLocationListener implements LocationListener {
