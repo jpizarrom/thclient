@@ -47,7 +47,7 @@ public class FindGamesActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.find_games_page);
-		this.setTitle("FindGamesActivity");
+		this.setTitle(R.string.choose_city_page_title);
 		
 		spinner = (Spinner)findViewById(R.id.fg_sp_cities);
 		

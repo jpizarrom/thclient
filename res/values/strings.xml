@@ -54,4 +54,7 @@
 <string name="info_hidegoal">info_hidegoal</string>
 <string name="info_goal">info_goal</string>
 <string name="take_goal">take_goal</string>
+<string name="choose_city_page_title">Select a city...</string>
+<string name="choose_game_page_title">Select a game...</string>
+<string name="choose_team_page_title">Select a team...</string>
 </resources>

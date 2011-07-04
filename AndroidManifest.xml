@@ -35,7 +35,7 @@
 <activity android:name=".client.activity.ViewTeamsActivity"></activity>
 <activity android:name=".client.activity.ConfigurationActivity"></activity>
 </application>
-    <uses-sdk android:minSdkVersion="3" />
+    <uses-sdk android:minSdkVersion="7"/>
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 

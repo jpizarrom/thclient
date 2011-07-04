@@ -82,7 +82,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
 	private static final int MENU_ABANDON = MENU_ABOUT + 1;
 	private static final int MENU_UPDATE = MENU_ABANDON + 1;
-	private static final int MENU_LAST_ID = MENU_UPDATE + 1; // Always set to last unused id
+	
+	private static final int MENU_PRELAST_ID = MENU_UPDATE + 1;
+	private static final int MENU_LAST_ID = MENU_PRELAST_ID + 1; // Always set to last unused id
 	
 	private static final int USER_TAPPED_USER_DIALOG_ID = CommonDialogs.FIRST_CUSTOM_DIALOG_ID;
 	
@@ -475,6 +477,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_PRELAST_ID, Menu.NONE, "Test");
 		menu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location);
 		menu.add(0, MENU_ABANDON, Menu.NONE, R.string.abandon_game);
 		menu.add(0, MENU_UPDATE, Menu.NONE, R.string.update);
@@ -491,6 +494,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()) {
+		case MENU_PRELAST_ID:
+			this.showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+			return true;
 		case MENU_MY_LOCATION:
 			this.mLocationOverlay.followLocation(true);
     		this.mLocationOverlay.enableMyLocation();
@@ -813,9 +819,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		// TODO Auto-generated method stub
 //		if (SHOW_LOAD_DIALOG)
 		showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
-		takePlaceTask.setPlaceId(hints.get(tappedIdx2).id);
-		Thread takePlaceThread = new Thread(null, takePlaceTask, "StartGame");
-		takePlaceThread.start();		
+//		takePlaceTask.setPlaceId(hints.get(tappedIdx2).id);
+//		Thread takePlaceThread = new Thread(null, takePlaceTask, "StartGame");
+//		takePlaceThread.start();		
 	}
 
 	private class SampleLocationListener implements LocationListener {

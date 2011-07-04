@@ -309,7 +309,11 @@ public class MainMenuActivity extends Activity implements OnSharedPreferenceChan
             	TextView game=(TextView)v.findViewById(R.id.uip_game_name);
             	TextView team=(TextView)v.findViewById(R.id.uip_team_name);
             	
-            	game.setText(String.valueOf(t.getGameId()));
+            	if (t.getGame()!=null && t.getGame().getName()!=null &&t.getGame().getName().length()>0)
+            		game.setText(String.valueOf(t.getGame().getName()));
+            	else
+            		game.setText(String.valueOf(t.getGameId()));
+            	
             	team.setText(String.valueOf(t.getTeamId()));
             }
 

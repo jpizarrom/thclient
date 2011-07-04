@@ -43,7 +43,7 @@ public class ViewTeamsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		this.setTitle("ViewTeamsActivity");
+		this.setTitle(R.string.choose_team_page_title);
 		
 		user = (UserTO)getIntent().getExtras().getSerializable("user");
 		gameId = getIntent().getExtras().getLong("gameId");
@@ -176,8 +176,11 @@ public class ViewTeamsActivity extends ListActivity {
             TeamTO team = this.getItem(position);
             if (team != null) {
             	TextView name = (TextView) v.findViewById(R.id.vg_game_name);
-//            	name.setText(team.getName());
-            	name.setText( String.valueOf(team.getTeamId()));
+            	
+//            	if (team.getName()!=null && team.getName().length()>0)
+//            		name.setText(String.valueOf(team.getName()));
+//            	else
+            		name.setText( String.valueOf(team.getTeamId()));
             	
             	TextView tt = (TextView) v.findViewById(R.id.game_city);
 //            	tt.setText(team.getDescription());
