@@ -113,7 +113,8 @@ public class GameRestHttpHelper implements THHelper{
 				userName, password);
 		r = restTemplate.getForObject(
 				this.URL_BASE+"/"+com.jpizarro.th.lib.game.util.UserRestURL.ENTITY+com.jpizarro.th.lib.game.util.UserRestURL.ENTITY_ID, UserTO.class, t.getUserId());
-//		r = new UserTO();
+		r.setUser(t);
+		//		r = new UserTO();
 //		r.setUserId(t.getUserId());
 //		r.setGameId(gameId)
 		

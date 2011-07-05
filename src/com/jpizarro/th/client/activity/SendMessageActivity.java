@@ -26,6 +26,7 @@ import com.jpizarro.th.client.common.dialogs.CommonDialogs;
 import com.jpizarro.th.client.model.service.game.GameService;
 import com.jpizarro.th.client.model.service.game.HttpGameServiceImpl;
 import com.jpizarro.th.client.util.CustomAPP;
+import com.jpizarro.th.lib.game.entity.UserTO;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -37,6 +38,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import es.sonxurxo.gpsgame.client.util.exception.ServerException;
 
 /**
@@ -52,6 +54,7 @@ public class SendMessageActivity extends Activity {
 	private String receiverUser;
 	
 	private SendMessageTask sendMessageTask;
+	private UserTO user;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,8 @@ public class SendMessageActivity extends Activity {
         setContentView(R.layout.write_message_page);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        
+        user = (UserTO)getIntent().getExtras().getSerializable("user");
         receiverUser = getIntent().getExtras().getString("receiverUser");
         
         sendMessageTask = new SendMessageTask();
@@ -69,6 +74,8 @@ public class SendMessageActivity extends Activity {
         sendButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
+				Toast.makeText(SendMessageActivity.this, "From: "+user.getUser().getUsername()+", To: "+receiverUser,
+						Toast.LENGTH_LONG).show();
 				launchSendMessageThread();
 			}
         	
@@ -90,6 +97,11 @@ public class SendMessageActivity extends Activity {
 	
 	private void launchSendMessageThread() {
 		String body = bodyText.getText().toString();
+		if( body.length() == 0 ){
+			Toast.makeText(SendMessageActivity.this, "Empty",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
 		sendMessageTask.setReceiverUser(receiverUser);
 		sendMessageTask.setBody(body);
 		Thread sendMessageThread = new Thread(null, sendMessageTask, "SendMessageGame");

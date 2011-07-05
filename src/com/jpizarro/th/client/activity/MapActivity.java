@@ -207,7 +207,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
     
     @Override
     protected void onResume() {
-    	showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
+//    	showDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
     	super.onResume();
     	final String tileSourceName = mPrefs.getString(PREFS_RENDERER, TileSourceFactory.DEFAULT_TILE_SOURCE.name());
 		try {
@@ -255,6 +255,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
                                 handler.post(new Runnable() {
                                         @Override
                                         public void run() {
+//                                        	dismissDialog(CommonDialogs.CONNECTING_TO_SERVER_DIALOG_ID);
                                                 Toast.makeText(getApplicationContext(),
                                                                 "runOnFirstFix ",
                                                                 Toast.LENGTH_LONG).show();
@@ -341,7 +342,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 			        mResourceProxy){
 		        	@Override
 		        	protected void onDrawItem(final Canvas canvas, final OverlayItem item, final Point curScreenCoords) {
-		        		if (item.mTitle.equals(String.valueOf(user.getUserId())))
+//		        		if (item.mTitle.equals(String.valueOf(user.getUserId())))
+		        		if (user.getUser()!=null && item.mTitle.equals( user.getUser().getUsername() ))
 		        			return;
 		        		
 		        		super.onDrawItem(canvas, item, curScreenCoords);
@@ -679,6 +681,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 //				if( user.getUserId() != in.getUsername() )
 //				 users.add(new OverlayItem( in.getUsername(), "SampleDescription", 
 //						 new GeoPoint(in.getLatitude(), in.getLongitude())));
+
 				this.mUsersOverlay.addItem(new OverlayItem( in.getUsername(), "SampleDescription", 
 						 new GeoPoint(in.getLatitude(), in.getLongitude())));
 			}
@@ -763,7 +766,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 
 			public void onClick(View v) {
 				Intent i = new Intent(MapActivity.this, SendMessageActivity.class);
-	        	i.putExtra("receiverUser", tappedUser);
+				i.putExtra("user", user);
+				i.putExtra("receiverUser", tappedUser);
 	        	startActivityForResult(i, SEND_MESSAGE_REQUEST_CODE);
 	        	try {
 	        		dismissDialog(USER_TAPPED_USER_DIALOG_ID);
@@ -862,6 +866,42 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		
 	}
 	
+	
+	
+	private class UserOverlayItem extends OverlayItem implements Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1152414974447371549L;
+//		private long id;
+		private InGameUserInfoTO user;
+
+		//		public UserOverlayItem(String aTitle, String aDescription,
+//				GeoPoint aGeoPoint) {
+//			super(aTitle, aDescription, aGeoPoint);
+//			// TODO Auto-generated constructor stub
+//		}
+//		public UserOverlayItem(long id, String aTitle, String aDescription,
+//				GeoPoint aGeoPoint) {
+//			super(aTitle, aDescription, aGeoPoint);
+//			this.id = id;
+////			this.type = type;
+//		}
+		public UserOverlayItem(InGameUserInfoTO user) {
+			super( user.getUsername(), "SampleDescription", 
+					 new GeoPoint(user.getLatitude(), user.getLongitude()));
+			this.user = user;
+		}
+
+		public InGameUserInfoTO getUser() {
+			return user;
+		}
+
+		public void setUser(InGameUserInfoTO user) {
+			this.user = user;
+		}
+		
+	}
 	private class HintOverlayItem extends OverlayItem implements Serializable{
 		/**
 		 * 
@@ -880,12 +920,12 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 		
 		private int type;
 		
-		public HintOverlayItem(long id, String aTitle, String aDescription,
-				GeoPoint aGeoPoint) {
-			super(aTitle, aDescription, aGeoPoint);
-			this.id = id;
-			this.type = HIDE;
-		}	
+//		public HintOverlayItem(long id, String aTitle, String aDescription,
+//				GeoPoint aGeoPoint) {
+//			super(aTitle, aDescription, aGeoPoint);
+//			this.id = id;
+//			this.type = HIDE;
+//		}	
 		
 		public HintOverlayItem(long id, String aTitle, String aDescription,
 				GeoPoint aGeoPoint, int type) {
