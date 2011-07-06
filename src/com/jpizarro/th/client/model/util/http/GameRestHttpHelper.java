@@ -3,6 +3,7 @@ package com.jpizarro.th.client.model.util.http;
 import com.jpizarro.th.lib.game.util.GameRestURL;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,6 +40,8 @@ import com.jpizarro.th.lib.game.entity.list.TeamsTO;
 import com.jpizarro.th.lib.game.entity.response.GenericGameResponseTO;
 import com.jpizarro.th.lib.game.util.GameRestURL;
 import com.jpizarro.th.lib.game.util.xml.xstream.XStreamFactory;
+import com.jpizarro.th.lib.message.entity.MessageTO;
+import com.jpizarro.th.lib.message.util.MessageRestURL;
 import com.jpizarro.th.lib.team.util.TeamRestURL;
 import com.jpizarro.th.lib.user.util.UserRestURL;
 import com.thoughtworks.xstream.XStream;
@@ -177,7 +182,40 @@ public class GameRestHttpHelper implements THHelper{
 
 	public boolean sendMessage(long userId, String receiverLogin, String body) 
 	throws Exception {
-		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
+		MessageTO to = new MessageTO();
+		to.setMessageBody(body);
+		to.setSender(userId);
+//		Serializer serializer = new Persister();
+//		OutputStream b = new OutputStream()
+//	    {
+//	        private StringBuilder string = new StringBuilder();
+//	        @Override
+//	        public void write(int b) throws IOException {
+//	            this.string.append((char) b );
+//	        }
+//
+//	        //Netbeans IDE automatically overrides this toString()
+//	        public String toString(){
+//	            return this.string.toString();
+//	        }
+//	    };
+//		try {
+//			serializer.write(to, b);
+//			System.out.println(b.toString());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		try{
+		restTemplate.postForEntity(
+				this.URL_BASE+"/test"+"/"+MessageRestURL.ENTITY, 
+				to, MessageTO.class);
+		return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+//		throw new ServerException(ServerException.NOT_IMPL, "Not Impl: "+TAG+" sendMessage");
 	}
 
 	public GamesTO findGamesByCity(String city, int startIndex, int count) 

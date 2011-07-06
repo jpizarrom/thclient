@@ -102,6 +102,7 @@ public class SendMessageActivity extends Activity {
 					Toast.LENGTH_LONG).show();
 			return;
 		}
+		sendMessageTask.setUserId(user.getUserId());
 		sendMessageTask.setReceiverUser(receiverUser);
 		sendMessageTask.setBody(body);
 		Thread sendMessageThread = new Thread(null, sendMessageTask, "SendMessageGame");
