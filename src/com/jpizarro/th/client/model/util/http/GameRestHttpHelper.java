@@ -205,7 +205,14 @@ public class GameRestHttpHelper implements THHelper{
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
-//		}
+//		} 
+		com.jpizarro.th.lib.user.entity.UserTO r = restTemplate.getForObject(
+				this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.FIND_USER_BY_USERNAME, 
+				com.jpizarro.th.lib.user.entity.UserTO.class, receiverLogin);
+		com.jpizarro.th.lib.message.entity.UserTO mu = new com.jpizarro.th.lib.message.entity.UserTO();
+		mu.setUserId(r.getUserId());
+		to.getReceivers().add(mu);
+		
 		try{
 		restTemplate.postForEntity(
 				this.URL_BASE+"/test"+"/"+MessageRestURL.ENTITY, 
