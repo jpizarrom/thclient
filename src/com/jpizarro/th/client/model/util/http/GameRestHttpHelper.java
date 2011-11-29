@@ -57,9 +57,14 @@ public class GameRestHttpHelper implements THHelper{
 	
 //	public static final String SERVER_HOST_IP = "192.168.16.135";
 //	public static final String SERVER_HOST_IP = "192.168.1.71";
-	public String SERVER_HOST_IP = "192.168.1.70";
-	public String SERVER_PORT = "8070";
-	public String SERVICE = "thserver-game/app";
+//	public String SERVER_HOST_IP = "192.168.1.70";
+//	public String SERVER_PORT = "8070";
+//	public String SERVICE = "thserver-game/app";
+	
+	public String SERVER_HOST_IP = "";
+	public String SERVER_PORT = "80";
+	public String SERVICE = "app";
+	
 	public String URL_BASE = "http://" + SERVER_HOST_IP + ":" + 
 	SERVER_PORT + "/" + SERVICE;
 	public String URL = "http://" + SERVER_HOST_IP + ":" + 
@@ -205,7 +210,7 @@ public class GameRestHttpHelper implements THHelper{
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
-//		} 
+//		}
 		com.jpizarro.th.lib.user.entity.UserTO r = restTemplate.getForObject(
 				this.URL_BASE+"/test"+"/"+UserRestURL.ENTITY+UserRestURL.FIND_USER_BY_USERNAME, 
 				com.jpizarro.th.lib.user.entity.UserTO.class, receiverLogin);

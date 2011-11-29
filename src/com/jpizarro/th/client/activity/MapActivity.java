@@ -665,7 +665,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants{
 			return;
 		if ( genericGameResponseTO.isHasFinished() ){
 			Toast.makeText(getApplicationContext(),
-                    "genericGameResponseTO.isHasFinished()",
+//                    "genericGameResponseTO.isHasFinished()",
+                    getString(R.string.game_ishasfinished),
                     Toast.LENGTH_LONG).show();
 			this.disableLocation();
 			return;

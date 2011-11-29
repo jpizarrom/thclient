@@ -57,6 +57,7 @@ public class RestTHHelper implements THHelper{
 //	private final String SERVER_PORT = "8070";
 	private final String SERVER_PORT = "8075";
 //	private final String SERVER_PORT = "8043";
+	
 	private final String URL_SERVICE = "thserver-game/app/games";
 	//	private final String FULL_ADDRESS = "http://" + SERVER_HOST_IP + ":" + 
 	//		SERVER_PORT + "/" + URL_SERVICE + "/";

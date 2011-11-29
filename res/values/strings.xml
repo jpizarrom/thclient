@@ -57,4 +57,5 @@
 <string name="choose_city_page_title">Select a city...</string>
 <string name="choose_game_page_title">Select a game...</string>
 <string name="choose_team_page_title">Select a team...</string>
+<string name="game_ishasfinished">El juega ha terminado</string>
 </resources>
